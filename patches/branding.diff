@@ -1,0 +1,27 @@
+diff -r 5719e0788581 code/sys/sys_unix.c
+--- a/code/sys/sys_unix.c	Sat Mar 12 14:02:56 2011 -0700
++++ b/code/sys/sys_unix.c	Sat Mar 12 16:32:26 2011 -0500
+@@ -57,9 +57,9 @@
+ 		{
+ 			Q_strncpyz(homePath, p, sizeof(homePath));
+ #ifdef MACOS_X
+-			Q_strcat(homePath, sizeof(homePath), "/Library/Application Support/XreaL");
++			Q_strcat(homePath, sizeof(homePath), "/Library/Application Support/Dstorm");
+ #else
+-			Q_strcat(homePath, sizeof(homePath), "/.xreal");
++			Q_strcat(homePath, sizeof(homePath), "/.dstorm");
+ #endif
+ 			if(mkdir(homePath, 0777))
+ 			{
+diff -r 5719e0788581 code/sys/sys_win32.c
+--- a/code/sys/sys_win32.c	Sat Mar 12 14:02:56 2011 -0700
++++ b/code/sys/sys_win32.c	Sat Mar 12 16:32:26 2011 -0500
+@@ -75,7 +75,7 @@
+ 			return NULL;
+ 		}
+ 		Q_strncpyz(homePath, szPath, sizeof(homePath));
+-		Q_strcat(homePath, sizeof(homePath), "\\XreaL");
++		Q_strcat(homePath, sizeof(homePath), "\\DStorm");
+ 		FreeLibrary(shfolder);
+ 	}
+ 
