@@ -1,0 +1,23 @@
+syntax: glob
+*.orig
+*.rej
+*~
+*.swp
+*.o
+*.so
+*.exe
+*.pk3
+*.x86_64
+.buildpath
+.project
+.settings
+base/code/ui-trem/*
+base/maps/*
+code-new/*
+build/*
+dstorm.conf
+*-trem
+*-xreal
+tmp/*
+xmap
+xmap2

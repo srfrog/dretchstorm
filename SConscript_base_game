@@ -1,0 +1,65 @@
+import os, string, sys
+
+Import('env')
+
+# the file with vmMain function MUST be the first one of the list
+game_src = [
+'base/code/game/g_main.c',
+'base/code/game/bg_misc.c',
+'base/code/game/bg_pmove.c',
+'base/code/game/bg_slidemove.c',
+'base/code/game/g_active.c',
+'base/code/game/g_buildable.c',
+'base/code/game/g_client.c',
+'base/code/game/g_cmds.c',
+'base/code/game/g_combat.c',
+'base/code/game/g_maprotation.c',
+'base/code/game/g_mem.c',
+'base/code/game/g_misc.c',
+'base/code/game/g_missile.c',
+'base/code/game/g_mover.c',
+'base/code/game/g_physics.c',
+'base/code/game/g_ptr.c',
+'base/code/game/g_session.c',
+'base/code/game/g_spawn.c',
+'base/code/game/g_svcmds.c',
+'base/code/game/g_target.c',
+'base/code/game/g_team.c',
+'base/code/game/g_trigger.c',
+'base/code/game/g_utils.c',
+'base/code/game/g_weapon.c',
+'code/qcommon/q_math.c',
+'code/qcommon/q_shared.c'
+]
+
+dll_src = [
+'base/code/game/g_syscalls.c',
+]
+
+game_env = env.Clone()
+game_env.Append(CCFLAGS='-DQAGAME')
+
+if env['arch'] == 'linux-i386':
+	game_env.SharedLibrary('game', [game_src, dll_src], LIBS=['m'])
+	game_env.InstallAs('#base/qagamei386.so', 'libgame.so')
+	
+elif env['arch'] == 'linux-x86_64':
+	game_env.SharedLibrary('game', [game_src, dll_src], LIBS=['m'])
+	game_env.InstallAs('#base/qagamex86_64.so', 'libgame.so')
+
+elif env['arch'] == 'netbsd-i386':
+	game_env.SharedLibrary('game', [game_src, dll_src], LIBS=['m'])
+	game_env.InstallAs('#base/qagamei386.so', 'libgame.so')
+
+elif env['arch'] == 'freebsd-i386':
+	game_env.SharedLibrary('game', [game_src, dll_src], LIBS=['m'])
+	game_env.InstallAs('#base/qagamei386.so', 'libgame.so')
+
+elif env['arch'] == 'freebsd-amd64':
+	game_env.SharedLibrary('game', [game_src, dll_src], LIBS=['m'])
+	game_env.InstallAs('#base/qagameamd64.so', 'libgame.so')
+
+elif env['arch'] == 'win32-mingw':
+	game_env.SharedLibrary('game', [game_src, dll_src], LIBS=['m'])
+	game_env.InstallAs('#base/qagamex86.dll', 'game.dll')
+
