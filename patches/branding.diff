@@ -25,3 +25,61 @@ diff -r 5719e0788581 code/sys/sys_win32.c
  		FreeLibrary(shfolder);
  	}
  
+diff -r 4ca9ac266741 code/qcommon/q_shared.h
+--- a/code/qcommon/q_shared.h	Sat Mar 12 19:52:44 2011 -0700
++++ b/code/qcommon/q_shared.h	Sat Mar 12 23:18:33 2011 -0500
+@@ -32,8 +32,8 @@
+ // q_shared.h -- included first by ALL program modules.
+ // A user mod should never modify this file
+ 
+-#define PRODUCT_NAME            "XreaL"
+-#define PRODUCT_VERSION         "0.8.2"
++#define PRODUCT_NAME            "Dretchstorm"
++#define PRODUCT_VERSION         "0.0.1"
+ 
+ #if 0
+ #if !defined(COMPAT_Q3A)
+@@ -53,8 +53,8 @@
+ # define Q3_VERSION PRODUCT_NAME " " PRODUCT_VERSION
+ #endif
+ 
+-#define CLIENT_WINDOW_TITLE     "XreaL"
+-#define CLIENT_WINDOW_MIN_TITLE "xreal"
++#define CLIENT_WINDOW_TITLE     "Dretchstorm"
++#define CLIENT_WINDOW_MIN_TITLE "dretchstorm"
+ // 1.32 released 7-10-2002
+ 
+ #if !defined(STANDALONE)
+@@ -62,7 +62,7 @@
+ #endif
+ 
+ #define BASEGAME				"base"
+-#define GAMENAME_FOR_MASTER		"XreaL"	// must NOT contain whitespaces
++#define GAMENAME_FOR_MASTER		"Dstorm"	// must NOT contain whitespaces
+ 
+ /*
+ #if !defined(DEBUG) && defined(_DEBUG)
+diff -r 4ca9ac266741 code/qcommon/qcommon.h
+--- a/code/qcommon/qcommon.h	Sat Mar 12 19:52:44 2011 -0700
++++ b/code/qcommon/qcommon.h	Sat Mar 12 23:18:33 2011 -0500
+@@ -255,7 +255,7 @@
+ extern int      demo_protocols[];
+ 
+ #ifndef MASTER_SERVER_NAME
+-#define MASTER_SERVER_NAME		"master.xreal-project.net"
++#define MASTER_SERVER_NAME		"master.dretchstorm.com"
+ #endif
+ 
+ #ifndef STANDALONE
+@@ -631,9 +631,9 @@
+ #define	MAX_FILE_HANDLES	64
+ 
+ #ifdef DEDICATED
+-#	define Q3CONFIG_CFG "xreal_server.cfg"
++#	define Q3CONFIG_CFG "dstorm_server.cfg"
+ #else
+-#	define Q3CONFIG_CFG "xreal.cfg"
++#	define Q3CONFIG_CFG "dstorm.cfg"
+ #endif
+ 
+ qboolean        FS_Initialized(void);
