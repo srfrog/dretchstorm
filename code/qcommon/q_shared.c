@@ -990,7 +990,8 @@ char           *Com_ParseExt(char **data_p, qboolean allowLineBreaks)
 	int             c = 0, len;
 	qboolean        hasNewLines = qfalse;
 	char           *data;
-	const char    **punc;
+	// XXX let's be tidy...
+	// XXX const char    **punc;
 
 	if(!data_p)
 	{
@@ -1086,6 +1087,8 @@ char           *Com_ParseExt(char **data_p, qboolean allowLineBreaks)
 		}
 	}
 
+/* XXX ghostshell - this breaks a lot of stuff. so instead of checking for type let's just load
+ * whatever as a string.
 	// check for a number
 	// is this parsing of negative numbers going to cause expression problems
 	if(	(c >= '0' && c <= '9') ||
@@ -1224,6 +1227,27 @@ char           *Com_ParseExt(char **data_p, qboolean allowLineBreaks)
 	com_token[0] = *data;
 	com_token[1] = 0;
 	data++;
+* XXX ghostshell - end of cut
+*/
+
+	/*************************************************************
+	 * XXX ghostshell - parse as regular words, forget about types
+	 *************************************************************/
+	do
+	{
+		if (len < MAX_TOKEN_CHARS - 1)
+		{
+			com_token[len] = c;
+			len++;
+		}
+		data++;
+		c = *data;
+		if ( c == '\n' )
+			com_lines++;
+	} while (c>32);
+	com_token[len] = 0;
+	/*************************************************************/
+
 	*data_p = (char *)data;
 
 	return com_token;
