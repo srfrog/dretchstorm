@@ -608,13 +608,13 @@ static void SVC_Status(netadr_t from)
 	char            infostring[MAX_INFO_STRING];
 	static leakyBucket_t bucket;
 
-	/* XXX
+/* XXX
 	// ignore if we are in single player
 	if(Cvar_VariableValue("g_gametype") == GT_SINGLE_PLAYER)
 	{
 		return;
 	}
-	*/
+*/
 
 	// Prevent using getstatus as an amplifier
 	if(SVC_RateLimitAddress(from, 10, 1000))
@@ -674,13 +674,13 @@ void SVC_Info(netadr_t from)
 	char           *gamedir;
 	char            infostring[MAX_INFO_STRING];
 
-	/* XXX
+/* XXX
 	// ignore if we are in single player
 	if(Cvar_VariableValue("g_gametype") == GT_SINGLE_PLAYER || Cvar_VariableValue("ui_singlePlayerActive"))
 	{
 		return;
 	}
-	*/
+*/
 
 	/*
 	 * Check whether Cmd_Argv(1) has a sane length. This was not done in the original Quake3 version which led

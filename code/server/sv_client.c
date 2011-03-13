@@ -59,13 +59,13 @@ void SV_GetChallenge(netadr_t from)
 	const char     *clientChallenge = Cmd_Argv(1);
 	challenge_t    *challenge;
 
-	/* XXX
+/* XXX
 	// ignore if we are in single player
 	if(Cvar_VariableValue("g_gametype") == GT_SINGLE_PLAYER || Cvar_VariableValue("ui_singlePlayerActive"))
 	{
 		return;
 	}
-	*/
+*/
 
 	oldest = 0;
 	oldestTime = 0x7fffffff;

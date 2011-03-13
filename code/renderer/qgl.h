@@ -32,6 +32,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #	include <SDL_opengl.h>
 #endif
 
+/* HACK: SDL system headers probably won't have OpenGL 3.2 and 4.0 stuff */
+/* So include OUR sdl header that has them hacked in */
+#ifndef GL_CONTEXT_CORE_PROFILE_BIT
+#include "../sdl/include/SDL_opengl.h"
+#endif
 
 #if defined(__cplusplus)
 extern "C" {
@@ -71,6 +76,7 @@ extern void     (APIENTRY * qglDisable) (GLenum cap);
 extern void     (APIENTRY * qglDrawArrays) (GLenum mode, GLint first, GLsizei count);
 extern void     (APIENTRY * qglDrawBuffer) (GLenum mode);
 extern void     (APIENTRY * qglDrawElements) (GLenum mode, GLsizei count, GLenum type, const GLvoid * indices);
+extern void     (APIENTRY * qglMultiDrawElements) (GLenum mode, const GLsizei* count, GLenum type, const GLvoid ** indices, GLsizei primcount);
 extern void     (APIENTRY * qglEnable) (GLenum cap);
 extern void     (APIENTRY * qglFinish) (void);
 extern void     (APIENTRY * qglFlush) (void);

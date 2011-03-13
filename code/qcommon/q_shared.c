@@ -575,7 +575,9 @@ char           *Com_SkipPath(char *pathname)
 	while(*pathname)
 	{
 		if(*pathname == '/')
+		{
 			last = pathname + 1;
+		}
 		pathname++;
 	}
 	return last;
@@ -658,6 +660,40 @@ void Com_DefaultExtension(char *path, int maxSize, const char *extension)
 
 	Q_strncpyz(oldPath, path, sizeof(oldPath));
 	Com_sprintf(path, maxSize, "%s%s", oldPath, extension);
+}
+
+/*
+============
+Com_HashKey
+============
+*/
+int Com_HashKey(char *string, int maxlength)
+{
+	int             i;
+	long            hash;
+	char            letter;
+
+	hash = 0;
+	i = 0;
+
+	while(string[i] != '\0' && i < maxlength)
+	{
+		letter = tolower(string[i]);
+
+		if(letter == '.')
+			break;				// don't include extension
+
+		if(letter == '\\')
+			letter = '/';		// damn path names
+
+		if(letter == PATH_SEP)
+			letter = '/';		// damn path names
+
+		hash += (long)(letter) * (i + 119);
+		i++;
+	}
+	hash = (hash ^ (hash >> 10) ^ (hash >> 20));
+	return hash;
 }
 
 /*
@@ -1050,7 +1086,6 @@ char           *Com_ParseExt(char **data_p, qboolean allowLineBreaks)
 		}
 	}
 
-/* XXX
 	// check for a number
 	// is this parsing of negative numbers going to cause expression problems
 	if(	(c >= '0' && c <= '9') ||
@@ -1189,23 +1224,6 @@ char           *Com_ParseExt(char **data_p, qboolean allowLineBreaks)
 	com_token[0] = *data;
 	com_token[1] = 0;
 	data++;
-*/
-
-	// XXX parse a regular word
-	do
-	{
-		if (len < MAX_TOKEN_CHARS - 1)
-		{
-			com_token[len] = c;
-			len++;
-		}
-		data++;
-		c = *data;
-		if ( c == '\n' )
-			com_lines++;
-	} while (c>32);
-	com_token[len] = 0;
-
 	*data_p = (char *)data;
 
 	return com_token;
@@ -1422,11 +1440,15 @@ char           *Q_strrchr(const char *string, int c)
 	while(*s)
 	{
 		if(*s == cc)
+		{
 			sp = s;
+		}
 		s++;
 	}
 	if(cc == 0)
+	{
 		sp = s;
+	}
 
 	return sp;
 }
@@ -1546,7 +1568,6 @@ int Q_stricmp(const char *s1, const char *s2)
 {
 	return (s1 && s2) ? Q_stricmpn(s1, s2, 99999) : -1;
 }
-
 
 char           *Q_strlwr(char *s1)
 {
@@ -1846,14 +1867,18 @@ char           *Info_ValueForKey(const char *s, const char *key)
 
 	valueindex ^= 1;
 	if(*s == '\\')
+	{
 		s++;
+	}
 	while(1)
 	{
 		o = pkey;
 		while(*s != '\\')
 		{
 			if(!*s)
+			{
 				return "";
+			}
 			*o++ = *s++;
 		}
 		*o = 0;
@@ -1868,10 +1893,14 @@ char           *Info_ValueForKey(const char *s, const char *key)
 		*o = 0;
 
 		if(!Q_stricmp(key, pkey))
+		{
 			return value[valueindex];
+		}
 
 		if(!*s)
+		{
 			break;
+		}
 		s++;
 	}
 
@@ -1939,7 +1968,7 @@ void Info_RemoveKey(char *s, const char *key)
 
 	if(strlen(s) >= MAX_INFO_STRING)
 	{
-		Com_Error(ERR_DROP, "Info_RemoveKey: oversize infostring");
+		Com_Error(ERR_DROP, "Info_RemoveKey: oversize infostring [%s] [%s]", s, key);
 	}
 
 	if(strchr(key, '\\'))
@@ -1951,12 +1980,16 @@ void Info_RemoveKey(char *s, const char *key)
 	{
 		start = s;
 		if(*s == '\\')
+		{
 			s++;
+		}
 		o = pkey;
 		while(*s != '\\')
 		{
 			if(!*s)
+			{
 				return;
+			}
 			*o++ = *s++;
 		}
 		*o = 0;
@@ -1966,20 +1999,23 @@ void Info_RemoveKey(char *s, const char *key)
 		while(*s != '\\' && *s)
 		{
 			if(!*s)
+			{
 				return;
+			}
 			*o++ = *s++;
 		}
 		*o = 0;
 
-		if(!strcmp(key, pkey))
+		if(!Q_stricmp(key, pkey))
 		{
 			memmove(start, s, strlen(s) + 1);	// remove this part
-
 			return;
 		}
 
 		if(!*s)
+		{
 			return;
+		}
 	}
 
 }
@@ -1998,7 +2034,7 @@ void Info_RemoveKey_Big(char *s, const char *key)
 
 	if(strlen(s) >= BIG_INFO_STRING)
 	{
-		Com_Error(ERR_DROP, "Info_RemoveKey_Big: oversize infostring");
+		Com_Error(ERR_DROP, "Info_RemoveKey_Big: oversize infostring [%s] [%s]", s, key);
 	}
 
 	if(strchr(key, '\\'))
@@ -2010,12 +2046,16 @@ void Info_RemoveKey_Big(char *s, const char *key)
 	{
 		start = s;
 		if(*s == '\\')
+		{
 			s++;
+		}
 		o = pkey;
 		while(*s != '\\')
 		{
 			if(!*s)
+			{
 				return;
+			}
 			*o++ = *s++;
 		}
 		*o = 0;
@@ -2025,19 +2065,23 @@ void Info_RemoveKey_Big(char *s, const char *key)
 		while(*s != '\\' && *s)
 		{
 			if(!*s)
+			{
 				return;
+			}
 			*o++ = *s++;
 		}
 		*o = 0;
 
-		if(!strcmp(key, pkey))
+		if(!Q_stricmp(key, pkey))
 		{
 			strcpy(start, s);	// remove this part
 			return;
 		}
 
 		if(!*s)
+		{
 			return;
+		}
 	}
 
 }
@@ -2080,7 +2124,7 @@ void Info_SetValueForKey(char *s, const char *key, const char *value)
 
 	if(strlen(s) >= MAX_INFO_STRING)
 	{
-		Com_Error(ERR_DROP, "Info_SetValueForKey: oversize infostring");
+		Com_Error(ERR_DROP, "Info_SetValueForKey: oversize infostring [%s] [%s] [%s]", s, key, value);
 	}
 
 	for(; *blacklist; ++blacklist)
@@ -2094,7 +2138,9 @@ void Info_SetValueForKey(char *s, const char *key, const char *value)
 
 	Info_RemoveKey(s, key);
 	if(!value || !strlen(value))
+	{
 		return;
+	}
 
 	Com_sprintf(newi, sizeof(newi), "\\%s\\%s", key, value);
 

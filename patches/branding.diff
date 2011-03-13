@@ -1,6 +1,6 @@
 diff -r 5719e0788581 code/sys/sys_unix.c
---- a/code/sys/sys_unix.c	Sat Mar 12 14:02:56 2011 -0700
-+++ b/code/sys/sys_unix.c	Sat Mar 12 16:32:26 2011 -0500
+--- code/sys/sys_unix.c	Sat Mar 12 14:02:56 2011 -0700
++++ code/sys/sys_unix.c	Sat Mar 12 16:32:26 2011 -0500
 @@ -57,9 +57,9 @@
  		{
  			Q_strncpyz(homePath, p, sizeof(homePath));
@@ -14,8 +14,8 @@ diff -r 5719e0788581 code/sys/sys_unix.c
  			if(mkdir(homePath, 0777))
  			{
 diff -r 5719e0788581 code/sys/sys_win32.c
---- a/code/sys/sys_win32.c	Sat Mar 12 14:02:56 2011 -0700
-+++ b/code/sys/sys_win32.c	Sat Mar 12 16:32:26 2011 -0500
+--- code/sys/sys_win32.c	Sat Mar 12 14:02:56 2011 -0700
++++ code/sys/sys_win32.c	Sat Mar 12 16:32:26 2011 -0500
 @@ -75,7 +75,7 @@
  			return NULL;
  		}

@@ -121,7 +121,7 @@ static void CG_DrawBlips(rectDef_t * rect, vec3_t origin, vec4_t colour)
 		((float)(cg.time - entityPositions.lastUpdateTime) / (float)HUMAN_SCANNER_UPDATE_PERIOD);
 	vec4_t          localColour;
 
-	VectorCopy4(colour, localColour);
+	Vector4Copy(colour, localColour);
 
 	RotatePointAroundVector(drawOrigin, up, origin, -entityPositions.vangles[1] - 90);
 	drawOrigin[0] /= (2 * HELMET_RANGE / rect->w);
@@ -261,9 +261,9 @@ void CG_Scanner(rectDef_t * rect, qhandle_t shader, vec4_t color)
 	vec4_t          aIabove = { 1.0f, 0.0f, 0.0f, 0.75f };
 	vec4_t          aIbelow = { 1.0f, 0.0f, 0.0f, 0.5f };
 
-	VectorCopy4(color, hIabove);
+	Vector4Copy(color, hIabove);
 	hIabove[3] *= 1.5f;
-	VectorCopy4(color, hIbelow);
+	Vector4Copy(color, hIbelow);
 
 	VectorCopy(entityPositions.origin, origin);
 

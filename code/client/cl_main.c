@@ -71,6 +71,8 @@ cvar_t         *cl_autoRecordDemo;
 cvar_t         *cl_aviFrameRate;
 cvar_t         *cl_aviMotionJpeg;
 cvar_t         *cl_forceavidemo;
+cvar_t         *cl_autoScreenshotPeriod;
+cvar_t         *cl_autoScreenshotName;
 
 cvar_t         *cl_freelook;
 cvar_t         *cl_sensitivity;
@@ -230,10 +232,10 @@ void CL_Voip_f(void)
 		reason = "Speex not initialized";
 	else if(!cl_connectedToVoipServer)
 		reason = "Server doesn't support VoIP";
-	/* XXX
+/* XXX
 	else if(Cvar_VariableValue("g_gametype") == GT_SINGLE_PLAYER || Cvar_VariableValue("ui_singlePlayerActive"))
 		reason = "running in single-player mode";
-	*/
+*/
 
 	if(reason != NULL)
 	{
@@ -1062,6 +1064,7 @@ void CL_PlayDemo_f(void)
 
 	cls.state = CA_CONNECTED;
 	clc.demoplaying = qtrue;
+	clc.demoStartTime = com_frameTime;
 	Q_strncpyz(cls.servername, Cmd_Argv(1), sizeof(cls.servername));
 
 	// read demo messages until connected
@@ -2905,6 +2908,8 @@ void CL_CheckUserinfo(void)
 	}
 }
 
+int                 autoSSTimePrev = 0;
+
 /*
 ==================
 CL_Frame
@@ -2979,6 +2984,21 @@ void CL_Frame(int msec)
 				msec = 1;
 			}
 		}
+	}
+
+	if(clc.demoplaying && cl_autoScreenshotPeriod->integer)
+	{
+		int demoTime = com_frameTime - clc.demoStartTime;
+		if((demoTime - autoSSTimePrev) > (cl_autoScreenshotPeriod->integer * 1000))
+		{
+			Com_Printf("autoScreenshot time=%d\n", demoTime);
+			re.TakeScreenshotPNG(0, 0, cls.glconfig.vidWidth, cls.glconfig.vidHeight, va("screenshots/autoss-%s-%010dms.png", cl_autoScreenshotName->string, demoTime));
+			autoSSTimePrev = demoTime;
+		}
+	}
+	else
+	{
+		autoSSTimePrev = 0;
 	}
 
 	if(cl_autoRecordDemo->integer)
@@ -3187,10 +3207,17 @@ void CL_StartHunkUsers(qboolean rendererOnly)
 CL_RefMalloc
 ============
 */
+#ifdef ZONE_DEBUG
+void           *CL_RefMallocDebug(int size, char *label, char *file, int line)
+{
+	return Z_TagMallocDebug(size, TAG_RENDERER, label, file, line);
+}
+#else
 void           *CL_RefMalloc(int size)
 {
 	return Z_TagMalloc(size, TAG_RENDERER);
 }
+#endif
 
 int CL_ScaledMilliseconds(void)
 {
@@ -3268,7 +3295,11 @@ void CL_InitRef(void)
 	ri.Milliseconds = CL_ScaledMilliseconds;
 	ri.RealTime = Com_RealTime;
 
-	ri.Malloc = CL_RefMalloc;
+#ifdef ZONE_DEBUG
+	ri.Z_MallocDebug = CL_RefMallocDebug;
+#else
+	ri.Z_Malloc = CL_RefMalloc;
+#endif
 	ri.Free = Z_Free;
 
 #ifdef HUNK_DEBUG
@@ -3522,6 +3553,8 @@ void CL_Init(void)
 	cl_aviFrameRate = Cvar_Get("cl_aviFrameRate", "25", CVAR_ARCHIVE);
 	cl_aviMotionJpeg = Cvar_Get("cl_aviMotionJpeg", "1", CVAR_ARCHIVE);
 	cl_forceavidemo = Cvar_Get("cl_forceavidemo", "0", 0);
+	cl_autoScreenshotPeriod = Cvar_Get("cl_autoScreenshotPeriod", "0", CVAR_ARCHIVE);
+	cl_autoScreenshotName = Cvar_Get("cl_autoScreenshotName", "default", CVAR_ARCHIVE);
 
 	rconAddress = Cvar_Get("rconAddress", "", 0);
 
