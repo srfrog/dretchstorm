@@ -216,8 +216,8 @@ elif env['curl'] == 'dlopen':
 	dstorm_env.Append(CCFLAGS='-DUSE_CURL_DLOPEN')
 	
 
-#if env['openal'] == 1:
-dstorm_env.Append(CCFLAGS='-DUSE_OPENAL')
+if env['openal'] == 1:
+	dstorm_env.Append(CCFLAGS='-DUSE_OPENAL')
 if env['arch'] != 'darwin-ppc' and env['arch'] != 'darwin-i386':
 	dstorm_env.Append(LIBS=['openal'])
 

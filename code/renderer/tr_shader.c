@@ -700,7 +700,7 @@ static void ParseExpression(char **text, expression_t * exp)
 
 		if(numInFixOps == MAX_EXPRESSION_OPS)
 		{
-			ri.Printf(PRINT_ALL, "WARNING: too many arithmetic expression operations in shader '%s'\n", shader.name);
+			ri.Printf(PRINT_DEVELOPER, "WARNING: too many arithmetic expression operations in shader '%s'\n", shader.name);
 			Com_SkipRestOfLine(text);
 			return;
 		}
@@ -710,7 +710,7 @@ static void ParseExpression(char **text, expression_t * exp)
 		switch (op.type)
 		{
 			case OP_BAD:
-				ri.Printf(PRINT_ALL, "WARNING: unknown token '%s' for arithmetic expression in shader '%s'\n", token,
+				ri.Printf(PRINT_DEVELOPER, "WARNING: unknown token '%s' for arithmetic expression in shader '%s'\n", token,
 						  shader.name);
 				break;
 
@@ -765,7 +765,7 @@ static void ParseExpression(char **text, expression_t * exp)
 	}
 
 #if 0
-	ri.Printf(PRINT_ALL, "infix:\n");
+	ri.Printf(PRINT_DEVELOPER, "infix:\n");
 	for(i = 0; i < numInFixOps; i++)
 	{
 		op = inFixOps[i];
@@ -773,19 +773,19 @@ static void ParseExpression(char **text, expression_t * exp)
 		switch (op.type)
 		{
 			case OP_NUM:
-				ri.Printf(PRINT_ALL, "%f ", op.value);
+				ri.Printf(PRINT_DEVELOPER, "%f ", op.value);
 				break;
 
 			case OP_TABLE:
-				ri.Printf(PRINT_ALL, "%s ", tr.shaderTables[(int)op.value]->name);
+				ri.Printf(PRINT_DEVELOPER, "%s ", tr.shaderTables[(int)op.value]->name);
 				break;
 
 			default:
-				ri.Printf(PRINT_ALL, "%s ", opStrings[op.type].s);
+				ri.Printf(PRINT_DEVELOPER, "%s ", opStrings[op.type].s);
 				break;
 		}
 	}
-	ri.Printf(PRINT_ALL, "\n");
+	ri.Printf(PRINT_DEVELOPER, "\n");
 #endif
 
 	// http://cis.stvincent.edu/swd/stl/stacks/stacks.html
@@ -817,7 +817,7 @@ static void ParseExpression(char **text, expression_t * exp)
 			{
 				if(!numTmpOps)
 				{
-					ri.Printf(PRINT_ALL, "WARNING: invalid infix expression in shader '%s'\n", shader.name);
+					ri.Printf(PRINT_DEVELOPER, "WARNING: invalid infix expression in shader '%s'\n", shader.name);
 					return;
 				}
 				else
@@ -853,7 +853,7 @@ static void ParseExpression(char **text, expression_t * exp)
 			{
 				if(!numTmpOps)
 				{
-					ri.Printf(PRINT_ALL, "WARNING: invalid infix expression in shader '%s'\n", shader.name);
+					ri.Printf(PRINT_DEVELOPER, "WARNING: invalid infix expression in shader '%s'\n", shader.name);
 					return;
 				}
 				else
@@ -880,7 +880,7 @@ static void ParseExpression(char **text, expression_t * exp)
 	exp->active = qtrue;
 
 #if 0
-	ri.Printf(PRINT_ALL, "postfix:\n");
+	ri.Printf(PRINT_DEVELOPER, "postfix:\n");
 	for(i = 0; i < exp->numOps; i++)
 	{
 		op = exp->ops[i];
@@ -888,19 +888,19 @@ static void ParseExpression(char **text, expression_t * exp)
 		switch (op.type)
 		{
 			case OP_NUM:
-				ri.Printf(PRINT_ALL, "%f ", op.value);
+				ri.Printf(PRINT_DEVELOPER, "%f ", op.value);
 				break;
 
 			case OP_TABLE:
-				ri.Printf(PRINT_ALL, "%s ", tr.shaderTables[(int)op.value]->name);
+				ri.Printf(PRINT_DEVELOPER, "%s ", tr.shaderTables[(int)op.value]->name);
 				break;
 
 			default:
-				ri.Printf(PRINT_ALL, "%s ", opStrings[op.type].s);
+				ri.Printf(PRINT_DEVELOPER, "%s ", opStrings[op.type].s);
 				break;
 		}
 	}
-	ri.Printf(PRINT_ALL, "\n");
+	ri.Printf(PRINT_DEVELOPER, "\n");
 #endif
 }
 
@@ -1132,7 +1132,7 @@ static qboolean ParseTexMod(char **text, shaderStage_t * stage)
 
 	token = Com_ParseExt(text, qfalse);
 
-//  ri.Printf(PRINT_ALL, "using tcMod '%s' in shader '%s'\n", token, shader.name);
+//  ri.Printf(PRINT_DEVELOPER, "using tcMod '%s' in shader '%s'\n", token, shader.name);
 
 	// turb
 	if(!Q_stricmp(token, "turb"))
@@ -1397,7 +1397,7 @@ static qboolean LoadMap(shaderStage_t * stage, char *buffer)
 		return qfalse;
 	}
 
-//  ri.Printf(PRINT_ALL, "LoadMap: buffer '%s'\n", buffer);
+//  ri.Printf(PRINT_DEVELOPER, "LoadMap: buffer '%s'\n", buffer);
 
 	token = Com_ParseExt(&buffer_p, qfalse);
 
@@ -3218,7 +3218,7 @@ static char    *FindGuideInGuideText(const char *guideName)
 		token = Com_ParseExt(&p, qtrue);
 		if(!Q_stricmp(token, guideName))
 		{
-			//ri.Printf(PRINT_ALL, "found guide '%s' by hashing\n", guideName);
+			//ri.Printf(PRINT_DEVELOPER, "found guide '%s' by hashing\n", guideName);
 			return p;
 		}
 	}
@@ -3250,7 +3250,7 @@ static char    *FindGuideInGuideText(const char *guideName)
 
 		if(!Q_stricmp(token, guideName))
 		{
-			ri.Printf(PRINT_ALL, "found guide '%s' by linear search\n", guideName);
+			ri.Printf(PRINT_DEVELOPER, "found guide '%s' by linear search\n", guideName);
 			return p;
 		}
 
@@ -3338,11 +3338,11 @@ static char    *CreateShaderByGuide(const char *guideName, char *shaderText)
 
 			if(numGuideParms >= MAX_GUIDE_PARAMETERS - 1)
 			{
-				ri.Printf(PRINT_ALL, "WARNING: more than %i guide parameters are not allowed\n", MAX_GUIDE_PARAMETERS);
+				ri.Printf(PRINT_DEVELOPER, "WARNING: more than %i guide parameters are not allowed\n", MAX_GUIDE_PARAMETERS);
 				return NULL;
 			}
 
-			//ri.Printf(PRINT_ALL, "guide parameter %i = '%s'\n", numGuideParms, token);
+			//ri.Printf(PRINT_DEVELOPER, "guide parameter %i = '%s'\n", numGuideParms, token);
 
 			Q_strncpyz(guideParms[numGuideParms], token, MAX_QPATH);
 			numGuideParms++;
@@ -3350,7 +3350,7 @@ static char    *CreateShaderByGuide(const char *guideName, char *shaderText)
 
 		if(Q_stricmp(token, ")"))
 		{
-			ri.Printf(PRINT_ALL, "WARNING: expected ) found '%s'\n", token);
+			ri.Printf(PRINT_DEVELOPER, "WARNING: expected ) found '%s'\n", token);
 			return NULL;
 		}
 
@@ -3360,7 +3360,7 @@ static char    *CreateShaderByGuide(const char *guideName, char *shaderText)
 		token = Com_ParseExt(&shaderText, qtrue);
 		if(Q_stricmp(token, "("))
 		{
-			ri.Printf(PRINT_ALL, "WARNING: expected ( found '%s'\n", token);
+			ri.Printf(PRINT_DEVELOPER, "WARNING: expected ( found '%s'\n", token);
 			return NULL;
 		}
 
@@ -3376,11 +3376,11 @@ static char    *CreateShaderByGuide(const char *guideName, char *shaderText)
 
 			if(numShaderParms >= MAX_GUIDE_PARAMETERS - 1)
 			{
-				ri.Printf(PRINT_ALL, "WARNING: more than %i guide parameters are not allowed\n", MAX_GUIDE_PARAMETERS);
+				ri.Printf(PRINT_DEVELOPER, "WARNING: more than %i guide parameters are not allowed\n", MAX_GUIDE_PARAMETERS);
 				return NULL;
 			}
 
-			//ri.Printf(PRINT_ALL, "shader parameter %i = '%s'\n", numShaderParms, token);
+			//ri.Printf(PRINT_DEVELOPER, "shader parameter %i = '%s'\n", numShaderParms, token);
 
 			Q_strncpyz(shaderParms[numShaderParms], token, MAX_QPATH);
 			numShaderParms++;
@@ -3388,7 +3388,7 @@ static char    *CreateShaderByGuide(const char *guideName, char *shaderText)
 
 		if(Q_stricmp(token, ")"))
 		{
-			ri.Printf(PRINT_ALL, "WARNING: expected ) found '%s'\n", token);
+			ri.Printf(PRINT_DEVELOPER, "WARNING: expected ) found '%s'\n", token);
 			return NULL;
 		}
 
@@ -3401,14 +3401,14 @@ static char    *CreateShaderByGuide(const char *guideName, char *shaderText)
 #if 0
 		for(i = 0; i < numGuideParms; i++)
 		{
-			ri.Printf(PRINT_ALL, "guide parameter '%s' = '%s'\n", guideParms[i], shaderParms[i]);
+			ri.Printf(PRINT_DEVELOPER, "guide parameter '%s' = '%s'\n", guideParms[i], shaderParms[i]);
 		}
 #endif
 
 		token = Com_ParseExt(&guideText, qtrue);
 		if(Q_stricmp(token, "{"))
 		{
-			ri.Printf(PRINT_ALL, "WARNING: expected { found '%s'\n", token);
+			ri.Printf(PRINT_DEVELOPER, "WARNING: expected { found '%s'\n", token);
 			return NULL;
 		}
 
@@ -3438,7 +3438,7 @@ static char    *CreateShaderByGuide(const char *guideName, char *shaderText)
 			{
 				if((p = Q_stristr(name, (const char *)guideParms)))
 				{
-					//ri.Printf(PRINT_ALL, "guide parameter '%s' = '%s'\n", guideParms[i], shaderParms[i]);
+					//ri.Printf(PRINT_DEVELOPER, "guide parameter '%s' = '%s'\n", guideParms[i], shaderParms[i]);
 
 					Q_strreplace(name, sizeof(name), guideParms[i], shaderParms[i]);
 				}
@@ -3466,7 +3466,7 @@ static char    *CreateShaderByGuide(const char *guideName, char *shaderText)
 				{
 					if((p = Q_stristr(name, (const char *)guideParms)))
 					{
-						//ri.Printf(PRINT_ALL, "guide parameter '%s' = '%s'\n", guideParms[i], shaderParms[i]);
+						//ri.Printf(PRINT_DEVELOPER, "guide parameter '%s' = '%s'\n", guideParms[i], shaderParms[i]);
 
 						Q_strreplace(name, sizeof(name), guideParms[i], shaderParms[i]);
 					}
@@ -3481,13 +3481,13 @@ static char    *CreateShaderByGuide(const char *guideName, char *shaderText)
 
 		if(Q_stricmp(token, "}"))
 		{
-			ri.Printf(PRINT_ALL, "WARNING: expected } found '%s'\n", token);
+			ri.Printf(PRINT_DEVELOPER, "WARNING: expected } found '%s'\n", token);
 			return NULL;
 		}
 
 		Q_strcat(buffer, sizeof(buffer), "}");
 
-		ri.Printf(PRINT_ALL, "----- '%s' -----\n%s\n----------\n", shader.name, buffer);
+		ri.Printf(PRINT_DEVELOPER, "----- '%s' -----\n%s\n----------\n", shader.name, buffer);
 
 		return buffer;
 	}
@@ -4252,7 +4252,7 @@ static void CollapseStages(void)
 	}
 #endif
 
-	//ri.Printf(PRINT_ALL, "...collapsing '%s'\n", shader.name);
+	//ri.Printf(PRINT_DEVELOPER, "...collapsing '%s'\n", shader.name);
 
 	Com_Memcpy(&tmpShader, &shader, sizeof(shader));
 
@@ -4329,7 +4329,7 @@ static void CollapseStages(void)
 			hasSpecularStage
 		)
 		{
-			//ri.Printf(PRINT_ALL, "lighting_DBS\n");
+			//ri.Printf(PRINT_DEVELOPER, "lighting_DBS\n");
 
 			tmpShader.collapseType = COLLAPSE_lighting_DBS;
 
@@ -4348,7 +4348,7 @@ static void CollapseStages(void)
 				hasNormalStage
 		)
 		{
-			//ri.Printf(PRINT_ALL, "lighting_DB\n");
+			//ri.Printf(PRINT_DEVELOPER, "lighting_DB\n");
 
 			tmpShader.collapseType = COLLAPSE_lighting_DB;
 
@@ -4366,7 +4366,7 @@ static void CollapseStages(void)
 				hasNormalStage
 		)
 		{
-			//ri.Printf(PRINT_ALL, "reflection_CB\n");
+			//ri.Printf(PRINT_DEVELOPER, "reflection_CB\n");
 
 			tmpShader.collapseType = COLLAPSE_reflection_CB;
 
@@ -4596,17 +4596,17 @@ static void GeneratePermanentShaderTable(float *values, int numValues)
 	newTable->numValues = numValues;
 	newTable->values = ri.Hunk_Alloc(sizeof(float) * numValues, h_low);
 
-//  ri.Printf(PRINT_ALL, "values: \n");
+//  ri.Printf(PRINT_DEVELOPER, "values: \n");
 	for(i = 0; i < numValues; i++)
 	{
 		newTable->values[i] = values[i];
 
-//      ri.Printf(PRINT_ALL, "%f", newTable->values[i]);
+//      ri.Printf(PRINT_DEVELOPER, "%f", newTable->values[i]);
 
 //      if(i != numValues -1)
-//          ri.Printf(PRINT_ALL, ", ");
+//          ri.Printf(PRINT_DEVELOPER, ", ");
 	}
-//  ri.Printf(PRINT_ALL, "\n");
+//  ri.Printf(PRINT_DEVELOPER, "\n");
 
 	hash = generateHashValue(newTable->name, MAX_SHADERTABLE_HASH);
 	newTable->next = shaderTableHashTable[hash];
@@ -4939,7 +4939,7 @@ qboolean RE_LoadDynamicShader(const char *shadername, const char *shadertext)
 		dshader = dptr;
 	}
 
-//  ri.Printf( PRINT_ALL, "Loaded dynamic shader [%s] with shadertext [%s]\n", shadername, shadertext );
+//  ri.Printf( PRINT_DEVELOPER, "Loaded dynamic shader [%s] with shadertext [%s]\n", shadername, shadertext );
 
 	return qtrue;
 #else
@@ -4976,7 +4976,7 @@ static char    *FindShaderInShaderText(const char *shaderName)
 		token = Com_ParseExt(&p, qtrue);
 		if(!Q_stricmp(token, shaderName))
 		{
-			//ri.Printf(PRINT_ALL, "found shader '%s' by hashing\n", shaderName);
+			//ri.Printf(PRINT_DEVELOPER, "found shader '%s' by hashing\n", shaderName);
 			return p;
 		}
 	}
@@ -4999,7 +4999,7 @@ static char    *FindShaderInShaderText(const char *shaderName)
 
 		if(!Q_stricmp(token, shaderName))
 		{
-			//ri.Printf(PRINT_ALL, "found shader '%s' by linear search\n", shaderName);
+			//ri.Printf(PRINT_DEVELOPER, "found shader '%s' by linear search\n", shaderName);
 			return p;
 		}
 		// skip shader tables
@@ -5018,7 +5018,7 @@ static char    *FindShaderInShaderText(const char *shaderName)
 
 			if(!Q_stricmp(token, shaderName))
 			{
-				ri.Printf(PRINT_ALL, "found shader '%s' by linear search\n", shaderName);
+				ri.Printf(PRINT_DEVELOPER, "found shader '%s' by linear search\n", shaderName);
 				return p;
 			}
 
@@ -5186,7 +5186,7 @@ shader_t       *R_FindShader(const char *name, shaderType_t type, qboolean mipRa
 		// of all explicit shaders
 		if(r_printShaders->integer)
 		{
-			ri.Printf(PRINT_ALL, "...loading explicit shader '%s'\n", strippedName);
+			ri.Printf(PRINT_DEVELOPER, "...loading explicit shader '%s'\n", strippedName);
 		}
 
 		if(!ParseShader(shaderText))
@@ -5493,7 +5493,7 @@ void R_ShaderList_f(void)
 	shader_t       *shader;
 	char           *s = NULL;
 
-	ri.Printf(PRINT_ALL, "-----------------------\n");
+	ri.Printf(PRINT_DEVELOPER, "-----------------------\n");
 
 	if(ri.Cmd_Argc() > 1)
 	{
@@ -5515,24 +5515,24 @@ void R_ShaderList_f(void)
 		if(s && Q_stricmpn(shader->name, s, strlen(s)) != 0)
 			continue;
 
-		ri.Printf(PRINT_ALL, "%i ", shader->numStages);
+		ri.Printf(PRINT_DEVELOPER, "%i ", shader->numStages);
 
 		switch (shader->type)
 		{
 			case SHADER_2D:
-				ri.Printf(PRINT_ALL, "2D   ");
+				ri.Printf(PRINT_DEVELOPER, "2D   ");
 				break;
 
 			case SHADER_3D_DYNAMIC:
-				ri.Printf(PRINT_ALL, "3D_D ");
+				ri.Printf(PRINT_DEVELOPER, "3D_D ");
 				break;
 
 			case SHADER_3D_STATIC:
-				ri.Printf(PRINT_ALL, "3D_S ");
+				ri.Printf(PRINT_DEVELOPER, "3D_S ");
 				break;
 
 			case SHADER_LIGHT:
-				ri.Printf(PRINT_ALL, "ATTN ");
+				ri.Printf(PRINT_DEVELOPER, "ATTN ");
 				break;
 		}
 
@@ -5541,158 +5541,158 @@ void R_ShaderList_f(void)
 		{
 			if(shader->collapseTextureEnv == GL_ADD)
 			{
-				ri.Printf(PRINT_ALL, "MT(a)          ");
+				ri.Printf(PRINT_DEVELOPER, "MT(a)          ");
 			}
 			else if(shader->collapseTextureEnv == GL_MODULATE)
 			{
-				ri.Printf(PRINT_ALL, "MT(m)          ");
+				ri.Printf(PRINT_DEVELOPER, "MT(m)          ");
 			}
 			else if(shader->collapseTextureEnv == GL_DECAL)
 			{
-				ri.Printf(PRINT_ALL, "MT(d)          ");
+				ri.Printf(PRINT_DEVELOPER, "MT(d)          ");
 			}
 		}
 		else */
 		if(shader->collapseType == COLLAPSE_lighting_DB)
 		{
-			ri.Printf(PRINT_ALL, "lighting_DB    ");
+			ri.Printf(PRINT_DEVELOPER, "lighting_DB    ");
 		}
 		else if(shader->collapseType == COLLAPSE_lighting_DBS)
 		{
-			ri.Printf(PRINT_ALL, "lighting_DBS   ");
+			ri.Printf(PRINT_DEVELOPER, "lighting_DBS   ");
 		}
 		else if(shader->collapseType == COLLAPSE_reflection_CB)
 		{
-			ri.Printf(PRINT_ALL, "reflection_CB  ");
+			ri.Printf(PRINT_DEVELOPER, "reflection_CB  ");
 		}
 		else
 		{
-			ri.Printf(PRINT_ALL, "               ");
+			ri.Printf(PRINT_DEVELOPER, "               ");
 		}
 
 		if(shader->createdByGuide)
 		{
-			ri.Printf(PRINT_ALL, "G ");
+			ri.Printf(PRINT_DEVELOPER, "G ");
 		}
 		else if(shader->explicitlyDefined)
 		{
-			ri.Printf(PRINT_ALL, "E ");
+			ri.Printf(PRINT_DEVELOPER, "E ");
 		}
 		else
 		{
-			ri.Printf(PRINT_ALL, "  ");
+			ri.Printf(PRINT_DEVELOPER, "  ");
 		}
 
 		if(shader->sort == SS_BAD)
 		{
-			ri.Printf(PRINT_ALL, "SS_BAD              ");
+			ri.Printf(PRINT_DEVELOPER, "SS_BAD              ");
 		}
 		else if(shader->sort == SS_PORTAL)
 		{
-			ri.Printf(PRINT_ALL, "SS_PORTAL           ");
+			ri.Printf(PRINT_DEVELOPER, "SS_PORTAL           ");
 		}
 		else if(shader->sort == SS_ENVIRONMENT)
 		{
-			ri.Printf(PRINT_ALL, "SS_ENVIRONMENT      ");
+			ri.Printf(PRINT_DEVELOPER, "SS_ENVIRONMENT      ");
 		}
 		else if(shader->sort == SS_OPAQUE)
 		{
-			ri.Printf(PRINT_ALL, "SS_OPAQUE           ");
+			ri.Printf(PRINT_DEVELOPER, "SS_OPAQUE           ");
 		}
 		else if(shader->sort == SS_DECAL)
 		{
-			ri.Printf(PRINT_ALL, "SS_DECAL            ");
+			ri.Printf(PRINT_DEVELOPER, "SS_DECAL            ");
 		}
 		else if(shader->sort == SS_SEE_THROUGH)
 		{
-			ri.Printf(PRINT_ALL, "SS_SEE_THROUGH      ");
+			ri.Printf(PRINT_DEVELOPER, "SS_SEE_THROUGH      ");
 		}
 		else if(shader->sort == SS_BANNER)
 		{
-			ri.Printf(PRINT_ALL, "SS_BANNER           ");
+			ri.Printf(PRINT_DEVELOPER, "SS_BANNER           ");
 		}
 		else if(shader->sort == SS_FOG)
 		{
-			ri.Printf(PRINT_ALL, "SS_FOG              ");
+			ri.Printf(PRINT_DEVELOPER, "SS_FOG              ");
 		}
 		else if(shader->sort == SS_UNDERWATER)
 		{
-			ri.Printf(PRINT_ALL, "SS_UNDERWATER       ");
+			ri.Printf(PRINT_DEVELOPER, "SS_UNDERWATER       ");
 		}
 		else if(shader->sort == SS_WATER)
 		{
-			ri.Printf(PRINT_ALL, "SS_WATER            ");
+			ri.Printf(PRINT_DEVELOPER, "SS_WATER            ");
 		}
 		else if(shader->sort == SS_FAR)
 		{
-			ri.Printf(PRINT_ALL, "SS_FAR              ");
+			ri.Printf(PRINT_DEVELOPER, "SS_FAR              ");
 		}
 		else if(shader->sort == SS_MEDIUM)
 		{
-			ri.Printf(PRINT_ALL, "SS_MEDIUM           ");
+			ri.Printf(PRINT_DEVELOPER, "SS_MEDIUM           ");
 		}
 		else if(shader->sort == SS_CLOSE)
 		{
-			ri.Printf(PRINT_ALL, "SS_CLOSE            ");
+			ri.Printf(PRINT_DEVELOPER, "SS_CLOSE            ");
 		}
 		else if(shader->sort == SS_BLEND0)
 		{
-			ri.Printf(PRINT_ALL, "SS_BLEND0           ");
+			ri.Printf(PRINT_DEVELOPER, "SS_BLEND0           ");
 		}
 		else if(shader->sort == SS_BLEND1)
 		{
-			ri.Printf(PRINT_ALL, "SS_BLEND1           ");
+			ri.Printf(PRINT_DEVELOPER, "SS_BLEND1           ");
 		}
 		else if(shader->sort == SS_BLEND2)
 		{
-			ri.Printf(PRINT_ALL, "SS_BLEND2           ");
+			ri.Printf(PRINT_DEVELOPER, "SS_BLEND2           ");
 		}
 		else if(shader->sort == SS_BLEND3)
 		{
-			ri.Printf(PRINT_ALL, "SS_BLEND3           ");
+			ri.Printf(PRINT_DEVELOPER, "SS_BLEND3           ");
 		}
 		else if(shader->sort == SS_BLEND6)
 		{
-			ri.Printf(PRINT_ALL, "SS_BLEND6           ");
+			ri.Printf(PRINT_DEVELOPER, "SS_BLEND6           ");
 		}
 		else if(shader->sort == SS_ALMOST_NEAREST)
 		{
-			ri.Printf(PRINT_ALL, "SS_ALMOST_NEAREST   ");
+			ri.Printf(PRINT_DEVELOPER, "SS_ALMOST_NEAREST   ");
 		}
 		else if(shader->sort == SS_NEAREST)
 		{
-			ri.Printf(PRINT_ALL, "SS_NEAREST          ");
+			ri.Printf(PRINT_DEVELOPER, "SS_NEAREST          ");
 		}
 		else if(shader->sort == SS_POST_PROCESS)
 		{
-			ri.Printf(PRINT_ALL, "SS_POST_PROCESS     ");
+			ri.Printf(PRINT_DEVELOPER, "SS_POST_PROCESS     ");
 		}
 		else
 		{
-			ri.Printf(PRINT_ALL, "                    ");
+			ri.Printf(PRINT_DEVELOPER, "                    ");
 		}
 
 		if(shader->interactLight)
 		{
-			ri.Printf(PRINT_ALL, "IA ");
+			ri.Printf(PRINT_DEVELOPER, "IA ");
 		}
 		else
 		{
-			ri.Printf(PRINT_ALL, "   ");
+			ri.Printf(PRINT_DEVELOPER, "   ");
 		}
 
 		if(shader->defaultShader)
 		{
-			ri.Printf(PRINT_ALL, ": %s (DEFAULTED)\n", shader->name);
+			ri.Printf(PRINT_DEVELOPER, ": %s (DEFAULTED)\n", shader->name);
 		}
 		else
 		{
-			ri.Printf(PRINT_ALL, ": %s\n", shader->name);
+			ri.Printf(PRINT_DEVELOPER, ": %s\n", shader->name);
 		}
 		count++;
 	}
-	ri.Printf(PRINT_ALL, "%i total shaders\n", count);
-	ri.Printf(PRINT_ALL, "------------------\n");
+	ri.Printf(PRINT_DEVELOPER, "%i total shaders\n", count);
+	ri.Printf(PRINT_DEVELOPER, "------------------\n");
 }
 
 void R_ShaderExp_f(void)
@@ -5705,7 +5705,7 @@ void R_ShaderExp_f(void)
 
 	strcpy(shader.name, "dummy");
 
-	ri.Printf(PRINT_ALL, "-----------------------\n");
+	ri.Printf(PRINT_DEVELOPER, "-----------------------\n");
 
 	for(i = 1; i < ri.Cmd_Argc(); i++)
 	{
@@ -5717,9 +5717,9 @@ void R_ShaderExp_f(void)
 
 	ParseExpression(&buffer_p, &exp);
 
-	ri.Printf(PRINT_ALL, "%i total ops\n", exp.numOps);
-	ri.Printf(PRINT_ALL, "%f result\n", RB_EvalExpression(&exp, 0));
-	ri.Printf(PRINT_ALL, "------------------\n");
+	ri.Printf(PRINT_DEVELOPER, "%i total ops\n", exp.numOps);
+	ri.Printf(PRINT_DEVELOPER, "%f result\n", RB_EvalExpression(&exp, 0));
+	ri.Printf(PRINT_DEVELOPER, "------------------\n");
 }
 
 /*
@@ -5743,7 +5743,7 @@ static void ScanAndLoadGuideFiles(void)
 	char            filename[MAX_QPATH];
 	long            sum = 0;
 
-	ri.Printf(PRINT_ALL, "----- ScanAndLoadGuideFiles -----\n");
+	ri.Printf(PRINT_DEVELOPER, "----- ScanAndLoadGuideFiles -----\n");
 
 	s_guideText = NULL;
 	Com_Memset(guideTextHashTableSizes, 0, sizeof(guideTextHashTableSizes));
@@ -5821,7 +5821,7 @@ static void ScanAndLoadGuideFiles(void)
 			// parse guide name
 			token = Com_ParseExt(&p, qtrue);
 
-			//ri.Printf(PRINT_ALL, "guide: '%s'\n", token);
+			//ri.Printf(PRINT_DEVELOPER, "guide: '%s'\n", token);
 
 			hash = generateHashValue(token, MAX_GUIDETEXT_HASH);
 			guideTextHashTableSizes[hash]++;
@@ -5906,7 +5906,7 @@ static void ScanAndLoadGuideFiles(void)
 			oldp = p;
 			token = Com_ParseExt(&p, qtrue);
 
-			//ri.Printf(PRINT_ALL, "...hashing guide '%s'\n", token);
+			//ri.Printf(PRINT_DEVELOPER, "...hashing guide '%s'\n", token);
 
 			hash = generateHashValue(token, MAX_GUIDETEXT_HASH);
 			guideTextHashTable[hash][guideTextHashTableSizes[hash]++] = oldp;
@@ -5975,7 +5975,7 @@ static void ScanAndLoadShaderFiles(void)
 	char            filename[MAX_QPATH];
 	long            sum = 0;
 
-	ri.Printf(PRINT_ALL, "----- ScanAndLoadShaderFiles -----\n");
+	ri.Printf(PRINT_DEVELOPER, "----- ScanAndLoadShaderFiles -----\n");
 
 	// scan for shader files
 #if defined(COMPAT_Q3A)
@@ -6069,7 +6069,7 @@ static void ScanAndLoadShaderFiles(void)
 				// parse shader name
 				token = Com_ParseExt(&p, qtrue);
 
-				//ri.Printf(PRINT_ALL, "...guided '%s'\n", token);
+				//ri.Printf(PRINT_DEVELOPER, "...guided '%s'\n", token);
 
 				hash = generateHashValue(token, MAX_SHADERTEXT_HASH);
 				shaderTextHashTableSizes[hash]++;
@@ -6234,7 +6234,7 @@ static void ScanAndLoadShaderFiles(void)
 				oldp = p;
 				token = Com_ParseExt(&p, qtrue);
 
-				//ri.Printf(PRINT_ALL, "...guided '%s'\n", token);
+				//ri.Printf(PRINT_DEVELOPER, "...guided '%s'\n", token);
 
 				hash = generateHashValue(token, MAX_SHADERTEXT_HASH);
 				shaderTextHashTable[hash][shaderTextHashTableSizes[hash]++] = oldp;
@@ -6299,7 +6299,7 @@ CreateInternalShaders
 */
 static void CreateInternalShaders(void)
 {
-	ri.Printf(PRINT_ALL, "----- CreateInternalShaders -----\n");
+	ri.Printf(PRINT_DEVELOPER, "----- CreateInternalShaders -----\n");
 
 	tr.numShaders = 0;
 
@@ -6334,7 +6334,7 @@ static void CreateInternalShaders(void)
 
 static void CreateExternalShaders(void)
 {
-	ri.Printf(PRINT_ALL, "----- CreateExternalShaders -----\n");
+	ri.Printf(PRINT_DEVELOPER, "----- CreateExternalShaders -----\n");
 
 	tr.projectionShadowShader = R_FindShader("projectionShadow", SHADER_3D_DYNAMIC, qtrue);
 	tr.flareShader = R_FindShader("flareShader", SHADER_3D_DYNAMIC, qtrue);

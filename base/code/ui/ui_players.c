@@ -70,7 +70,7 @@ tryagain:
   }
 
   if ( item->classname ) {
-    pi->weaponModel = trap_R_RegisterModel( item->world_model[0] );
+    pi->weaponModel = trap_R_RegisterModel( item->world_model[0], qfalse );
   }
 
   if( pi->weaponModel == 0 ) {
@@ -86,13 +86,13 @@ tryagain:
     strcpy( path, item->world_model[0] );
     Com_StripExtension( path, path );
     strcat( path, "_barrel.md3" );
-    pi->barrelModel = trap_R_RegisterModel( path );
+    pi->barrelModel = trap_R_RegisterModel( path, qfalse );
   }
 
   strcpy( path, item->world_model[0] );
   Com_StripExtension( path, path );
   strcat( path, "_flash.md3" );
-  pi->flashModel = trap_R_RegisterModel( path );
+  pi->flashModel = trap_R_RegisterModel( path, qfalse );
 
   switch( weaponNum ) {
   case WP_GAUNTLET:
@@ -1345,11 +1345,11 @@ qboolean UI_RegisterClientModelname(playerInfo_t * pi, const char *modelSkinName
 	// load cmodels before models so filecache works
 
 	Com_sprintf(filename, sizeof(filename), "models/players/%s/lower.md3", modelName);
-	pi->legsModel = trap_R_RegisterModel(filename);
+	pi->legsModel = trap_R_RegisterModel(filename,qfalse);
 	if(!pi->legsModel)
 	{
 		Com_sprintf(filename, sizeof(filename), "models/players/characters/%s/lower.md3", modelName);
-		pi->legsModel = trap_R_RegisterModel(filename);
+		pi->legsModel = trap_R_RegisterModel(filename,qfalse);
 		if(!pi->legsModel)
 		{
 			Com_Printf("Failed to load model file %s\n", filename);
@@ -1358,11 +1358,11 @@ qboolean UI_RegisterClientModelname(playerInfo_t * pi, const char *modelSkinName
 	}
 
 	Com_sprintf(filename, sizeof(filename), "models/players/%s/upper.md3", modelName);
-	pi->torsoModel = trap_R_RegisterModel(filename);
+	pi->torsoModel = trap_R_RegisterModel(filename,qfalse);
 	if(!pi->torsoModel)
 	{
 		Com_sprintf(filename, sizeof(filename), "models/players/characters/%s/upper.md3", modelName);
-		pi->torsoModel = trap_R_RegisterModel(filename);
+		pi->torsoModel = trap_R_RegisterModel(filename,qfalse);
 		if(!pi->torsoModel)
 		{
 			Com_Printf("Failed to load model file %s\n", filename);
@@ -1378,11 +1378,11 @@ qboolean UI_RegisterClientModelname(playerInfo_t * pi, const char *modelSkinName
 	{
 		Com_sprintf(filename, sizeof(filename), "models/players/%s/head.md3", headModelName);
 	}
-	pi->headModel = trap_R_RegisterModel(filename);
+	pi->headModel = trap_R_RegisterModel(filename,qfalse);
 	if(!pi->headModel && headModelName[0] != '*')
 	{
 		Com_sprintf(filename, sizeof(filename), "models/players/heads/%s/%s.md3", headModelName, headModelName);
-		pi->headModel = trap_R_RegisterModel(filename);
+		pi->headModel = trap_R_RegisterModel(filename,qfalse);
 	}
 
 	if(!pi->headModel)

@@ -103,7 +103,7 @@ GLShader_generic::GLShader_generic():
 	{
 		const char* compileMacros = GetCompileMacrosString(i);
 
-		ri.Printf(PRINT_ALL, "Compile macros: '%s'\n", compileMacros);
+		ri.Printf(PRINT_DEVELOPER, "Compile macros: '%s'\n", compileMacros);
 
 		shaderProgram_t *shaderProgram = &_shaderPrograms[i];
 
@@ -188,7 +188,7 @@ GLShader_lightMapping::GLShader_lightMapping():
 	{
 		const char* compileMacros = GetCompileMacrosString(i);
 
-		ri.Printf(PRINT_ALL, "Compile macros: '%s'\n", compileMacros);
+		ri.Printf(PRINT_DEVELOPER, "Compile macros: '%s'\n", compileMacros);
 
 		shaderProgram_t *shaderProgram = &_shaderPrograms[i];
 
@@ -259,7 +259,7 @@ GLShader_vertexLighting_DBS_entity::GLShader_vertexLighting_DBS_entity():
 	{
 		const char* compileMacros = GetCompileMacrosString(i);
 
-		ri.Printf(PRINT_ALL, "Compile macros: '%s'\n", compileMacros);
+		ri.Printf(PRINT_DEVELOPER, "Compile macros: '%s'\n", compileMacros);
 
 		shaderProgram_t *shaderProgram = &_shaderPrograms[i];
 

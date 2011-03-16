@@ -101,7 +101,7 @@ qhandle_t RE_RegisterModel(const char *name, qboolean forceStatic)
 
 	if(!name || !name[0])
 	{
-		ri.Printf(PRINT_ALL, "RE_RegisterModel: NULL name\n");
+		ri.Printf(PRINT_DEVELOPER, "RE_RegisterModel: NULL name\n");
 		return 0;
 	}
 
@@ -324,7 +324,7 @@ static qboolean R_LoadDAE(model_t * mod, void *buffer, int bufferLen, const char
 	xmlInitParser();
 	xmlSetGenericErrorFunc(NULL, R_XMLError);
 
-	ri.Printf(PRINT_ALL, "...loading DAE '%s'\n", modName);
+	ri.Printf(PRINT_DEVELOPER, "...loading DAE '%s'\n", modName);
 
 	doc = xmlParseMemory(buffer, bufferLen);
 	if(doc == NULL)
@@ -352,7 +352,7 @@ static qboolean R_LoadDAE(model_t * mod, void *buffer, int bufferLen, const char
 
 	xmlFreeDoc(doc);
 
-	ri.Printf(PRINT_ALL, "...finished DAE '%s'\n", modName);
+	ri.Printf(PRINT_DEVELOPER, "...finished DAE '%s'\n", modName);
 
 	return qfalse;
 }
@@ -461,34 +461,34 @@ void R_Modellist_f(void)
 					mdvModel = mod->mdv[j];
 
 					total++;
-					ri.Printf(PRINT_ALL, "%d.%02d MB '%s' LOD = %i\n",	mod->dataSize / (1024 * 1024), 
+					ri.Printf(PRINT_DEVELOPER, "%d.%02d MB '%s' LOD = %i\n",	mod->dataSize / (1024 * 1024), 
 															(mod->dataSize % (1024 * 1024)) * 100 / (1024 * 1024),
 															mod->name, j);
 
 					if(showFrames && mdvModel->numFrames > 1)
 					{
-						ri.Printf(PRINT_ALL, "\tnumSurfaces = %i\n", mdvModel->numSurfaces);
-						ri.Printf(PRINT_ALL, "\tnumFrames = %i\n", mdvModel->numFrames);
+						ri.Printf(PRINT_DEVELOPER, "\tnumSurfaces = %i\n", mdvModel->numSurfaces);
+						ri.Printf(PRINT_DEVELOPER, "\tnumFrames = %i\n", mdvModel->numFrames);
 						
 						for(k = 0, mdvSurface = mdvModel->surfaces; k < mdvModel->numSurfaces; k++, mdvSurface++)
 						{
-							ri.Printf(PRINT_ALL, "\t\tmesh = '%s'\n", mdvSurface->name);
-							ri.Printf(PRINT_ALL, "\t\t\tnumVertexes = %i\n", mdvSurface->numVerts);
-							ri.Printf(PRINT_ALL, "\t\t\tnumTriangles = %i\n", mdvSurface->numTriangles);
+							ri.Printf(PRINT_DEVELOPER, "\t\tmesh = '%s'\n", mdvSurface->name);
+							ri.Printf(PRINT_DEVELOPER, "\t\t\tnumVertexes = %i\n", mdvSurface->numVerts);
+							ri.Printf(PRINT_DEVELOPER, "\t\t\tnumTriangles = %i\n", mdvSurface->numTriangles);
 						}
 					}
 
-					ri.Printf(PRINT_ALL, "\t\tnumTags = %i\n", mdvModel->numTags);
+					ri.Printf(PRINT_DEVELOPER, "\t\tnumTags = %i\n", mdvModel->numTags);
 					for(k = 0, mdvTagName = mdvModel->tagNames; k < mdvModel->numTags; k++, mdvTagName++)
 					{
-						ri.Printf(PRINT_ALL, "\t\t\ttagName = '%s'\n", mdvTagName->name);
+						ri.Printf(PRINT_DEVELOPER, "\t\t\ttagName = '%s'\n", mdvTagName->name);
 					}
 				}
 			}
 		}
 		else
 		{
-			ri.Printf(PRINT_ALL, "%d.%02d MB '%s'\n",	mod->dataSize / (1024 * 1024), 
+			ri.Printf(PRINT_DEVELOPER, "%d.%02d MB '%s'\n",	mod->dataSize / (1024 * 1024), 
 																(mod->dataSize % (1024 * 1024)) * 100 / (1024 * 1024),
 																mod->name);
 
@@ -498,14 +498,14 @@ void R_Modellist_f(void)
 		totalDataSize += mod->dataSize;
 	}
 	
-	ri.Printf(PRINT_ALL, " %d.%02d MB total model memory\n", totalDataSize / (1024 * 1024),
+	ri.Printf(PRINT_DEVELOPER, " %d.%02d MB total model memory\n", totalDataSize / (1024 * 1024),
 			  (totalDataSize % (1024 * 1024)) * 100 / (1024 * 1024));
-	ri.Printf(PRINT_ALL, " %i total models\n\n", total);
+	ri.Printf(PRINT_DEVELOPER, " %i total models\n\n", total);
 
 #if	0							// not working right with new hunk
 	if(tr.world)
 	{
-		ri.Printf(PRINT_ALL, "\n%8i : %s\n", tr.world->dataSize, tr.world->name);
+		ri.Printf(PRINT_DEVELOPER, "\n%8i : %s\n", tr.world->dataSize, tr.world->name);
 	}
 #endif
 }

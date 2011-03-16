@@ -62,7 +62,7 @@ static void GLSL_PrintInfoLog(GLhandleARB object, qboolean developerOnly)
 	}
 	else
 	{
-		ri.Printf(PRINT_ALL, "compile log:\n");
+		ri.Printf(PRINT_DEVELOPER, "compile log:\n");
 	}
 
 	for(i = 0; i < maxLength; i += 1024)
@@ -72,7 +72,7 @@ static void GLSL_PrintInfoLog(GLhandleARB object, qboolean developerOnly)
 		if(developerOnly)
 			ri.Printf(PRINT_DEVELOPER, "%s\n", msgPart);
 		else
-			ri.Printf(PRINT_ALL, "%s\n", msgPart);
+			ri.Printf(PRINT_DEVELOPER, "%s\n", msgPart);
 	}
 
 	Com_Dealloc(msg);
@@ -94,7 +94,7 @@ static void GLSL_PrintShaderSource(GLhandleARB object)
 	for(i = 0; i < maxLength; i += 1024)
 	{
 		Q_strncpyz(msgPart, msg + i, sizeof(msgPart));
-		ri.Printf(PRINT_ALL, "%s\n", msgPart);
+		ri.Printf(PRINT_DEVELOPER, "%s\n", msgPart);
 	}
 
 	Com_Dealloc(msg);
@@ -134,7 +134,7 @@ static void GLSL_LoadGPUShader(GLhandleARB program, const char *name, const char
 		if(shaderType == GL_VERTEX_SHADER_ARB)
 		{
 			Com_sprintf(filename, sizeof(filename), "glsl/%s_vp.glsl", token);
-			ri.Printf(PRINT_ALL, "...loading vertex shader '%s'\n", filename);
+			ri.Printf(PRINT_DEVELOPER, "...loading vertex shader '%s'\n", filename);
 		}
 		else
 		{
@@ -165,12 +165,12 @@ static void GLSL_LoadGPUShader(GLhandleARB program, const char *name, const char
 	if(shaderType == GL_VERTEX_SHADER_ARB)
 	{
 		Com_sprintf(filename, sizeof(filename), "glsl/%s_vp.glsl", name);
-		ri.Printf(PRINT_ALL, "...loading vertex main() shader '%s'\n", filename);
+		ri.Printf(PRINT_DEVELOPER, "...loading vertex main() shader '%s'\n", filename);
 	}
 	else
 	{
 		Com_sprintf(filename, sizeof(filename), "glsl/%s_fp.glsl", name);
-		ri.Printf(PRINT_ALL, "...loading fragment main() shader '%s'\n", filename);
+		ri.Printf(PRINT_DEVELOPER, "...loading fragment main() shader '%s'\n", filename);
 	}
 
 	mainSize = ri.FS_ReadFile(filename, (void **)&mainBuffer);
@@ -576,7 +576,7 @@ static void GLSL_LoadGPUShader(GLhandleARB program, const char *name, const char
 		sizeExtra = strlen(bufferExtra);
 		sizeFinal = sizeExtra + mainSize + libsSize;
 
-		//ri.Printf(PRINT_ALL, "GLSL extra: %s\n", bufferExtra);
+		//ri.Printf(PRINT_DEVELOPER, "GLSL extra: %s\n", bufferExtra);
 
 		bufferFinal = (char *) ri.Hunk_AllocateTempMemory(sizeFinal);
 
@@ -600,7 +600,7 @@ static void GLSL_LoadGPUShader(GLhandleARB program, const char *name, const char
 			for(i = 0; i < sizeFinal; i += 1024)
 			{
 				Q_strncpyz(msgPart, bufferFinal + i, sizeof(msgPart));
-				ri.Printf(PRINT_ALL, "%s", msgPart);
+				ri.Printf(PRINT_DEVELOPER, "%s", msgPart);
 			}
 
 			ri.Printf(PRINT_WARNING, " END-- ---------------------------------------------------\n", filename);
@@ -637,7 +637,7 @@ static void GLSL_LoadGPUShader(GLhandleARB program, const char *name, const char
 				for(i = 0; i < length; i += 1024)
 				{
 					Q_strncpyz(msgPart, newSource + i, sizeof(msgPart));
-					ri.Printf(PRINT_ALL, "%s\n", msgPart);
+					ri.Printf(PRINT_DEVELOPER, "%s\n", msgPart);
 				}
 
 				ri.Printf(PRINT_WARNING, " END-- ---------------------------------------------------\n", filename);
@@ -654,7 +654,7 @@ static void GLSL_LoadGPUShader(GLhandleARB program, const char *name, const char
 				for(i = 0; i < length; i += 1024)
 				{
 					Q_strncpyz(msgPart, errorLog + i, sizeof(msgPart));
-					ri.Printf(PRINT_ALL, "%s\n", msgPart);
+					ri.Printf(PRINT_DEVELOPER, "%s\n", msgPart);
 				}
 
 				ri.Error(ERR_FATAL, "Couldn't optimize %s", filename);
@@ -692,7 +692,7 @@ static void GLSL_LoadGPUShader(GLhandleARB program, const char *name, const char
 	}
 
 	GLSL_PrintInfoLog(shader, qtrue);
-	//ri.Printf(PRINT_ALL, "%s\n", GLSL_PrintShaderSource(shader));
+	//ri.Printf(PRINT_DEVELOPER, "%s\n", GLSL_PrintShaderSource(shader));
 
 	// attach shader to program
 	qglAttachObjectARB(program, shader);
@@ -920,7 +920,7 @@ void GLSL_InitGPUShaders(void)
 	static char     compileMacros[32000];
 //	shaderProgram_t *shaderProgram;
 
-	ri.Printf(PRINT_ALL, "------- GLSL_InitGPUShaders -------\n");
+	ri.Printf(PRINT_DEVELOPER, "------- GLSL_InitGPUShaders -------\n");
 
 	// make sure the render thread is stopped
 	R_SyncRenderThread();
@@ -2286,14 +2286,14 @@ void GLSL_InitGPUShaders(void)
 	glslopt_cleanup(s_glslOptimizer);
 #endif
 
-	ri.Printf(PRINT_ALL, "GLSL shaders load time = %5.2f seconds\n", (endTime - startTime) / 1000.0);
+	ri.Printf(PRINT_DEVELOPER, "GLSL shaders load time = %5.2f seconds\n", (endTime - startTime) / 1000.0);
 }
 
 void GLSL_ShutdownGPUShaders(void)
 {
 //	int				i;
 
-	ri.Printf(PRINT_ALL, "------- GLSL_ShutdownGPUShaders -------\n");
+	ri.Printf(PRINT_DEVELOPER, "------- GLSL_ShutdownGPUShaders -------\n");
 
 	if(gl_genericShader)
 	{

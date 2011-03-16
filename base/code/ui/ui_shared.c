@@ -87,12 +87,13 @@ static qboolean Menu_OverActiveItem(menuDef_t * menu, float x, float y);
 
 #ifdef CGAME
 #define MEM_POOL_SIZE  128 * 1024
+#define POOLSIZE       128 * 1024
 #else
 #define MEM_POOL_SIZE  1024 * 1024
+#define POOLSIZE       1024 * 1024
 #endif
 
-//TA: hacked variable name to avoid conflict with new cgame Alloc
-static char     UI_memoryPool[MEM_POOL_SIZE];
+static char     memoryPool[POOLSIZE];
 static int      allocPoint, outOfMemory;
 
 /*
@@ -102,23 +103,19 @@ UI_Alloc
 */
 void           *UI_Alloc(int size)
 {
-	char           *p;
+        char           *p;
 
-	if(allocPoint + size > MEM_POOL_SIZE)
-	{
-		outOfMemory = qtrue;
+        if(allocPoint + size > POOLSIZE)
+        {
+                outOfMemory = qtrue;
+                return NULL;
+        }
 
-		if(DC->Print)
-			DC->Print("UI_Alloc: Failure. Out of memory!\n");
-		//DC->trap_Print(S_COLOR_YELLOW"WARNING: UI Out of Memory!\n");
-		return NULL;
-	}
+        p = &memoryPool[allocPoint];
 
-	p = &UI_memoryPool[allocPoint];
+        allocPoint += (size + 31) & ~31;
 
-	allocPoint += (size + 15) & ~15;
-
-	return p;
+        return p;
 }
 
 /*
@@ -250,9 +247,9 @@ void String_Report(void)
 	f *= 100;
 	Com_Printf("String Pool is %.1f%% full, %i bytes out of %i used.\n", f, strPoolIndex, STRING_POOL_SIZE);
 	f = allocPoint;
-	f /= MEM_POOL_SIZE;
+	f /= POOLSIZE;
 	f *= 100;
-	Com_Printf("Memory Pool is %.1f%% full, %i bytes out of %i used.\n", f, allocPoint, MEM_POOL_SIZE);
+	Com_Printf("Memory Pool is %.1f%% full, %i bytes out of %i used.\n", f, allocPoint, POOLSIZE);
 }
 
 /*

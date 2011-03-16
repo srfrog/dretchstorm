@@ -478,7 +478,7 @@ void LoadRGBEToFloats(const char *name, float **pic, int *width, int *height, qb
 
 		if(!Q_stricmp(token, "FORMAT"))
 		{
-			//ri.Printf(PRINT_ALL, "LoadRGBE: FORMAT found\n");
+			//ri.Printf(PRINT_DEVELOPER, "LoadRGBE: FORMAT found\n");
 
 			token = Com_ParseExt((char **)&buf_p, qfalse);
 			if(!Q_stricmp(token, "="))
@@ -496,22 +496,22 @@ void LoadRGBEToFloats(const char *name, float **pic, int *width, int *height, qb
 						}
 						else
 						{
-							ri.Printf(PRINT_ALL, "LoadRGBE: Expected 'bit_rle_rgbe' found instead '%s'\n", token);
+							ri.Printf(PRINT_DEVELOPER, "LoadRGBE: Expected 'bit_rle_rgbe' found instead '%s'\n", token);
 						}
 					}
 					else
 					{
-						ri.Printf(PRINT_ALL, "LoadRGBE: Expected '-' found instead '%s'\n", token);
+						ri.Printf(PRINT_DEVELOPER, "LoadRGBE: Expected '-' found instead '%s'\n", token);
 					}
 				}
 				else
 				{
-					ri.Printf(PRINT_ALL, "LoadRGBE: Expected '32' found instead '%s'\n", token);
+					ri.Printf(PRINT_DEVELOPER, "LoadRGBE: Expected '32' found instead '%s'\n", token);
 				}
 			}
 			else
 			{
-				ri.Printf(PRINT_ALL, "LoadRGBE: Expected '=' found instead '%s'\n", token);
+				ri.Printf(PRINT_DEVELOPER, "LoadRGBE: Expected '=' found instead '%s'\n", token);
 			}
 		}
 
@@ -535,17 +535,17 @@ void LoadRGBEToFloats(const char *name, float **pic, int *width, int *height, qb
 					}
 					else
 					{
-						ri.Printf(PRINT_ALL, "LoadRGBE: Expected 'X' found instead '%s'\n", token);
+						ri.Printf(PRINT_DEVELOPER, "LoadRGBE: Expected 'X' found instead '%s'\n", token);
 					}
 				}
 				else
 				{
-					ri.Printf(PRINT_ALL, "LoadRGBE: Expected '+' found instead '%s'\n", token);
+					ri.Printf(PRINT_DEVELOPER, "LoadRGBE: Expected '+' found instead '%s'\n", token);
 				}
 			}
 			else
 			{
-				ri.Printf(PRINT_ALL, "LoadRGBE: Expected 'Y' found instead '%s'\n", token);
+				ri.Printf(PRINT_DEVELOPER, "LoadRGBE: Expected 'Y' found instead '%s'\n", token);
 			}
 		}
 	}
@@ -816,7 +816,7 @@ static void R_LoadLightmaps(lump_t * l, const char *bspName)
 				return;
 			}
 
-			ri.Printf(PRINT_ALL, "...loading %i HDR lightmaps\n", numLightmaps);
+			ri.Printf(PRINT_DEVELOPER, "...loading %i HDR lightmaps\n", numLightmaps);
 
 			if(r_hdrRendering->integer && r_hdrLightmap->integer && glConfig.framebufferObjectAvailable &&
 			   glConfig.framebufferBlitAvailable && glConfig.textureFloatAvailable && glConfig.textureHalfFloatAvailable)
@@ -826,13 +826,13 @@ static void R_LoadLightmaps(lump_t * l, const char *bspName)
 
 				for(i = 0; i < numLightmaps; i++)
 				{
-					ri.Printf(PRINT_ALL, "...loading external lightmap as RGB 16 bit half HDR '%s/%s'\n", mapName, lightmapFiles[i]);
+					ri.Printf(PRINT_DEVELOPER, "...loading external lightmap as RGB 16 bit half HDR '%s/%s'\n", mapName, lightmapFiles[i]);
 
 					width = height = 0;
 					//LoadRGBEToFloats(va("%s/%s", mapName, lightmapFiles[i]), &hdrImage, &width, &height, qtrue, qfalse, qtrue);
 					LoadRGBEToHalfs(va("%s/%s", mapName, lightmapFiles[i]), &hdrImage, &width, &height);
 
-					//ri.Printf(PRINT_ALL, "...converted '%s/%s' to HALF format\n", mapName, lightmapFiles[i]);
+					//ri.Printf(PRINT_DEVELOPER, "...converted '%s/%s' to HALF format\n", mapName, lightmapFiles[i]);
 
 					image = R_AllocImage(va("%s/%s", mapName, lightmapFiles[i]), qtrue);
 					if(!image)
@@ -894,7 +894,7 @@ static void R_LoadLightmaps(lump_t * l, const char *bspName)
 
 				for(i = 0; i < numLightmaps; i++)
 				{
-					ri.Printf(PRINT_ALL, "...loading external lightmap as RGB8 LDR '%s/%s'\n", mapName, lightmapFiles[i]);
+					ri.Printf(PRINT_DEVELOPER, "...loading external lightmap as RGB8 LDR '%s/%s'\n", mapName, lightmapFiles[i]);
 
 					width = height = 0;
 					LoadRGBEToBytes(va("%s/%s", mapName, lightmapFiles[i]), &ldrImage, &width, &height);
@@ -926,11 +926,11 @@ static void R_LoadLightmaps(lump_t * l, const char *bspName)
 
 				qsort(lightmapFiles, numLightmaps, sizeof(char *), LightmapNameCompare);
 
-				ri.Printf(PRINT_ALL, "...loading %i deluxemaps\n", numLightmaps);
+				ri.Printf(PRINT_DEVELOPER, "...loading %i deluxemaps\n", numLightmaps);
 
 				for(i = 0; i < numLightmaps; i++)
 				{
-					ri.Printf(PRINT_ALL, "...loading external lightmap '%s/%s'\n", mapName, lightmapFiles[i]);
+					ri.Printf(PRINT_DEVELOPER, "...loading external lightmap '%s/%s'\n", mapName, lightmapFiles[i]);
 
 					image = R_FindImageFile(va("%s/%s", mapName, lightmapFiles[i]), IF_NORMALMAP | IF_NOCOMPRESSION, FT_DEFAULT, WT_CLAMP);
 					Com_AddToGrowList(&tr.deluxemaps, image);
@@ -955,14 +955,14 @@ static void R_LoadLightmaps(lump_t * l, const char *bspName)
 
 			qsort(lightmapFiles, numLightmaps, sizeof(char *), LightmapNameCompare);
 
-			ri.Printf(PRINT_ALL, "...loading %i lightmaps\n", numLightmaps);
+			ri.Printf(PRINT_DEVELOPER, "...loading %i lightmaps\n", numLightmaps);
 
 			// we are about to upload textures
 			R_SyncRenderThread();
 
 			for(i = 0; i < numLightmaps; i++)
 			{
-				ri.Printf(PRINT_ALL, "...loading external lightmap '%s/%s'\n", mapName, lightmapFiles[i]);
+				ri.Printf(PRINT_DEVELOPER, "...loading external lightmap '%s/%s'\n", mapName, lightmapFiles[i]);
 
 				if(tr.worldDeluxeMapping)
 				{
@@ -998,7 +998,7 @@ static void R_LoadLightmaps(lump_t * l, const char *bspName)
 		// create all the lightmaps
 		tr.numLightmaps = len / (LIGHTMAP_SIZE * LIGHTMAP_SIZE * 3);
 
-		ri.Printf(PRINT_ALL, "...loading %i lightmaps\n", tr.numLightmaps);
+		ri.Printf(PRINT_DEVELOPER, "...loading %i lightmaps\n", tr.numLightmaps);
 
 		for(i = 0; i < tr.numLightmaps; i++)
 		{
@@ -1198,7 +1198,7 @@ static void R_LoadVisibility(lump_t * l)
 	int             len;
 	byte           *buf;
 
-	ri.Printf(PRINT_ALL, "...loading visibility\n");
+	ri.Printf(PRINT_DEVELOPER, "...loading visibility\n");
 
 	len = (s_worldData.numClusters + 63) & ~63;
 	s_worldData.novis = ri.Hunk_Alloc(len, h_low);
@@ -1250,18 +1250,18 @@ static shader_t *ShaderForShaderNum(int shaderNum)
 	}
 	dsh = &s_worldData.shaders[shaderNum];
 
-//  ri.Printf(PRINT_ALL, "ShaderForShaderNum: '%s'\n", dsh->shader);
+//  ri.Printf(PRINT_DEVELOPER, "ShaderForShaderNum: '%s'\n", dsh->shader);
 
 	shader = R_FindShader(dsh->shader, SHADER_3D_STATIC, qtrue);
 
 	// if the shader had errors, just use default shader
 	if(shader->defaultShader)
 	{
-//      ri.Printf(PRINT_ALL, "failed\n");
+//      ri.Printf(PRINT_DEVELOPER, "failed\n");
 		return tr.defaultShader;
 	}
 
-//  ri.Printf(PRINT_ALL, "success\n");
+//  ri.Printf(PRINT_DEVELOPER, "success\n");
 	return shader;
 }
 
@@ -2204,7 +2204,7 @@ int R_StitchPatches(int grid1num, int grid2num)
 					if(fabs(v1[0] - v2[0]) < .01 && fabs(v1[1] - v2[1]) < .01 && fabs(v1[2] - v2[2]) < .01)
 						continue;
 					//
-					//ri.Printf( PRINT_ALL, "found highest LoD crack between two patches\n" );
+					//ri.Printf( PRINT_DEVELOPER, "found highest LoD crack between two patches\n" );
 					// insert column into grid2 right after after column l
 					if(m)
 						row = grid2->height - 1;
@@ -2251,7 +2251,7 @@ int R_StitchPatches(int grid1num, int grid2num)
 					if(fabs(v1[0] - v2[0]) < .01 && fabs(v1[1] - v2[1]) < .01 && fabs(v1[2] - v2[2]) < .01)
 						continue;
 					//
-					//ri.Printf( PRINT_ALL, "found highest LoD crack between two patches\n" );
+					//ri.Printf( PRINT_DEVELOPER, "found highest LoD crack between two patches\n" );
 					// insert row into grid2 right after after row l
 					if(m)
 						column = grid2->width - 1;
@@ -2311,7 +2311,7 @@ int R_StitchPatches(int grid1num, int grid2num)
 					if(fabs(v1[0] - v2[0]) < .01 && fabs(v1[1] - v2[1]) < .01 && fabs(v1[2] - v2[2]) < .01)
 						continue;
 					//
-					//ri.Printf( PRINT_ALL, "found highest LoD crack between two patches\n" );
+					//ri.Printf( PRINT_DEVELOPER, "found highest LoD crack between two patches\n" );
 					// insert column into grid2 right after after column l
 					if(m)
 						row = grid2->height - 1;
@@ -2359,7 +2359,7 @@ int R_StitchPatches(int grid1num, int grid2num)
 					if(fabs(v1[0] - v2[0]) < .01 && fabs(v1[1] - v2[1]) < .01 && fabs(v1[2] - v2[2]) < .01)
 						continue;
 					//
-					//ri.Printf( PRINT_ALL, "found highest LoD crack between two patches\n" );
+					//ri.Printf( PRINT_DEVELOPER, "found highest LoD crack between two patches\n" );
 					// insert row into grid2 right after after row l
 					if(m)
 						column = grid2->width - 1;
@@ -2421,7 +2421,7 @@ int R_StitchPatches(int grid1num, int grid2num)
 					if(fabs(v1[0] - v2[0]) < .01 && fabs(v1[1] - v2[1]) < .01 && fabs(v1[2] - v2[2]) < .01)
 						continue;
 					//
-					//ri.Printf( PRINT_ALL, "found highest LoD crack between two patches\n" );
+					//ri.Printf( PRINT_DEVELOPER, "found highest LoD crack between two patches\n" );
 					// insert column into grid2 right after after column l
 					if(m)
 						row = grid2->height - 1;
@@ -2468,7 +2468,7 @@ int R_StitchPatches(int grid1num, int grid2num)
 					if(fabs(v1[0] - v2[0]) < .01 && fabs(v1[1] - v2[1]) < .01 && fabs(v1[2] - v2[2]) < .01)
 						continue;
 					//
-					//ri.Printf( PRINT_ALL, "found highest LoD crack between two patches\n" );
+					//ri.Printf( PRINT_DEVELOPER, "found highest LoD crack between two patches\n" );
 					// insert row into grid2 right after after row l
 					if(m)
 						column = grid2->width - 1;
@@ -2530,7 +2530,7 @@ int R_StitchPatches(int grid1num, int grid2num)
 					if(fabs(v1[0] - v2[0]) < .01 && fabs(v1[1] - v2[1]) < .01 && fabs(v1[2] - v2[2]) < .01)
 						continue;
 					//
-					//ri.Printf( PRINT_ALL, "found highest LoD crack between two patches\n" );
+					//ri.Printf( PRINT_DEVELOPER, "found highest LoD crack between two patches\n" );
 					// insert column into grid2 right after after column l
 					if(m)
 						row = grid2->height - 1;
@@ -2578,7 +2578,7 @@ int R_StitchPatches(int grid1num, int grid2num)
 					if(fabs(v1[0] - v2[0]) < .01 && fabs(v1[1] - v2[1]) < .01 && fabs(v1[2] - v2[2]) < .01)
 						continue;
 					//
-					//ri.Printf( PRINT_ALL, "found highest LoD crack between two patches\n" );
+					//ri.Printf( PRINT_DEVELOPER, "found highest LoD crack between two patches\n" );
 					// insert row into grid2 right after after row l
 					if(m)
 						column = grid2->width - 1;
@@ -2652,7 +2652,7 @@ void R_StitchAllPatches(void)
 	int             i, stitched, numstitches;
 	srfGridMesh_t  *grid1;
 
-	ri.Printf(PRINT_ALL, "...stitching LoD cracks\n");
+	ri.Printf(PRINT_DEVELOPER, "...stitching LoD cracks\n");
 
 	numstitches = 0;
 	do
@@ -2675,7 +2675,7 @@ void R_StitchAllPatches(void)
 			numstitches += R_TryStitchingPatch(i);
 		}
 	} while(stitched);
-	ri.Printf(PRINT_ALL, "stitched %d LoD cracks\n", numstitches);
+	ri.Printf(PRINT_DEVELOPER, "stitched %d LoD cracks\n", numstitches);
 }
 
 /*
@@ -2957,28 +2957,28 @@ static int OptimizeVertices(int numVerts, srfVert_t * verts, int numTriangles, s
 		}
 
 #if DEBUG_OPTIMIZEVERTICES
-		ri.Printf(PRINT_ALL, "input triangles: ");
+		ri.Printf(PRINT_DEVELOPER, "input triangles: ");
 		for(k = 0, tri = triangles; k < numTriangles; k++, tri++)
 		{
-			ri.Printf(PRINT_ALL, "(%i,%i,%i),", verts[tri->indexes[0]].id, verts[tri->indexes[1]].id, verts[tri->indexes[2]].id);
+			ri.Printf(PRINT_DEVELOPER, "(%i,%i,%i),", verts[tri->indexes[0]].id, verts[tri->indexes[1]].id, verts[tri->indexes[2]].id);
 		}
-		ri.Printf(PRINT_ALL, "\n");
+		ri.Printf(PRINT_DEVELOPER, "\n");
 #endif
 
 #if DEBUG_OPTIMIZEVERTICES
-		ri.Printf(PRINT_ALL, "input vertices: ");
+		ri.Printf(PRINT_DEVELOPER, "input vertices: ");
 		for(i = 0; i < numVerts; i++)
 		{
 			if(redundantIndex[i] != -1)
 			{
-				ri.Printf(PRINT_ALL, "(%i,%i),", i, redundantIndex[i]);
+				ri.Printf(PRINT_DEVELOPER, "(%i,%i),", i, redundantIndex[i]);
 			}
 			else
 			{
-				ri.Printf(PRINT_ALL, "(%i,-),", i);
+				ri.Printf(PRINT_DEVELOPER, "(%i,-),", i);
 			}
 		}
-		ri.Printf(PRINT_ALL, "\n");
+		ri.Printf(PRINT_DEVELOPER, "\n");
 #endif
 
 		for(i = 0; i < numVerts; i++)
@@ -2995,12 +2995,12 @@ static int OptimizeVertices(int numVerts, srfVert_t * verts, int numTriangles, s
 		}
 
 #if DEBUG_OPTIMIZEVERTICES
-		ri.Printf(PRINT_ALL, "output vertices: ");
+		ri.Printf(PRINT_DEVELOPER, "output vertices: ");
 		for(i = 0; i < numOutVerts; i++)
 		{
-			ri.Printf(PRINT_ALL, "(%i),", outVerts[i].id);
+			ri.Printf(PRINT_DEVELOPER, "(%i),", outVerts[i].id);
 		}
-		ri.Printf(PRINT_ALL, "\n");
+		ri.Printf(PRINT_DEVELOPER, "\n");
 #endif
 
 		for(i = 0; i < numVerts;)
@@ -3010,8 +3010,8 @@ static int OptimizeVertices(int numVerts, srfVert_t * verts, int numTriangles, s
 			if(redundantIndex[i] != -1)
 			{
 #if DEBUG_OPTIMIZEVERTICES
-				ri.Printf(PRINT_ALL, "-------------------------------------------------\n");
-				ri.Printf(PRINT_ALL, "changing triangles for redundant vertex (%i->%i):\n", i, redundantIndex[i]);
+				ri.Printf(PRINT_DEVELOPER, "-------------------------------------------------\n");
+				ri.Printf(PRINT_DEVELOPER, "changing triangles for redundant vertex (%i->%i):\n", i, redundantIndex[i]);
 #endif
 
 				// kill redundant vert
@@ -3025,7 +3025,7 @@ static int OptimizeVertices(int numVerts, srfVert_t * verts, int numTriangles, s
 							tri->indexes[l] = redundantIndex[i];	//numOutVerts;
 
 #if DEBUG_OPTIMIZEVERTICES
-							ri.Printf(PRINT_ALL, "mapTriangleIndex<%i,%i>(%i->%i)\n", k, l, i, redundantIndex[i]);
+							ri.Printf(PRINT_DEVELOPER, "mapTriangleIndex<%i,%i>(%i->%i)\n", k, l, i, redundantIndex[i]);
 #endif
 						}
 #if 1
@@ -3033,7 +3033,7 @@ static int OptimizeVertices(int numVerts, srfVert_t * verts, int numTriangles, s
 						{
 							tri->indexes[l]--;
 #if DEBUG_OPTIMIZEVERTICES
-							ri.Printf(PRINT_ALL, "decTriangleIndex<%i,%i>(%i->%i)\n", k, l, tri->indexes[l] + 1, tri->indexes[l]);
+							ri.Printf(PRINT_DEVELOPER, "decTriangleIndex<%i,%i>(%i->%i)\n", k, l, tri->indexes[l] + 1, tri->indexes[l]);
 #endif
 
 							if(tri->indexes[l] < 0)
@@ -3051,19 +3051,19 @@ static int OptimizeVertices(int numVerts, srfVert_t * verts, int numTriangles, s
 				}
 
 #if DEBUG_OPTIMIZEVERTICES
-				ri.Printf(PRINT_ALL, "pending redundant vertices: ");
+				ri.Printf(PRINT_DEVELOPER, "pending redundant vertices: ");
 				for(j = i + 1; j < numVerts; j++)
 				{
 					if(redundantIndex[j] != -1)
 					{
-						ri.Printf(PRINT_ALL, "(%i,%i),", j, redundantIndex[j]);
+						ri.Printf(PRINT_DEVELOPER, "(%i,%i),", j, redundantIndex[j]);
 					}
 					else
 					{
-						//ri.Printf(PRINT_ALL, "(%i,-),", j);
+						//ri.Printf(PRINT_DEVELOPER, "(%i,-),", j);
 					}
 				}
-				ri.Printf(PRINT_ALL, "\n");
+				ri.Printf(PRINT_DEVELOPER, "\n");
 #endif
 
 
@@ -3072,7 +3072,7 @@ static int OptimizeVertices(int numVerts, srfVert_t * verts, int numTriangles, s
 					if(redundantIndex[j] != -1)	//> i)//== tri->indexes[l])
 					{
 #if DEBUG_OPTIMIZEVERTICES
-						ri.Printf(PRINT_ALL, "updateRedundantIndex(%i->%i) to (%i->%i)\n", j, redundantIndex[j], j - 1,
+						ri.Printf(PRINT_DEVELOPER, "updateRedundantIndex(%i->%i) to (%i->%i)\n", j, redundantIndex[j], j - 1,
 								  redundantIndex[j]);
 #endif
 
@@ -3095,13 +3095,13 @@ static int OptimizeVertices(int numVerts, srfVert_t * verts, int numTriangles, s
 				}
 
 #if DEBUG_OPTIMIZEVERTICES
-				ri.Printf(PRINT_ALL, "current triangles: ");
+				ri.Printf(PRINT_DEVELOPER, "current triangles: ");
 				for(k = 0, tri = triangles; k < numTriangles; k++, tri++)
 				{
-					ri.Printf(PRINT_ALL, "(%i,%i,%i),", verts[tri->indexes[0]].id, verts[tri->indexes[1]].id,
+					ri.Printf(PRINT_DEVELOPER, "(%i,%i,%i),", verts[tri->indexes[0]].id, verts[tri->indexes[1]].id,
 							  verts[tri->indexes[2]].id);
 				}
-				ri.Printf(PRINT_ALL, "\n");
+				ri.Printf(PRINT_DEVELOPER, "\n");
 #endif
 			}
 
@@ -3112,19 +3112,19 @@ static int OptimizeVertices(int numVerts, srfVert_t * verts, int numTriangles, s
 		}
 
 #if DEBUG_OPTIMIZEVERTICES
-		ri.Printf(PRINT_ALL, "output triangles: ");
+		ri.Printf(PRINT_DEVELOPER, "output triangles: ");
 		for(k = 0, tri = triangles; k < numTriangles; k++, tri++)
 		{
-			ri.Printf(PRINT_ALL, "(%i,%i,%i),", verts[tri->indexes[0]].id, verts[tri->indexes[1]].id, verts[tri->indexes[2]].id);
+			ri.Printf(PRINT_DEVELOPER, "(%i,%i,%i),", verts[tri->indexes[0]].id, verts[tri->indexes[1]].id, verts[tri->indexes[2]].id);
 		}
-		ri.Printf(PRINT_ALL, "\n");
+		ri.Printf(PRINT_DEVELOPER, "\n");
 #endif
 
 		if(c_redundantVertexes)
 		{
 			//*numVerts -= c_redundantVertexes;
 
-			//ri.Printf(PRINT_ALL, "removed %i redundant vertices\n", c_redundantVertexes);
+			//ri.Printf(PRINT_DEVELOPER, "removed %i redundant vertices\n", c_redundantVertexes);
 		}
 
 		return numOutVerts;
@@ -3171,7 +3171,7 @@ static int OptimizeVertices(int numVerts, srfVert_t * verts, int numTriangles, s
 		}
 	}
 
-	ri.Printf(PRINT_ALL, "OptimizeTriangles: minVert %i maxVert %i\n", minVert, maxVert);
+	ri.Printf(PRINT_DEVELOPER, "OptimizeTriangles: minVert %i maxVert %i\n", minVert, maxVert);
 
 //  if(compareFunction != compareVert || minVert != minVertOld || maxVert != maxVertOld)
 	{
@@ -3203,7 +3203,7 @@ static int OptimizeVertices(int numVerts, srfVert_t * verts, int numTriangles, s
 	{
 		if(redundantIndex[i] != -1)
 		{
-			//ri.Printf(PRINT_ALL, "changing triangles for redundant vertex (%i->%i):\n", i, redundantIndex[i]);
+			//ri.Printf(PRINT_DEVELOPER, "changing triangles for redundant vertex (%i->%i):\n", i, redundantIndex[i]);
 
 			// kill redundant vert
 			for(k = 0, tri = triangles; k < numTriangles; k++, tri++)
@@ -3215,7 +3215,7 @@ static int OptimizeVertices(int numVerts, srfVert_t * verts, int numTriangles, s
 						// replace duplicated index j with the original vertex index i
 						tri->indexes[l] = redundantIndex[i];
 
-						//ri.Printf(PRINT_ALL, "mapTriangleIndex<%i,%i>(%i->%i)\n", k, l, i, redundantIndex[i]);
+						//ri.Printf(PRINT_DEVELOPER, "mapTriangleIndex<%i,%i>(%i->%i)\n", k, l, i, redundantIndex[i]);
 					}
 				}
 			}
@@ -3225,33 +3225,33 @@ static int OptimizeVertices(int numVerts, srfVert_t * verts, int numTriangles, s
 	}
 
 #if 0
-	ri.Printf(PRINT_ALL, "vertices: ");
+	ri.Printf(PRINT_DEVELOPER, "vertices: ");
 	for(i = 0; i < numVerts; i++)
 	{
 		if(redundantIndex[i] != -1)
 		{
-			ri.Printf(PRINT_ALL, "(%i,%i),", i, redundantIndex[i]);
+			ri.Printf(PRINT_DEVELOPER, "(%i,%i),", i, redundantIndex[i]);
 		}
 		else
 		{
-			ri.Printf(PRINT_ALL, "(%i,-),", i);
+			ri.Printf(PRINT_DEVELOPER, "(%i,-),", i);
 		}
 	}
-	ri.Printf(PRINT_ALL, "\n");
+	ri.Printf(PRINT_DEVELOPER, "\n");
 
-	ri.Printf(PRINT_ALL, "triangles: ");
+	ri.Printf(PRINT_DEVELOPER, "triangles: ");
 	for(k = 0, tri = triangles; k < numTriangles; k++, tri++)
 	{
-		ri.Printf(PRINT_ALL, "(%i,%i,%i),", tri->indexes[0], tri->indexes[1], tri->indexes[2]);
+		ri.Printf(PRINT_DEVELOPER, "(%i,%i,%i),", tri->indexes[0], tri->indexes[1], tri->indexes[2]);
 	}
-	ri.Printf(PRINT_ALL, "\n");
+	ri.Printf(PRINT_DEVELOPER, "\n");
 #endif
 
 	if(c_redundantVertexes)
 	{
 		// *numVerts -= c_redundantVertexes;
 
-		//ri.Printf(PRINT_ALL, "removed %i redundant vertices\n", c_redundantVertexes);
+		//ri.Printf(PRINT_DEVELOPER, "removed %i redundant vertices\n", c_redundantVertexes);
 	}
 #endif
 }
@@ -3271,7 +3271,7 @@ static void OptimizeTrianglesLite(const int *redundantIndex, int numTriangles, s
 				// replace duplicated index j with the original vertex index i
 				tri->indexes[l] = redundantIndex[tri->indexes[l]];
 
-				//ri.Printf(PRINT_ALL, "mapTriangleIndex<%i,%i>(%i->%i)\n", k, l, tri->indexes[l], redundantIndex[tri->indexes[l]]);
+				//ri.Printf(PRINT_DEVELOPER, "mapTriangleIndex<%i,%i>(%i->%i)\n", k, l, tri->indexes[l], redundantIndex[tri->indexes[l]]);
 
 				c_redundantVertexes++;
 			}
@@ -3358,7 +3358,7 @@ static void R_LoadAreaPortals(const char *bspName)
 	token = Com_ParseExt(&buf_p, qtrue);
 	numAreaPortals = atoi(token);
 
-	ri.Printf(PRINT_ALL, "...loading %i area portals\n", numAreaPortals);
+	ri.Printf(PRINT_DEVELOPER, "...loading %i area portals\n", numAreaPortals);
 
 	s_worldData.numAreaPortals = numAreaPortals;
 	s_worldData.areaPortals = ri.Hunk_Alloc(numAreaPortals * sizeof(*s_worldData.areaPortals), h_low);
@@ -3426,7 +3426,7 @@ static void R_CreateAreas()
 	int             surfaceNum;
 
 
-	ri.Printf(PRINT_ALL, "...creating BSP areas\n");
+	ri.Printf(PRINT_DEVELOPER, "...creating BSP areas\n");
 
 	// go through the leaves and count areas
 	maxArea = 0;
@@ -3504,10 +3504,10 @@ static void R_CreateAreas()
 
 		Com_DestroyGrowList(&areaSurfaces);
 
-		ri.Printf(PRINT_ALL, "area %i contains %i bsp surfaces\n", i, area->numMarkSurfaces);
+		ri.Printf(PRINT_DEVELOPER, "area %i contains %i bsp surfaces\n", i, area->numMarkSurfaces);
 	}
 
-	ri.Printf(PRINT_ALL, "%i world areas created\n", numAreas);
+	ri.Printf(PRINT_DEVELOPER, "%i world areas created\n", numAreas);
 }
 */
 
@@ -3849,7 +3849,7 @@ static void R_CreateVBOWorldSurfaces()
 
 		Com_DestroyGrowList(&vboSurfaces);
 
-		ri.Printf(PRINT_ALL, "%i VBO surfaces created for area %i\n", area->numVBOSurfaces, a);
+		ri.Printf(PRINT_DEVELOPER, "%i VBO surfaces created for area %i\n", area->numVBOSurfaces, a);
 	}
 }
 */
@@ -3872,7 +3872,7 @@ static void R_CreateClusters()
 	int             surfaceNum;
 	vec3_t          mins, maxs;
 
-	ri.Printf(PRINT_ALL, "...creating BSP clusters\n");
+	ri.Printf(PRINT_DEVELOPER, "...creating BSP clusters\n");
 
 	if(s_worldData.vis)
 	{
@@ -3970,7 +3970,7 @@ static void R_CreateClusters()
 			cluster->origin[1] = (mins[1] + maxs[1]) / 2;
 			cluster->origin[2] = (mins[2] + maxs[2]) / 2;
 
-			//ri.Printf(PRINT_ALL, "cluster %i origin at (%i %i %i)\n", i, (int)cluster->origin[0], (int)cluster->origin[1], (int)cluster->origin[2]);
+			//ri.Printf(PRINT_DEVELOPER, "cluster %i origin at (%i %i %i)\n", i, (int)cluster->origin[0], (int)cluster->origin[1], (int)cluster->origin[2]);
 
 			// move cluster surfaces list to hunk
 			cluster->numMarkSurfaces = clusterSurfaces.currentElements;
@@ -3983,7 +3983,7 @@ static void R_CreateClusters()
 
 			Com_DestroyGrowList(&clusterSurfaces);
 
-			//ri.Printf(PRINT_ALL, "cluster %i contains %i bsp surfaces\n", i, cluster->numMarkSurfaces);
+			//ri.Printf(PRINT_DEVELOPER, "cluster %i contains %i bsp surfaces\n", i, cluster->numMarkSurfaces);
 		}
 	}
 	else
@@ -4018,9 +4018,9 @@ static void R_CreateClusters()
 		Com_InitGrowList(&s_worldData.clusterVBOSurfaces[i], 100);
 	}
 
-	//ri.Printf(PRINT_ALL, "noVis cluster contains %i bsp surfaces\n", cluster->numMarkSurfaces);
+	//ri.Printf(PRINT_DEVELOPER, "noVis cluster contains %i bsp surfaces\n", cluster->numMarkSurfaces);
 
-	ri.Printf(PRINT_ALL, "%i world clusters created\n", numClusters + 1);
+	ri.Printf(PRINT_DEVELOPER, "%i world clusters created\n", numClusters + 1);
 
 
 	// reset surfaces' viewCount
@@ -4058,7 +4058,7 @@ void SmoothNormals(const char *name, srfVert_t * verts, int numTotalVerts)
 
 	srfVert_t      *yDrawVerts;
 
-	ri.Printf(PRINT_ALL, "smoothing normals for mesh '%s'\n", name);
+	ri.Printf(PRINT_DEVELOPER, "smoothing normals for mesh '%s'\n", name);
 
 	yDrawVerts = Com_Allocate(numTotalVerts * sizeof(srfVert_t));
 	memcpy(yDrawVerts, verts, numTotalVerts * sizeof(srfVert_t));
@@ -4124,7 +4124,7 @@ void SmoothNormals(const char *name, srfVert_t * verts, int numTotalVerts)
 		if(f != fOld)
 		{
 			fOld = f;
-			ri.Printf(PRINT_ALL, "%i...", f);
+			ri.Printf(PRINT_DEVELOPER, "%i...", f);
 		}
 
 		// already smoothed?
@@ -4214,7 +4214,7 @@ void SmoothNormals(const char *name, srfVert_t * verts, int numTotalVerts)
 	Com_Dealloc(smoothed);
 
 	endTime = ri.Milliseconds();
-	ri.Printf(PRINT_ALL, " (%5.2f seconds)\n", (endTime - startTime) / 1000.0);
+	ri.Printf(PRINT_DEVELOPER, " (%5.2f seconds)\n", (endTime - startTime) / 1000.0);
 }
 #endif
 
@@ -4283,7 +4283,7 @@ static void R_CreateWorldVBO()
 	if(!numVerts || !numTriangles)
 		return;
 
-	ri.Printf(PRINT_ALL, "...calculating world VBO ( %i verts %i tris )\n", numVerts, numTriangles);
+	ri.Printf(PRINT_DEVELOPER, "...calculating world VBO ( %i verts %i tris )\n", numVerts, numTriangles);
 
 	// create arrays
 
@@ -4448,7 +4448,7 @@ static void R_CreateWorldVBO()
 	s_worldData.ibo = R_CreateIBO2(va("staticBspModel0_IBO %i", 0), numTriangles, triangles, VBO_USAGE_STATIC);
 
 	endTime = ri.Milliseconds();
-	ri.Printf(PRINT_ALL, "world VBO calculation time = %5.2f seconds\n", (endTime - startTime) / 1000.0);
+	ri.Printf(PRINT_DEVELOPER, "world VBO calculation time = %5.2f seconds\n", (endTime - startTime) / 1000.0);
 
 
 	// point triangle surfaces to world VBO
@@ -4507,7 +4507,7 @@ static void R_CreateWorldVBO()
 
 	if(s_worldData.redundantVertsCalculationNeeded)
 	{
-		ri.Printf(PRINT_ALL, "...calculating redundant world vertices ( %i verts )\n", numVerts);
+		ri.Printf(PRINT_DEVELOPER, "...calculating redundant world vertices ( %i verts )\n", numVerts);
 
 		s_worldData.redundantLightVerts = ri.Hunk_Alloc(numVerts * sizeof(int), h_low);
 		BuildRedundantIndices(numVerts, verts, s_worldData.redundantLightVerts, CompareLightVert);
@@ -4520,7 +4520,7 @@ static void R_CreateWorldVBO()
 	}
 
 	endTime = ri.Milliseconds();
-	ri.Printf(PRINT_ALL, "redundant world vertices calculation time = %5.2f seconds\n", (endTime - startTime) / 1000.0);
+	ri.Printf(PRINT_DEVELOPER, "redundant world vertices calculation time = %5.2f seconds\n", (endTime - startTime) / 1000.0);
 #endif
 
 	//ri.Hunk_FreeTempMemory(triangles);
@@ -4872,7 +4872,7 @@ static void R_CreateSubModelVBOs()
 
 		Com_DestroyGrowList(&vboSurfaces);
 
-		ri.Printf(PRINT_ALL, "%i VBO surfaces created for BSP submodel %i\n", model->numVBOSurfaces, m);
+		ri.Printf(PRINT_DEVELOPER, "%i VBO surfaces created for BSP submodel %i\n", model->numVBOSurfaces, m);
 	}
 }
 
@@ -4891,7 +4891,7 @@ static void R_LoadSurfaces(lump_t * surfs, lump_t * verts, lump_t * indexLump)
 	int             numFaces, numMeshes, numTriSurfs, numFlares, numFoliages;
 	int             i;
 
-	ri.Printf(PRINT_ALL, "...loading surfaces\n");
+	ri.Printf(PRINT_DEVELOPER, "...loading surfaces\n");
 
 	numFaces = 0;
 	numMeshes = 0;
@@ -4947,7 +4947,7 @@ static void R_LoadSurfaces(lump_t * surfs, lump_t * verts, lump_t * indexLump)
 		}
 	}
 
-	ri.Printf(PRINT_ALL, "...loaded %d faces, %i meshes, %i trisurfs, %i flares %i foliages\n", numFaces, numMeshes, numTriSurfs,
+	ri.Printf(PRINT_DEVELOPER, "...loaded %d faces, %i meshes, %i trisurfs, %i flares %i foliages\n", numFaces, numMeshes, numTriSurfs,
 			  numFlares, numFoliages);
 
 	if(r_stitchCurves->integer)
@@ -4976,7 +4976,7 @@ static void R_LoadSubmodels(lump_t * l)
 	bspModel_t     *out;
 	int             i, j, count;
 
-	ri.Printf(PRINT_ALL, "...loading submodels\n");
+	ri.Printf(PRINT_DEVELOPER, "...loading submodels\n");
 
 	in = (void *)(fileBase + l->fileofs);
 	if(l->filelen % sizeof(*in))
@@ -5042,7 +5042,7 @@ static void R_SetParent(bspNode_t * node, bspNode_t * parent)
 		node->sameAABBAsParent = VectorCompare(node->mins, parent->mins) && VectorCompare(node->maxs, parent->maxs);
 		if(node->sameAABBAsParent)
 		{
-			//ri.Printf(PRINT_ALL, "node %i has same AABB as their parent\n", node - s_worldData.nodes);
+			//ri.Printf(PRINT_DEVELOPER, "node %i has same AABB as their parent\n", node - s_worldData.nodes);
 		}
 		*/
 
@@ -5101,7 +5101,7 @@ static void R_LoadNodesAndLeafs(lump_t * nodeLump, lump_t * leafLump)
 	vec3_t			mins, maxs;
 //	vec3_t			offset = {0.01, 0.01, 0.01};
 
-	ri.Printf(PRINT_ALL, "...loading nodes and leaves\n");
+	ri.Printf(PRINT_DEVELOPER, "...loading nodes and leaves\n");
 
 	in = (void *)(fileBase + nodeLump->fileofs);
 	if(nodeLump->filelen % sizeof(dnode_t) || leafLump->filelen % sizeof(dleaf_t))
@@ -5280,7 +5280,7 @@ static void R_LoadShaders(lump_t * l)
 	int             i, count;
 	dshader_t      *in, *out;
 
-	ri.Printf(PRINT_ALL, "...loading shaders\n");
+	ri.Printf(PRINT_DEVELOPER, "...loading shaders\n");
 
 	in = (void *)(fileBase + l->fileofs);
 	if(l->filelen % sizeof(*in))
@@ -5314,7 +5314,7 @@ static void R_LoadMarksurfaces(lump_t * l)
 	int            *in;
 	bspSurface_t  **out;
 
-	ri.Printf(PRINT_ALL, "...loading mark surfaces\n");
+	ri.Printf(PRINT_DEVELOPER, "...loading mark surfaces\n");
 
 	in = (void *)(fileBase + l->fileofs);
 	if(l->filelen % sizeof(*in))
@@ -5346,7 +5346,7 @@ static void R_LoadPlanes(lump_t * l)
 	int             count;
 	int             bits;
 
-	ri.Printf(PRINT_ALL, "...loading planes\n");
+	ri.Printf(PRINT_DEVELOPER, "...loading planes\n");
 
 	in = (void *)(fileBase + l->fileofs);
 	if(l->filelen % sizeof(*in))
@@ -5394,7 +5394,7 @@ void R_LoadLightGrid(lump_t * l)
 	int             pos[3];
 	float           posFloat[3];
 
-	ri.Printf(PRINT_ALL, "...loading light grid\n");
+	ri.Printf(PRINT_DEVELOPER, "...loading light grid\n");
 
 	w = &s_worldData;
 
@@ -5414,9 +5414,9 @@ void R_LoadLightGrid(lump_t * l)
 
 	w->numLightGridPoints = w->lightGridBounds[0] * w->lightGridBounds[1] * w->lightGridBounds[2];
 
-	ri.Printf(PRINT_ALL, "grid size (%i %i %i)\n", (int)w->lightGridSize[0], (int)w->lightGridSize[1],
+	ri.Printf(PRINT_DEVELOPER, "grid size (%i %i %i)\n", (int)w->lightGridSize[0], (int)w->lightGridSize[1],
 				  (int)w->lightGridSize[2]);
-	ri.Printf(PRINT_ALL, "grid bounds (%i %i %i)\n", (int)w->lightGridBounds[0], (int)w->lightGridBounds[1],
+	ri.Printf(PRINT_DEVELOPER, "grid bounds (%i %i %i)\n", (int)w->lightGridBounds[0], (int)w->lightGridBounds[1],
 				  (int)w->lightGridBounds[2]);
 
 	if(l->filelen != w->numLightGridPoints * sizeof(dgridPoint_t))
@@ -5490,7 +5490,7 @@ void R_LoadLightGrid(lump_t * l)
 
 #if 0
 		// debug print to see if the XBSP format is correct
-		ri.Printf(PRINT_ALL, "%9d Amb: (%03.1f %03.1f %03.1f) Dir: (%03.1f %03.1f %03.1f)\n",
+		ri.Printf(PRINT_DEVELOPER, "%9d Amb: (%03.1f %03.1f %03.1f) Dir: (%03.1f %03.1f %03.1f)\n",
 			  i, gridPoint->ambient[0], gridPoint->ambient[1], gridPoint->ambient[2], gridPoint->directed[0], gridPoint->directed[1], gridPoint->directed[2]);
 #endif
 
@@ -5527,7 +5527,7 @@ void R_LoadLightGrid(lump_t * l)
 		}
 	}
 
-	ri.Printf(PRINT_ALL, "%i light grid points created\n", w->numLightGridPoints);
+	ri.Printf(PRINT_DEVELOPER, "%i light grid points created\n", w->numLightGridPoints);
 }
 
 /*
@@ -5550,7 +5550,7 @@ void R_LoadEntities(lump_t * l)
 	int             numParallelLights = 0;
 	trRefLight_t   *light;
 
-	ri.Printf(PRINT_ALL, "...loading entities\n");
+	ri.Printf(PRINT_DEVELOPER, "...loading entities\n");
 
 	w = &s_worldData;
 	w->lightGridSize[0] = 64;
@@ -5667,7 +5667,7 @@ void R_LoadEntities(lump_t * l)
 		// check for deluxe mapping support
 		if(!Q_stricmp(keyname, "deluxeMapping") && !Q_stricmp(value, "1"))
 		{
-			ri.Printf(PRINT_ALL, "map features directional light mapping\n");
+			ri.Printf(PRINT_DEVELOPER, "map features directional light mapping\n");
 			tr.worldDeluxeMapping = qtrue;
 			continue;
 		}
@@ -5685,7 +5685,7 @@ void R_LoadEntities(lump_t * l)
 			s = strstr(value, "-deluxe");
 			if(s)
 			{
-				ri.Printf(PRINT_ALL, "map features directional light mapping\n");
+				ri.Printf(PRINT_DEVELOPER, "map features directional light mapping\n");
 				tr.worldDeluxeMapping = qtrue;
 			}
 			continue;
@@ -5695,7 +5695,7 @@ void R_LoadEntities(lump_t * l)
 		// check for HDR light mapping support
 		if(!Q_stricmp(keyname, "hdrRGBE") && !Q_stricmp(value, "1"))
 		{
-			ri.Printf(PRINT_ALL, "map features HDR light mapping\n");
+			ri.Printf(PRINT_DEVELOPER, "map features HDR light mapping\n");
 			tr.worldHDR_RGBE = qtrue;
 			continue;
 		}
@@ -5707,7 +5707,7 @@ void R_LoadEntities(lump_t * l)
 		}
 	}
 
-//  ri.Printf(PRINT_ALL, "-----------\n%s\n----------\n", p);
+//  ri.Printf(PRINT_DEVELOPER, "-----------\n%s\n----------\n", p);
 
 	pOld = p;
 	numEntities = 1;			// parsed worldspawn so far
@@ -5784,8 +5784,8 @@ void R_LoadEntities(lump_t * l)
 		numEntities++;
 	}
 
-	ri.Printf(PRINT_ALL, "%i total entities counted\n", numEntities);
-	ri.Printf(PRINT_ALL, "%i total lights counted\n", numLights);
+	ri.Printf(PRINT_DEVELOPER, "%i total entities counted\n", numEntities);
+	ri.Printf(PRINT_DEVELOPER, "%i total lights counted\n", numLights);
 
 	s_worldData.numLights = numLights;
 
@@ -6051,11 +6051,11 @@ void R_LoadEntities(lump_t * l)
 		ri.Error(ERR_DROP, "counted %i lights and parsed %i lights", s_worldData.numLights, (numOmniLights + numProjLights + numParallelLights));
 	}
 
-	ri.Printf(PRINT_ALL, "%i total entities parsed\n", numEntities);
-	ri.Printf(PRINT_ALL, "%i total lights parsed\n", numOmniLights + numProjLights);
-	ri.Printf(PRINT_ALL, "%i omni-directional lights parsed\n", numOmniLights);
-	ri.Printf(PRINT_ALL, "%i projective lights parsed\n", numProjLights);
-	ri.Printf(PRINT_ALL, "%i directional lights parsed\n", numParallelLights);
+	ri.Printf(PRINT_DEVELOPER, "%i total entities parsed\n", numEntities);
+	ri.Printf(PRINT_DEVELOPER, "%i total lights parsed\n", numOmniLights + numProjLights);
+	ri.Printf(PRINT_DEVELOPER, "%i omni-directional lights parsed\n", numOmniLights);
+	ri.Printf(PRINT_DEVELOPER, "%i projective lights parsed\n", numProjLights);
+	ri.Printf(PRINT_DEVELOPER, "%i directional lights parsed\n", numParallelLights);
 }
 
 
@@ -7024,7 +7024,7 @@ static void R_CreateVBOLightMeshes(trRefLight_t * light)
 			if(!numVerts || !numTriangles)
 				continue;
 
-			//ri.Printf(PRINT_ALL, "...calculating light mesh VBOs ( %s, %i verts %i tris )\n", shader->name, vertexesNum, indexesNum / 3);
+			//ri.Printf(PRINT_DEVELOPER, "...calculating light mesh VBOs ( %s, %i verts %i tris )\n", shader->name, vertexesNum, indexesNum / 3);
 
 			// create surface
 			vboSurf = ri.Hunk_Alloc(sizeof(*vboSurf), h_low);
@@ -7375,7 +7375,7 @@ static void R_CreateVBOShadowMeshes(trRefLight_t * light)
 			if(!numVerts || !numTriangles)
 				continue;
 
-			//ri.Printf(PRINT_ALL, "...calculating light mesh VBOs ( %s, %i verts %i tris )\n", shader->name, vertexesNum, indexesNum / 3);
+			//ri.Printf(PRINT_DEVELOPER, "...calculating light mesh VBOs ( %s, %i verts %i tris )\n", shader->name, vertexesNum, indexesNum / 3);
 
 			// create surface
 			vboSurf = ri.Hunk_Alloc(sizeof(*vboSurf), h_low);
@@ -7713,7 +7713,7 @@ static void R_CreateVBOShadowCubeMeshes(trRefLight_t * light)
 				if(!numVerts || !numTriangles)
 					continue;
 
-				//ri.Printf(PRINT_ALL, "...calculating light mesh VBOs ( %s, %i verts %i tris )\n", shader->name, vertexesNum, indexesNum / 3);
+				//ri.Printf(PRINT_DEVELOPER, "...calculating light mesh VBOs ( %s, %i verts %i tris )\n", shader->name, vertexesNum, indexesNum / 3);
 
 				// create surface
 				vboSurf = ri.Hunk_Alloc(sizeof(*vboSurf), h_low);
@@ -8173,7 +8173,7 @@ static void R_CreateVBOShadowVolume(trRefLight_t * light)
 		numShadowIndexes += 6;
 	}
 
-	//ri.Printf(PRINT_ALL, "...calculating shadow volume VBOs %i verts %i tris\n", numLightVerts * 2, numShadowIndexes / 3);
+	//ri.Printf(PRINT_DEVELOPER, "...calculating shadow volume VBOs %i verts %i tris\n", numLightVerts * 2, numShadowIndexes / 3);
 
 	// create surface
 	shadowSurf = ri.Hunk_Alloc(sizeof(*shadowSurf), h_low);
@@ -8347,7 +8347,7 @@ void R_PrecacheInteractions()
 	c_vboLightSurfaces = 0;
 	c_vboShadowSurfaces = 0;
 
-	ri.Printf(PRINT_ALL, "...precaching %i lights\n", s_worldData.numLights);
+	ri.Printf(PRINT_DEVELOPER, "...precaching %i lights\n", s_worldData.numLights);
 
 	for(i = 0; i < s_worldData.numLights; i++)
 	{
@@ -8357,7 +8357,7 @@ void R_PrecacheInteractions()
 			continue;
 
 #if 0
-		ri.Printf(PRINT_ALL, "light %i: origin(%i %i %i) radius(%i %i %i) color(%f %f %f)\n",
+		ri.Printf(PRINT_DEVELOPER, "light %i: origin(%i %i %i) radius(%i %i %i) color(%f %f %f)\n",
 				  i,
 				  (int)light->l.origin[0], (int)light->l.origin[1], (int)light->l.origin[2],
 				  (int)light->l.radius[0], (int)light->l.radius[1], (int)light->l.radius[2],
@@ -8400,7 +8400,7 @@ void R_PrecacheInteractions()
 		s_lightCount++;
 		QueueInit(&light->leafs);
 		R_RecursiveAddInteractionNode(s_worldData.nodes, light);
-		//ri.Printf(PRINT_ALL, "light %i touched %i leaves\n", i, QueueSize(&light->leafs));
+		//ri.Printf(PRINT_DEVELOPER, "light %i touched %i leaves\n", i, QueueSize(&light->leafs));
 
 #if 0
 		// Tr3b: this can cause really bad shadow problems :/
@@ -8437,21 +8437,21 @@ void R_PrecacheInteractions()
 	Com_DestroyGrowList(&s_interactions);
 
 
-	ri.Printf(PRINT_ALL, "%i interactions precached\n", s_worldData.numInteractions);
-	ri.Printf(PRINT_ALL, "%i interactions were hidden in shadows\n", c_redundantInteractions);
+	ri.Printf(PRINT_DEVELOPER, "%i interactions precached\n", s_worldData.numInteractions);
+	ri.Printf(PRINT_DEVELOPER, "%i interactions were hidden in shadows\n", c_redundantInteractions);
 
 	if(r_shadows->integer >= SHADOWING_VSM16)
 	{
 		// only interesting for omni-directional shadow mapping
-		ri.Printf(PRINT_ALL, "%i omni pyramid tests\n", tr.pc.c_pyramidTests);
-		ri.Printf(PRINT_ALL, "%i omni pyramid surfaces visible\n", tr.pc.c_pyramid_cull_ent_in);
-		ri.Printf(PRINT_ALL, "%i omni pyramid surfaces clipped\n", tr.pc.c_pyramid_cull_ent_clip);
-		ri.Printf(PRINT_ALL, "%i omni pyramid surfaces culled\n", tr.pc.c_pyramid_cull_ent_out);
+		ri.Printf(PRINT_DEVELOPER, "%i omni pyramid tests\n", tr.pc.c_pyramidTests);
+		ri.Printf(PRINT_DEVELOPER, "%i omni pyramid surfaces visible\n", tr.pc.c_pyramid_cull_ent_in);
+		ri.Printf(PRINT_DEVELOPER, "%i omni pyramid surfaces clipped\n", tr.pc.c_pyramid_cull_ent_clip);
+		ri.Printf(PRINT_DEVELOPER, "%i omni pyramid surfaces culled\n", tr.pc.c_pyramid_cull_ent_out);
 	}
 
 	endTime = ri.Milliseconds();
 
-	ri.Printf(PRINT_ALL, "lights precaching time = %5.2f seconds\n", (endTime - startTime) / 1000.0);
+	ri.Printf(PRINT_DEVELOPER, "lights precaching time = %5.2f seconds\n", (endTime - startTime) / 1000.0);
 }
 
 
@@ -8780,10 +8780,10 @@ void R_BuildCubeMaps(void)
 
 		numGridPoints = tr.world->lightGridBounds[0] * tr.world->lightGridBounds[1] * tr.world->lightGridBounds[2];
 
-		ri.Printf(PRINT_ALL, "...trying to allocate %d cubemaps", numGridPoints);
-		ri.Printf(PRINT_ALL, " with gridsize (%i %i %i)", (int)tr.world->lightGridSize[0], (int)tr.world->lightGridSize[1],
+		ri.Printf(PRINT_DEVELOPER, "...trying to allocate %d cubemaps", numGridPoints);
+		ri.Printf(PRINT_DEVELOPER, " with gridsize (%i %i %i)", (int)tr.world->lightGridSize[0], (int)tr.world->lightGridSize[1],
 				  (int)tr.world->lightGridSize[2]);
-		ri.Printf(PRINT_ALL, " and gridbounds (%i %i %i)\n", (int)tr.world->lightGridBounds[0], (int)tr.world->lightGridBounds[1],
+		ri.Printf(PRINT_DEVELOPER, " and gridbounds (%i %i %i)\n", (int)tr.world->lightGridBounds[0], (int)tr.world->lightGridBounds[1],
 				  (int)tr.world->lightGridBounds[2]);
 
 		for(i = 0; i < tr.world->lightGridBounds[0]; i += 1)
@@ -8834,22 +8834,22 @@ void R_BuildCubeMaps(void)
 		VectorClear(cubeProbe->origin);
 	}
 
-	ri.Printf(PRINT_ALL, "...pre-rendering %d cubemaps\n", tr.cubeProbes.currentElements);
+	ri.Printf(PRINT_DEVELOPER, "...pre-rendering %d cubemaps\n", tr.cubeProbes.currentElements);
 	for(j = 0; j < tr.cubeProbes.currentElements; j++)
 	{
 		cubeProbe = Com_GrowListElement(&tr.cubeProbes, j);
 
-		//ri.Printf(PRINT_ALL, "rendering cubemap at (%i %i %i)\n", (int)cubeProbe->origin[0], (int)cubeProbe->origin[1],
+		//ri.Printf(PRINT_DEVELOPER, "rendering cubemap at (%i %i %i)\n", (int)cubeProbe->origin[0], (int)cubeProbe->origin[1],
 		//		  (int)cubeProbe->origin[2]);
 
 		if(tr.cubeProbes.currentElements > 10 &&  ((j % (tr.cubeProbes.currentElements / 10)) == 0))
 		{
-			ri.Printf(PRINT_ALL, "%i", progress);
+			ri.Printf(PRINT_DEVELOPER, "%i", progress);
 			progress += 10;
 		}
 		else if(tr.cubeProbes.currentElements > 100 &&  ((j % (tr.cubeProbes.currentElements / 100)) == 0))
 		{
-			ri.Printf(PRINT_ALL, ".");
+			ri.Printf(PRINT_DEVELOPER, ".");
 			ri.Cmd_ExecuteText(EXEC_NOW, "updatescreen\n");
 		}
 		
@@ -9079,7 +9079,7 @@ void R_BuildCubeMaps(void)
 				{
 					// File is full, write it
 					fileName = va("maps/%s/cm_%04d.png", s_worldData.baseName, fileCount);
-					ri.Printf(PRINT_ALL, "\nwriting %s\n", fileName);
+					ri.Printf(PRINT_DEVELOPER, "\nwriting %s\n", fileName);
 					ri.FS_WriteFile(fileName, fileBuf, 1);	// create path
 					SavePNG(fileName, fileBuf, REF_CUBEMAP_STORE_SIZE, REF_CUBEMAP_STORE_SIZE, 4, qfalse);
 
@@ -9115,17 +9115,17 @@ void R_BuildCubeMaps(void)
 		qglBindTexture(cubeProbe->cubemap->type, 0);
 #endif
 	}
-	ri.Printf(PRINT_ALL, "\n");
+	ri.Printf(PRINT_DEVELOPER, "\n");
 
 	// write buffer if theres any still unwritten
 	if(fileBufX != 0 || fileBufY != 0)
 	{
 		fileName = va("maps/%s/cm_%04d.png", s_worldData.baseName, fileCount);
-		ri.Printf(PRINT_ALL, "writing %s\n", fileName);
+		ri.Printf(PRINT_DEVELOPER, "writing %s\n", fileName);
 		ri.FS_WriteFile(fileName, fileBuf, 1);	// create path
 		SavePNG(fileName, fileBuf, REF_CUBEMAP_STORE_SIZE, REF_CUBEMAP_STORE_SIZE, 4, qfalse);
 	}
-	ri.Printf(PRINT_ALL, "Wrote %d cubemaps in %d files.\n", j, fileCount+1);
+	ri.Printf(PRINT_DEVELOPER, "Wrote %d cubemaps in %d files.\n", j, fileCount+1);
 	ri.Free(fileBuf);
 
 	// turn pixel targets off
@@ -9180,7 +9180,7 @@ void R_BuildCubeMaps(void)
 #endif
 
 	endTime = ri.Milliseconds();
-	ri.Printf(PRINT_ALL, "cubemap probes pre-rendering time of %i cubes = %5.2f seconds\n", tr.cubeProbes.currentElements,
+	ri.Printf(PRINT_DEVELOPER, "cubemap probes pre-rendering time of %i cubes = %5.2f seconds\n", tr.cubeProbes.currentElements,
 			  (endTime - startTime) / 1000.0);
 
 #endif
@@ -9205,7 +9205,7 @@ void RE_LoadWorldMap(const char *name)
 		ri.Error(ERR_DROP, "ERROR: attempted to redundantly load world map\n");
 	}
 
-	ri.Printf(PRINT_ALL, "----- RE_LoadWorldMap( %s ) -----\n", name);
+	ri.Printf(PRINT_DEVELOPER, "----- RE_LoadWorldMap( %s ) -----\n", name);
 
 	// set default sun direction to be used if it isn't
 	// overridden by a shader
@@ -9282,7 +9282,7 @@ void RE_LoadWorldMap(const char *name)
 
 	s_worldData.dataSize = (byte *) ri.Hunk_Alloc(0, h_low) - startMarker;
 
-	//ri.Printf(PRINT_ALL, "total world data size: %d.%02d MB\n", s_worldData.dataSize / (1024 * 1024),
+	//ri.Printf(PRINT_DEVELOPER, "total world data size: %d.%02d MB\n", s_worldData.dataSize / (1024 * 1024),
 	//        (s_worldData.dataSize % (1024 * 1024)) * 100 / (1024 * 1024));
 
 	// only set tr.world now that we know the entire level has loaded properly
