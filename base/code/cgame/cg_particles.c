@@ -24,7 +24,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
 #include "cg_local.h"
-
+// TODO: fix this for windows
+#ifndef rint
+#define rint(x)   (floor((x)+0.5f))
+#endif
 static baseParticleSystem_t baseParticleSystems[MAX_BASEPARTICLE_SYSTEMS];
 static baseParticleEjector_t baseParticleEjectors[MAX_BASEPARTICLE_EJECTORS];
 static baseParticle_t baseParticles[MAX_BASEPARTICLES];
