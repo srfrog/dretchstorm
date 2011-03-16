@@ -1,0 +1,26 @@
+syntax: glob
+*.orig
+*.rej
+*~
+*.swp
+*.o
+*.so
+*.exe
+*.pk3
+*.x86_64
+*-trem
+*-xreal
+.buildpath
+.project
+.sconsign.dblite
+.settings
+base/code/ui-trem/*
+base/maps/*
+build/*
+code-new/*
+code-old/*
+config.log
+dstorm.conf
+tmp/*
+xmap
+xmap2
