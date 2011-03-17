@@ -44,7 +44,7 @@
       text "Error:"
       textalign 1
       textstyle 6
-      textscale .333
+      textscale .3
       textalignx 160
       textaligny 23
       forecolor 1 1 1 1
