@@ -24,7 +24,7 @@
       align ITEM_ALIGN_LEFT
       textalignx 0
       textaligny 18
-      textscale 0.4
+      textscale 0.3
       textstyle ITEM_TEXTSTYLE_NORMAL
       ownerdraw CG_CONSOLE
     }   
@@ -41,7 +41,7 @@
       align ITEM_ALIGN_LEFT
       textalignx 0
       textaligny 18
-      textscale 0.3
+      textscale 0.25
       textstyle ITEM_TEXTSTYLE_NORMAL
       ownerdraw CG_TUTORIAL
     }   
@@ -55,7 +55,7 @@
       visible 1
       decoration
       forecolor 1 0 0 1
-      textscale 0.3
+      textscale 0.25
       textalignx 1
       textaligny 0.5
       ownerdraw CG_LAGOMETER
@@ -70,7 +70,7 @@
       visible 1
       decoration
       forecolor 1 0 0 1
-      textscale 0.3
+      textscale 0.25
       textalignx 1
       textaligny 0.5
       ownerdraw CG_DEMO_RECORDING
@@ -84,7 +84,7 @@
       visible 1
       decoration
       forecolor 1 1 1 1
-      textscale 0.3
+      textscale 0.25
       textalignx 1
       textaligny 0.5
       ownerdraw CG_DEMO_PLAYBACK
@@ -308,7 +308,7 @@
       align ITEM_ALIGN_RIGHT
       textalignx 0
       textaligny 18
-      textscale 0.3
+      textscale 0.25
       textstyle ITEM_TEXTSTYLE_NORMAL
       ownerdraw CG_FPS
     }
@@ -325,7 +325,7 @@
       align ITEM_ALIGN_RIGHT
       textalignx 0
       textaligny 18
-      textscale 0.3
+      textscale 0.25
       textstyle ITEM_TEXTSTYLE_NORMAL
       ownerdraw CG_TIMER
     }      

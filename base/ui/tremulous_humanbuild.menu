@@ -35,7 +35,7 @@
       style WINDOW_STYLE_EMPTY
       elementwidth 120
       elementheight 20
-      textscale .33
+      textscale 0.25
       elementtype LISTBOX_TEXT
       feeder FEEDER_TREMHUMANBUILD
       border 1
@@ -59,7 +59,7 @@
       textstyle ITEM_TEXTSTYLE_NORMAL
       style WINDOW_STYLE_EMPTY
       rect 152 8 240 204
-      textscale .33
+      textscale 0.25
       textalignx 6
       textaligny 12
       border 1
@@ -80,7 +80,7 @@
       textalign ITEM_ALIGN_LEFT
       textalignx 12.5
       textaligny 18
-      textscale .4
+      textscale 0.3
       forecolor 1 1 1 1
       backcolor .5 0 0 .25
       visible 1
@@ -102,7 +102,7 @@
       textalign ITEM_ALIGN_LEFT
       textalignx 3.8
       textaligny 18
-      textscale .4
+      textscale 0.3
       forecolor 1 1 1 1
       backcolor .5 0 0 .25
       visible 1 
