@@ -47,7 +47,7 @@
       textalign ITEM_ALIGN_CENTER 
       textalignx 34
       textaligny 18
-      textscale .35
+      textscale .25
       forecolor 1 1 1 1
       visible 1 
       action
@@ -73,7 +73,7 @@
       textalign ITEM_ALIGN_CENTER 
       textalignx 34
       textaligny 18        
-      textscale .35
+      textscale .25
       forecolor 1 1 1 1
       visible 1 
       action
@@ -100,7 +100,7 @@
       textalign ITEM_ALIGN_CENTER 
       textalignx 34
       textaligny 18        
-      textscale .35
+      textscale .25
       forecolor 1 1 1 1
       visible 1 
       action
@@ -147,7 +147,7 @@
       textalign ITEM_ALIGN_RIGHT
       textalignx 128
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -167,7 +167,7 @@
       textalign ITEM_ALIGN_RIGHT
       textalignx 128
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -187,7 +187,7 @@
       textalign ITEM_ALIGN_RIGHT
       textalignx 128
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -207,7 +207,7 @@
       textalign ITEM_ALIGN_RIGHT
       textalignx 128
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -228,7 +228,7 @@
       textalign ITEM_ALIGN_RIGHT
       textalignx 128 
       textaligny 12
-      textscale .25         
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -248,7 +248,7 @@
       textalign ITEM_ALIGN_RIGHT
       textalignx 128
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -268,7 +268,7 @@
       textalign ITEM_ALIGN_RIGHT
       textalignx 128 
       textaligny 12
-      textscale .25         
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -288,7 +288,7 @@
       textalign ITEM_ALIGN_RIGHT
       textalignx 128 
       textaligny 12
-      textscale .25         
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -338,7 +338,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12   
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -359,7 +359,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -380,7 +380,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -401,7 +401,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -422,7 +422,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0
       action
@@ -443,7 +443,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -464,7 +464,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 15
-      textscale .25          
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
     }
@@ -481,7 +481,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25               
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action 
@@ -503,7 +503,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25             
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action 
@@ -549,7 +549,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -570,7 +570,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -591,7 +591,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -612,7 +612,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -633,7 +633,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -654,7 +654,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -675,7 +675,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -696,7 +696,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -717,7 +717,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0
       action
@@ -738,7 +738,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -759,7 +759,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -780,7 +780,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -828,7 +828,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action
@@ -849,7 +849,7 @@
       textalignx 90
       maxPaintChars 20
       textaligny 12
-      textscale .25        
+      textscale .25
       forecolor 1 1 1 1
       visible 0 
       action

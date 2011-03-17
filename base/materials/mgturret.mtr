@@ -38,7 +38,7 @@ models/buildables/mgturret/turret_shiny
 	
 	{
 		stage	reflectionMap
-       	cubeMap	env/fabz0r/gen2
+       		cubeMap	env/fabz0r/gen2
 		blend filter
 	}
 }

@@ -68,7 +68,7 @@
       textalign   ITEM_ALIGN_CENTER
       textalignx  0
       textaligny  0
-      textscale   0.75
+      textscale   0.5
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "CREDITS"
       forecolor   1 1 1 1
@@ -86,7 +86,7 @@
       textalign   ITEM_ALIGN_LEFT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Tim 'Timbo' Angus"
       forecolor   1 1 1 1
@@ -103,7 +103,7 @@
       textalign   ITEM_ALIGN_RIGHT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Programming and Direction"
       forecolor   1 1 1 1
@@ -121,7 +121,7 @@
       textalign   ITEM_ALIGN_LEFT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Nick 'jex' Jansens"
       forecolor   1 1 1 1
@@ -138,7 +138,7 @@
       textalign   ITEM_ALIGN_RIGHT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Mapping, texturing and 2D artwork"
       forecolor   1 1 1 1
@@ -156,7 +156,7 @@
       textalign   ITEM_ALIGN_LEFT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Robin 'OverFlow' Marshall"
       forecolor   1 1 1 1
@@ -173,7 +173,7 @@
       textalign   ITEM_ALIGN_RIGHT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Modelling, animation and mapping"
       forecolor   1 1 1 1
@@ -191,7 +191,7 @@
       textalign   ITEM_ALIGN_LEFT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Jan 'Stannum' van der Weg"
       forecolor   1 1 1 1
@@ -208,7 +208,7 @@
       textalign   ITEM_ALIGN_RIGHT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Texturing and mapping"
       forecolor   1 1 1 1
@@ -226,7 +226,7 @@
       textalign   ITEM_ALIGN_LEFT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Mike 'Veda' McInnerney"
       forecolor   1 1 1 1
@@ -243,7 +243,7 @@
       textalign   ITEM_ALIGN_RIGHT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Modelling, animation and texturing"
       forecolor   1 1 1 1
@@ -261,7 +261,7 @@
       textalign   ITEM_ALIGN_LEFT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Gordon 'Godmil' Miller"
       forecolor   1 1 1 1
@@ -278,7 +278,7 @@
       textalign   ITEM_ALIGN_RIGHT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Mapping"
       forecolor   1 1 1 1
@@ -296,7 +296,7 @@
       textalign   ITEM_ALIGN_LEFT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "'Who-[Soup]'"
       forecolor   1 1 1 1
@@ -313,7 +313,7 @@
       textalign   ITEM_ALIGN_RIGHT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Mapping"
       forecolor   1 1 1 1
@@ -331,7 +331,7 @@
       textalign   ITEM_ALIGN_LEFT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Tristan 'jhrx' Blease"
       forecolor   1 1 1 1
@@ -348,7 +348,7 @@
       textalign   ITEM_ALIGN_RIGHT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Mapping"
       forecolor   1 1 1 1
@@ -366,7 +366,7 @@
       textalign   ITEM_ALIGN_LEFT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Paul 'MoP' Greveson"
       forecolor   1 1 1 1
@@ -383,7 +383,7 @@
       textalign   ITEM_ALIGN_RIGHT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Modelling and texturing"
       forecolor   1 1 1 1
@@ -401,7 +401,7 @@
       textalign   ITEM_ALIGN_LEFT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Chris 'Dolby' McCarthy"
       forecolor   1 1 1 1
@@ -418,7 +418,7 @@
       textalign   ITEM_ALIGN_RIGHT
       textalignx  0
       textaligny  10
-      textscale   0.50
+      textscale   0.3
       textstyle   ITEM_TEXTSTYLE_NORMAL
       text        "Sound"
       forecolor   1 1 1 1

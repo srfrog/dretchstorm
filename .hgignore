@@ -7,6 +7,7 @@ syntax: glob
 *.so
 *.exe
 *.pk3
+*.bsp
 *.x86_64
 *-trem
 *-xreal

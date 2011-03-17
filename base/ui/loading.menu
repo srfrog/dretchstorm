@@ -13,9 +13,9 @@
     shadowY  5          // y amount for shadow offset
     shadowColor 0.1 0.1 0.1 0.25      // shadow color
 
-    font "fonts/Vera" 26        // font
-    smallFont "fonts/Vera" 20      // font
-    bigFont "fonts/Vera" 34      // font
+    font "fonts/Vera" 20        // font
+    smallFont "fonts/Vera" 16      // font
+    bigFont "fonts/Vera" 24      // font
   }
 
   menuDef
@@ -99,7 +99,7 @@
       ownerdraw CG_LOAD_MEDIA
       align ITEM_ALIGN_CENTER
       textstyle ITEM_TEXTSTYLE_NEON
-      textscale 0.5
+      textscale 0.3
       special 1.0
     }
     
@@ -107,7 +107,7 @@
     {
       name "medialabel"
       style WINDOW_STYLE_EMPTY
-      textscale 0.6
+      textscale 0.4
       rect 420 300 200 40
       align ITEM_ALIGN_RIGHT
       textaligny 28
@@ -128,7 +128,7 @@
       ownerdraw CG_LOAD_BUILDABLES
       align ITEM_ALIGN_CENTER
       textstyle ITEM_TEXTSTYLE_NEON
-      textscale 0.5
+      textscale 0.3
       special 1.0
     }
     
@@ -136,7 +136,7 @@
     {
       name "buildableslabel"
       style WINDOW_STYLE_EMPTY
-      textscale 0.6
+      textscale 0.4
       rect 420 340 200 40
       align ITEM_ALIGN_RIGHT
       textaligny 28
@@ -157,7 +157,7 @@
       ownerdraw CG_LOAD_CHARMODEL
       align ITEM_ALIGN_CENTER
       textstyle ITEM_TEXTSTYLE_NEON
-      textscale 0.5
+      textscale 0.3
       special 1.0
     }
     
@@ -165,7 +165,7 @@
     {
       name "charmodellabel"
       style WINDOW_STYLE_EMPTY
-      textscale 0.6
+      textscale 0.4
       rect 420 380 200 40
       align ITEM_ALIGN_RIGHT
       textaligny 28
@@ -186,7 +186,7 @@
       ownerdraw CG_LOAD_OVERALL
       align ITEM_ALIGN_CENTER
       textstyle ITEM_TEXTSTYLE_NEON
-      textscale 0.5
+      textscale 0.3
       special 1.0
     }
   }

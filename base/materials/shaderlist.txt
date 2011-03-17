@@ -1,5 +1,5 @@
 common-trem
-displays.mtr
+displays
 orion
 titan
 tremor

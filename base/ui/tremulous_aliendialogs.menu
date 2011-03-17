@@ -37,7 +37,7 @@
       textalign ITEM_ALIGN_LEFT
       textalignx 5
       textaligny 18
-      textscale .4
+      textscale 0.3
       forecolor 1 1 1 1
       backcolor .5 0 0 .25
       visible 1 
@@ -54,7 +54,7 @@
       autowrapped
       textalignx 5
       textaligny 18
-      textscale .33
+      textscale 0.25
       forecolor 1 1 1 1
       backcolor .5 0 0 .25
       visible 1 
@@ -71,7 +71,7 @@
       textalign ITEM_ALIGN_LEFT
       textalignx 5
       textaligny 18
-      textscale .4
+      textscale 0.3
       forecolor 1 1 1 1
       backcolor .5 0 0 .25
       visible 1 
