@@ -5,6 +5,7 @@ syntax: glob
 *.swp
 *.o
 *.so
+*.dll
 *.exe
 *.pk3
 *.bsp
