@@ -42,7 +42,7 @@
       name confirm
       text "It seems that you disconnected during this game."
       style 0
-      textscale .4 
+      textscale .3 
       textstyle 3
       rect 180 40 0 0
       textalign ITEM_ALIGN_CENTER
@@ -56,7 +56,7 @@
       name confirm
       text "Would you like to be restored to your previous state?"
       style 0
-      textscale .4 
+      textscale .3 
       textstyle 3
       rect 180 65 0 0
       textalign ITEM_ALIGN_CENTER

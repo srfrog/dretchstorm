@@ -58,7 +58,7 @@
       text "Find a Friend" 
       textalign 1
       textstyle 3
-      textscale .333
+      textscale .3
       textalignx 155
       textaligny 23
       forecolor 1 1 1 1
@@ -89,7 +89,7 @@
       textalign ITEM_ALIGN_LEFT		
       textalignx 5
       textaligny 21 
-      textscale .3        
+      textscale .25        
       outlinecolor .2 .2 .2 .5
       backcolor 0 0 0 0
       forecolor 1 1 1 1

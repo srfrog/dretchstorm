@@ -36,7 +36,7 @@
       name alienteamname
       text "Aliens"
       textalign ITEM_ALIGN_LEFT
-      textscale .5
+      textscale .4
       textaligny 26
       rect 20 78 306 23
       forecolor 1 1 1 1	 
@@ -48,7 +48,7 @@
     {
       name stagereport
       align ITEM_ALIGN_CENTER
-      textscale 0.4
+      textscale 0.35
       textaligny 24
       rect 14 78 612 23
       forecolor 1 1 1 1	 
@@ -62,7 +62,7 @@
       name humanteamname
       text "Humans"
       textalign ITEM_ALIGN_RIGHT
-      textscale .5
+      textscale .4
       textaligny 26
       rect 620 78 0 23		 
       forecolor 1 1 1 1
@@ -252,7 +252,7 @@
       bordercolor .5 .5 .5 1
       forecolor 1 1 1 .7
       backcolor 0 0 0 .5
-      textscale .33
+      textscale .3
       visible 1
       decoration
     }
@@ -265,7 +265,7 @@
       rect 19 366 82 24	
       style WINDOW_STYLE_FILLED
       forecolor 1 1 1 1
-      textscale .33
+      textscale .3
       textalignx 3
       visible 1
       decoration
@@ -277,7 +277,7 @@
       rect 100 366 520 24	
       style WINDOW_STYLE_FILLED
       forecolor 1 1 1 1
-      textscale .33
+      textscale .3
       visible 1
       ownerdraw CG_SPECTATORS
       decoration
