@@ -6916,13 +6916,13 @@ void UI_DrawConnectScreen(qboolean overlay)
 	{
 		centerPoint = 320;
 		yStart = 130;
-		scale = 0.5f;
+		scale = 0.3f;
 	}
 	else
 	{
 		centerPoint = 320;
 		yStart = 32;
-		scale = 0.6f;
+		scale = 0.4f;
 		return;
 	}
 
