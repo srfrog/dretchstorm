@@ -29,6 +29,15 @@ Used to group brushes together just for editor convenience.  They are turned int
 */
 
 
+/*QUAKED info_camp (0 0.5 0) (-4 -4 -4) (4 4 4)
+Used as a positional target for calculations in the utilities (spotlights, etc), but removed during gameplay.
+*/
+void SP_info_camp(gentity_t * self)
+{
+   G_SetOrigin(self, self->s.origin);
+}
+
+
 /*QUAKED info_null (0 0.5 0) (-4 -4 -4) (4 4 4)
 Used as a positional target for calculations in the utilities (spotlights, etc), but removed during gameplay.
 */

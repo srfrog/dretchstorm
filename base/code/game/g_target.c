@@ -215,7 +215,7 @@ The activator will be teleported away.
 */
 void SP_target_teleporter(gentity_t * self)
 {
-	if(!self->targetname)
+	if(!self->name)
 		G_Printf("untargeted %s at %s\n", self->classname, vtos(self->s.origin));
 
 	self->use = target_teleporter_use;
@@ -380,7 +380,7 @@ SP_target_rumble
 */
 void SP_target_rumble(gentity_t * self)
 {
-	if(!self->targetname)
+	if(!self->name)
 	{
 		G_Printf(S_COLOR_YELLOW "WARNING: untargeted %s at %s\n", self->classname, vtos(self->s.origin));
 	}

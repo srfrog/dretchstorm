@@ -796,7 +796,7 @@ void Use_BinaryMover(gentity_t * ent, gentity_t * other, gentity_t * activator)
 	int             partial;
 
 	// if this is a non-client-usable door return
-	if(ent->targetname && other && other->client)
+	if(ent->name && other && other->client)
 		return;
 
 	// only the master should be used
@@ -1247,7 +1247,7 @@ void manualTriggerSpectator(gentity_t * trigger, gentity_t * player)
 		return;
 
 	//create a list of door entities this trigger targets
-	while((t = G_Find(t, FOFS(targetname), trigger->target)) != NULL)
+	while((t = G_Find(t, FOFS(name), trigger->target)) != NULL)
 	{
 		if(!strcmp(t->classname, "func_door"))
 			targets[i++] = t;
@@ -1460,7 +1460,7 @@ void SP_func_door(gentity_t * ent)
 		if(health)
 			ent->takedamage = qtrue;
 
-		if(ent->targetname || health)
+		if(ent->name || health)
 		{
 			// non touch/shoot doors
 			ent->think = Think_MatchTeam;
@@ -1578,7 +1578,7 @@ void SP_func_door_rotating(gentity_t * ent)
 		if(health)
 			ent->takedamage = qtrue;
 
-		if(ent->targetname || health)
+		if(ent->name || health)
 		{
 			// non touch/shoot doors
 			ent->think = Think_MatchTeam;
@@ -1720,7 +1720,7 @@ void SP_func_door_model(gentity_t * ent)
 		if(health)
 			ent->takedamage = qtrue;
 
-		if(!(ent->targetname || health))
+		if(!(ent->name || health))
 		{
 			ent->nextthink = level.time + FRAMETIME;
 			ent->think = Think_SpawnNewDoorTrigger;
@@ -1876,7 +1876,7 @@ void SP_func_plat(gentity_t * ent)
 	ent->parent = ent;			// so it can be treated as a door
 
 	// spawn the trigger if one hasn't been custom made
-	if(!ent->targetname)
+	if(!ent->name)
 		SpawnPlatTrigger(ent);
 }
 
@@ -2127,7 +2127,7 @@ void Think_SetupTrainTargets(gentity_t * ent)
 {
 	gentity_t      *path, *next, *start;
 
-	ent->nextTrain = G_Find(NULL, FOFS(targetname), ent->target);
+	ent->nextTrain = G_Find(NULL, FOFS(name), ent->target);
 
 	if(!ent->nextTrain)
 	{
@@ -2153,7 +2153,7 @@ void Think_SetupTrainTargets(gentity_t * ent)
 		next = NULL;
 		do
 		{
-			next = G_Find(next, FOFS(targetname), path->target);
+			next = G_Find(next, FOFS(name), path->target);
 
 			if(!next)
 			{
@@ -2179,7 +2179,7 @@ Target: next path corner and other targets to fire
 */
 void SP_path_corner(gentity_t * self)
 {
-	if(!self->targetname)
+	if(!self->name)
 	{
 		G_Printf("path_corner with no targetname at %s\n", vtos(self->s.origin));
 		G_FreeEntity(self);

@@ -209,6 +209,168 @@ static void CG_AddTestModel(void)
 }
 
 
+/*
+=================
+CG_TestOmniLight_f
+
+Creates a omni-directional light in front of the current position, which can then be moved around
+=================
+*/
+void CG_TestOmniLight_f(void)
+{
+   vec3_t          angles;
+
+   memset(&cg.testLight, 0, sizeof(cg.testLight));
+   if(trap_Argc() < 2)
+   {
+      CG_Printf("usage: testOmniLight <lightShaderName>\n");
+      return;
+   }
+
+   Q_strncpyz(cg.testLightName, CG_Argv(1), sizeof(cg.testLightName));
+   cg.testLight.attenuationShader = trap_R_RegisterShaderLightAttenuation(cg.testLightName);
+
+   if(!cg.testLight.attenuationShader)
+   {
+      CG_Printf("Can't register attenuation shader\n");
+      return;
+   }
+
+   cg.testLight.rlType = RL_OMNI;
+//  cg.testLight.lightfx = LF_ROTATION;
+
+   VectorMA(cg.refdef.vieworg, 100, cg.refdef.viewaxis[0], cg.testLight.origin);
+
+   cg.testLight.color[0] = 1.0;
+   cg.testLight.color[1] = 1.0;
+   cg.testLight.color[2] = 1.0;
+
+   cg.testLight.radius[0] = 300;
+   cg.testLight.radius[1] = 300;
+   cg.testLight.radius[2] = 300;
+
+   angles[PITCH] = cg.refdefViewAngles[PITCH];
+   angles[YAW] = cg.refdefViewAngles[YAW];   // + 180;
+   angles[ROLL] = 0;
+
+   AnglesToQuat(angles, cg.testLight.rotation);
+
+   cg.testFlashLight = qfalse;
+}
+
+
+/*
+=================
+CG_TestProjLight_f
+
+Creates a projective light in front of the current position, which can then be moved around
+=================
+*/
+void CG_TestProjLight_f(void)
+{
+   float           fov_x;
+
+   memset(&cg.testLight, 0, sizeof(cg.testLight));
+   if(trap_Argc() < 2)
+   {
+      CG_Printf("usage: testProjLight <lightShaderName>\n");
+      return;
+   }
+
+   Q_strncpyz(cg.testLightName, CG_Argv(1), sizeof(cg.testLightName));
+   cg.testLight.attenuationShader = trap_R_RegisterShaderLightAttenuation(cg.testLightName);
+
+   if(!cg.testLight.attenuationShader)
+   {
+      CG_Printf("Can't register attenuation shader\n");
+      return;
+   }
+
+   cg.testLight.rlType = RL_PROJ;
+//  cg.testLight.lightfx = LF_ROTATION;
+
+   VectorCopy(cg.refdef.vieworg, cg.testLight.origin);
+
+   cg.testLight.color[0] = 1.0;
+   cg.testLight.color[1] = 1.0;
+   cg.testLight.color[2] = 1.0;
+
+   QuatClear(cg.testLight.rotation);
+
+   fov_x = tanf(DEG2RAD(cg.refdef.fov_x * 0.5f));
+   VectorCopy(cg.refdef.viewaxis[0], cg.testLight.projTarget);
+   VectorScale(cg.refdef.viewaxis[1], -fov_x, cg.testLight.projRight);
+   VectorScale(cg.refdef.viewaxis[2], fov_x, cg.testLight.projUp);
+   VectorScale(cg.refdef.viewaxis[0], 10, cg.testLight.projStart);
+   VectorScale(cg.refdef.viewaxis[0], 1000, cg.testLight.projEnd);
+
+   cg.testFlashLight = qfalse;
+}
+
+/*
+=================
+CG_TestFlashLight_f
+=================
+*/
+void CG_TestFlashLight_f(void)
+{
+   if(trap_Argc() < 2)
+   {
+      CG_Printf("usage: testFlashLight <lightShaderName>\n");
+      return;
+   }
+
+   CG_TestProjLight_f();
+   cg.testFlashLight = qtrue;
+}
+
+
+static void CG_AddTestLight(void)
+{
+   float           fov_x;
+
+   // re-register the model, because the level may have changed
+   cg.testLight.attenuationShader = trap_R_RegisterShaderLightAttenuation(cg.testLightName);
+   if(!cg.testLight.attenuationShader)
+   {
+      CG_Printf("Can't register attenuation shader\n");
+      return;
+   }
+
+   // if testing a flashlight, set the projection direction reletive to the view direction
+   if(cg.testFlashLight)
+   {
+      VectorCopy(cg.refdef.vieworg, cg.testLight.origin);
+
+      fov_x = tanf(DEG2RAD(cg.refdef.fov_x * 0.5f));
+      VectorCopy(cg.refdef.viewaxis[0], cg.testLight.projTarget);
+      VectorScale(cg.refdef.viewaxis[1], -fov_x, cg.testLight.projRight);
+      VectorScale(cg.refdef.viewaxis[2], fov_x, cg.testLight.projUp);
+      VectorScale(cg.refdef.viewaxis[0], 10, cg.testLight.projStart);
+      VectorScale(cg.refdef.viewaxis[0], 1000, cg.testLight.projEnd);
+   }
+
+   trap_R_AddRefLightToScene(&cg.testLight);
+}
+
+
+/*
+=================
+CG_TestGib_f
+=================
+*/
+void CG_TestGib_f(void)
+{
+   vec3_t          origin;
+
+   // raynorpat: spawn the gibs out in front of the testing player :)
+   VectorMA(cg.refdef.vieworg, 100, cg.refdef.viewaxis[0], origin);
+
+   //CG_GibPlayer(origin);
+//  CG_ParticleBloodCloud(cg.testModelEntity.origin, cg.refdef.viewaxis[0]);
+//  CG_BloodPool(cgs.media.bloodSpurtShader, cg.testModelEntity.origin);
+}
+
 
 //============================================================================
 
@@ -1273,6 +1435,10 @@ void CG_DrawActiveFrame(int serverTime, stereoFrame_t stereoView, qboolean demoP
 
 	// build cg.refdef
 	inwater = CG_CalcViewValues();
+	if(inwater)
+	{
+		cg.refdef.rdflags |= RDF_UNDERWATER;
+	}
 
 	// build the render lists
 	if(!cg.hyperspace)
@@ -1296,6 +1462,12 @@ void CG_DrawActiveFrame(int serverTime, stereoFrame_t stereoView, qboolean demoP
 	// finish up the rest of the refdef
 	if(cg.testModelEntity.hModel)
 		CG_AddTestModel();
+
+	// Tr3B - test light to preview Doom3 style light attenuation shaders
+	if(cg.testLight.attenuationShader)
+	{
+		CG_AddTestLight();
+	}
 
 	cg.refdef.time = cg.time;
 	memcpy(cg.refdef.areamask, cg.snap->areamask, sizeof(cg.refdef.areamask));

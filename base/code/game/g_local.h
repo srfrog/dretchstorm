@@ -130,11 +130,12 @@ struct gentity_s
 
 	float           angle;		// set in editor, -1 = up, -2 = down
 	char           *target;
-	char           *targetname;
+   char           *name;
 	char           *team;
 	char           *targetShaderName;
 	char           *targetShaderNewName;
 	gentity_t      *target_ent;
+	int				group;
 
 	float           speed;
 	float           lastSpeed;	//TA: used by trains that have been restarted
@@ -164,7 +165,7 @@ struct gentity_s
 	int             lastHealth;	//TA: currently only used for overmind
 
 	qboolean        takedamage;
-
+	qboolean			 crusher;
 	int             damage;
 	int             splashDamage;	// quad will increase this without increasing radius
 	int             splashRadius;
@@ -235,6 +236,27 @@ struct gentity_s
 	int             suicideTime;	//TA: when the client will suicide
 
 	int             lastDamageTime;
+
+#if defined(G_LUA)
+   // Lua scripting
+   // like function pointers but pointing to
+   // function names inside the .lua file that is loaded
+   // for each map
+   char           *luaThink;
+   char           *luaTouch;
+   char           *luaUse;
+   char           *luaHurt;
+   char           *luaDie;
+   char           *luaFree;
+   char           *luaTrigger;
+   char           *luaSpawn;
+
+   char           *luaParam1;
+   char           *luaParam2;
+   char           *luaParam3;
+   char           *luaParam4;
+#endif
+
 };
 
 typedef enum
