@@ -230,7 +230,7 @@ gentity_t      *G_PickTarget(char *targetname)
 
 	while(1)
 	{
-		ent = G_Find(ent, FOFS(targetname), targetname);
+		ent = G_Find(ent, FOFS(name), targetname);
 
 		if(!ent)
 			break;
@@ -281,7 +281,7 @@ void G_UseTargets(gentity_t * ent, gentity_t * activator)
 		return;
 
 	t = NULL;
-	while((t = G_Find(t, FOFS(targetname), ent->target)) != NULL)
+	while((t = G_Find(t, FOFS(name), ent->target)) != NULL)
 	{
 		if(t == ent)
 			G_Printf("WARNING: Entity used itself.\n");

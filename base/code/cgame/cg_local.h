@@ -1092,6 +1092,11 @@ typedef struct
 	char            testModelBarrelName[MAX_QPATH];
 	qboolean        testGun;
 
+	// play with doom3 style light materials
+	refLight_t      testLight;
+	char            testLightName[MAX_QPATH];
+	qboolean        testFlashLight;
+
 	int             spawnTime;	//TA: fovwarp
 	int             weapon1Time;	//TA: time when BUTTON_ATTACK went t->f f->t
 	int             weapon2Time;	//TA: time when BUTTON_ATTACK2 went t->f f->t
@@ -1269,9 +1274,11 @@ typedef struct
 {
 	gameState_t     gameState;	// gamestate from server
 	glConfig_t      glconfig;	// rendering configuration
-	float           screenXScale;	// derived from glconfig
-	float           screenYScale;
+	float           screenScale;  // derived from glconfig
 	float           screenXBias;
+	float           screenYBias;
+	float           screenXScale;
+	float           screenYScale;
 
 	int             serverCommandSequence;	// reliable command stream counter
 	int             processedSnapshotNum;	// the number of snapshots cgame has requested

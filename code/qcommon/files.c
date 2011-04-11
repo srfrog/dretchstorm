@@ -2132,10 +2132,12 @@ char          **FS_ListFilteredFiles(const char *path, const char *extension, ch
 				if(filter)
 				{
 					// case insensitive
-					if(!Com_FilterPath(filter, name, qfalse))
+					// XXX ghostshell- packs start with the "maps/mapname" part
+					if(!Com_FilterPath(va("%s%s", path, filter), name, qfalse))
 						continue;
 					// unique the match
-					nfiles = FS_AddFileToList(name, list, nfiles);
+					// XXX ghostshell- remove the mappath "maps/mapname/" from the name
+					nfiles = FS_AddFileToList(&name[pathLength+1], list, nfiles);
 				}
 				else
 				{
