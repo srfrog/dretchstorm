@@ -121,6 +121,17 @@ static char    *netnames[] = {
 	NULL
 };
 
+static const creditRow_t credits[] = {
+	{"ghostshell",   "USA",    "Code",  "Game programming, UI design and project direction"},
+	{"evilchampion", "Canada", "Code",  "Lua scripts, game programming, IRC"},
+	{"sumburn",      "USA",    "Design", "Hi-res textures and meshes, logo"},
+	{"Brandon",      "USA",    "Sound",  "Music and sound effects"},
+	{"Bad_Command",  "Canada", "Code",   "Game programming"}
+};
+
+static const int numCredits = sizeof(credits) / sizeof(creditRow_t);
+
+
 static int      gamecodetoui[] = { 4, 2, 3, 0, 5, 1, 6 };
 
 
@@ -5746,7 +5757,8 @@ static int UI_FeederCount(float feederID)
 	else if(feederID == FEEDER_TREMHUMANBUILD)
 		return uiInfo.tremHumanBuildCount;
 //TA: tremulous menus
-
+	else if(feederID == FEEDER_CREDITS)
+			return numCredits;
 	return 0;
 }
 
@@ -6015,7 +6027,23 @@ static const char *UI_FeederItemText(float feederID, int index, int column, qhan
 			return uiInfo.tremHumanBuildList[index].text;
 	}
 //TA: tremulous menus
-
+	else if(feederID == FEEDER_CREDITS)
+	{
+		if(index >= 0 && index < numCredits)
+			switch(column)
+			{
+				case 0:
+					return credits[index].name;
+				case 1:
+					return credits[index].location;
+				case 2:
+					return credits[index].component;
+				case 3:
+					return credits[index].tasks;
+				default:
+					return "";
+			}
+	}
 	return "";
 }
 

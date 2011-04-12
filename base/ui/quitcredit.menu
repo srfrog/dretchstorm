@@ -8,7 +8,7 @@
     name "credits"
     visible 0
     fullscreen 0
-    rect 200 20 420 380
+    rect 180 20 440 380
     focusColor 1 .75 0 1
     style 1
     border 0
@@ -21,7 +21,7 @@
     itemDef
     {
       name window
-      rect 0 0 420 380
+      rect 0 0 440 380
       style WINDOW_STYLE_FILLED
       backcolor 0.086 0.086 0.117 0.5
       visible 1
@@ -37,19 +37,114 @@
       name        "credits"
       group       grpidcredit
       style       WINDOW_STYLE_EMPTY
-      rect        0 20 420 20
+      rect        0 17 430 20
       textalign   ITEM_ALIGN_CENTER
-      textalignx  210
+      textalignx  215
       textaligny  10
       textscale   0.5
       textstyle   ITEM_TEXTSTYLE_NORMAL
-      text        "CREDITS"
+      text        "Credits"
       forecolor   1 1 1 1
       backcolor   1 0 1 1
       visible     1
       decoration 
     }
     
+    itemDef
+    {
+      name        "name column"
+      group       grpidcredit
+      style       WINDOW_STYLE_EMPTY
+      rect        0 15 50 20
+      textalign   ITEM_ALIGN_LEFT
+      textalignx  8
+      textaligny  25
+      textscale   0.175
+      textstyle   ITEM_TEXTSTYLE_NORMAL
+      text        "Name"
+      forecolor   1 1 1 1
+      backcolor   1 0 1 1
+      visible     1
+      decoration 
+    }
+    
+    itemDef
+    {
+      name        "location column"
+      group       grpidcredit
+      style       WINDOW_STYLE_EMPTY
+      rect        80 15 50 20
+      textalign   ITEM_ALIGN_LEFT
+      textalignx  0
+      textaligny  25
+      textscale   0.175
+      textstyle   ITEM_TEXTSTYLE_NORMAL
+      text        "Location"
+      forecolor   1 1 1 1
+      backcolor   1 0 1 1
+      visible     1
+      decoration 
+    }
+    
+    itemDef
+    {
+      name        "component column"
+      group       grpidcredit
+      style       WINDOW_STYLE_EMPTY
+      rect        130 15 50 20
+      textalign   ITEM_ALIGN_LEFT
+      textalignx  0
+      textaligny  25
+      textscale   0.175
+      textstyle   ITEM_TEXTSTYLE_NORMAL
+      text        "Component"
+      forecolor   1 1 1 1
+      backcolor   1 0 1 1
+      visible     1
+      decoration 
+    }
+    
+    itemDef
+    {
+      name        "task column"
+      group       grpidcredit
+      style       WINDOW_STYLE_EMPTY
+      rect        190 15 50 20
+      textalign   ITEM_ALIGN_LEFT
+      textalignx  0
+      textaligny  25
+      textscale   0.175
+      textstyle   ITEM_TEXTSTYLE_NORMAL
+      text        "Task"
+      forecolor   1 1 1 1
+      backcolor   1 0 1 1
+      visible     1
+      decoration 
+    }
+    
+    itemDef
+    {
+      name creditlist
+      rect 0 40 440 330
+      type ITEM_TYPE_LISTBOX
+      style WINDOW_STYLE_EMPTY
+      elementwidth 120
+      elementheight 10
+      textscale 0.15
+      elementtype LISTBOX_TEXT
+      feeder FEEDER_CREDITS
+      border 0
+      bordercolor   0.5 0.5 0.5 1
+      forecolor     1   1   1   1
+      backcolor     0.2 0.2 0.2 1
+      outlinecolor  0.1 0.1 0.1 0.5
+      visible 1
+      columns 4
+        2   40  40  ITEM_ALIGN_LEFT
+        80 40  20  ITEM_ALIGN_LEFT
+        130 40  20  ITEM_ALIGN_LEFT
+        190 40  60  ITEM_ALIGN_LEFT
+    }
     
   }
 }
