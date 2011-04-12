@@ -3,9 +3,9 @@
 {
   assetGlobalDef
   {
-    font "fonts/xscale" 20        // font
-    smallFont "fonts/xscale" 16        // font
-    bigFont "fonts/xscale" 24        // font
+    font "fonts/Vera" 20        // font
+    smallFont "fonts/Vera" 16        // font
+    bigFont "fonts/Resistance" 40        // font
     cursor "ui/assets/3_cursor3"      // cursor 
     gradientBar "ui/assets/gradientbar2.tga"  // gradient bar
     itemFocusSound "sound/misc/menu2.wav"   // sound for item getting focus (via keyboard or mouse )
@@ -16,10 +16,6 @@
 
     shadowColor 0.1 0.1 0.1 0.25      // shadow color
   }
-                 
-
-
-
 
   menuDef
   {
@@ -40,21 +36,18 @@
       backcolor 0 0 0 1
       visible 1
       decoration
-      background "ui/assets/mainmenu.jpg"
+      background "ui/assets/mainmenu.png"
     }
-
+    
     itemDef
     {
-      name splashmodel
-      rect 0 0 640 480
-      type ITEM_TYPE_MODEL
-      style WINDOW_STYLE_EMPTY
-      asset_model "models/splash/splash_screen.md3"
-      model_fovx 32.0
-      model_fovy 24.0
-      model_angle 180
+      name title
+      rect 20 403 600 67
+      style WINDOW_STYLE_SHADER
+      backcolor 0 0 0 1
       visible 1
       decoration
+      background "ui/assets/title.png"
     }
 
     itemDef
@@ -64,11 +57,11 @@
       type ITEM_TYPE_BUTTON
       style WINDOW_STYLE_EMPTY
       textstyle ITEM_TEXTSTYLE_NORMAL 
-      rect 472 20 128 20 
-      textalign ITEM_ALIGN_RIGHT
-      textalignx 128 
+      rect 20 20 128 20 
+      textalign ITEM_ALIGN_LEFT
+      textalignx 0 
       textaligny 20 
-      textscale .416
+      textscale .5
       forecolor 1 1 1 1 
       visible 1 
       action
@@ -82,25 +75,45 @@
     itemDef
     {
       name mainmenu
-      text "Mods"
+      text "Setup"
       type ITEM_TYPE_BUTTON
       style WINDOW_STYLE_EMPTY 
       textstyle ITEM_TEXTSTYLE_NORMAL
-      textscale .416
-      rect 472 40 128 20 
-      textalignx 128 
+      textscale .5
+      rect 20 45 128 20 
+      textalignx 0 
       textaligny 20 
-      textalign ITEM_ALIGN_RIGHT   
+      textalign ITEM_ALIGN_LEFT   
       backcolor 0 0 0 0
       forecolor 1 1 1 1
       visible 1 
       action
       {
         play "sound/misc/menu1.wav"; 
-        open mod
       }
     }
 
+    itemDef
+    {
+      name mainmenu
+      text "Credits"
+      type ITEM_TYPE_BUTTON
+      style WINDOW_STYLE_EMPTY
+      textstyle ITEM_TEXTSTYLE_NORMAL
+      rect 20 70 128 20
+      textalignx 0 
+      textaligny 20 
+      textscale .5
+      textalign ITEM_ALIGN_LEFT   
+      forecolor 1 1 1 1
+      visible 1 
+      action
+      {
+        play "sound/misc/menu1.wav";
+        open credits
+      }
+    }
+    
     itemDef
     {
       name mainmenu
@@ -108,11 +121,11 @@
       type ITEM_TYPE_BUTTON
       style WINDOW_STYLE_EMPTY
       textstyle ITEM_TEXTSTYLE_NORMAL
-      rect 472 60 128 20
-      textalignx 128 
+      rect 20 95 128 20
+      textalignx 0 
       textaligny 20 
-      textscale .416
-      textalign ITEM_ALIGN_RIGHT   
+      textscale .5
+      textalign ITEM_ALIGN_LEFT   
       forecolor 1 1 1 1
       visible 1 
       action
@@ -125,12 +138,12 @@
     itemDef
     {
       name copyright
-      text "Tremulous (C) 2005-2006 darklegion development"
+      text "Dretchstorm (C) 2011 GameBoom Enterprises"
       style WINDOW_STYLE_EMPTY
       textstyle ITEM_TEXTSTYLE_NORMAL
-      textscale .25
+      textscale .125
       rect 0 440 640 40
-      textalign 1 
+      textalign 1
       textaligny 32
       textalignx 320 
       forecolor .75 .75 .75 .75

@@ -78,6 +78,7 @@
 #define FEEDER_TREMALIENBUILD           0x16      //alien buildables
 #define FEEDER_TREMHUMANBUILD           0x17      //human buildables
 //TA: tremulous menus
+#define FEEDER_CREDITS                  0x18      // dretchstorm credits
 
 // display flags
 #define CG_SHOW_BLUE_TEAM_HAS_REDFLAG     0x00000001
