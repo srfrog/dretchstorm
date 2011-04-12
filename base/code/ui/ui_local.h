@@ -1219,6 +1219,13 @@ typedef struct postGameInfo_s
 	int             baseScore;
 } postGameInfo_t;
 
-
+// for credits
+typedef struct creditRow_s
+{
+	const char     *name;
+	const char     *location;
+	const char     *component;
+	const char     *tasks;
+} creditRow_t;
 
 #endif

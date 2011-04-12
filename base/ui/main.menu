@@ -3,8 +3,8 @@
 {
   assetGlobalDef
   {
-    font "fonts/Vera" 20        // font
-    smallFont "fonts/Vera" 16        // font
+    font "fonts/Vera" 30        // font
+    smallFont "fonts/Vera" 20        // font
     bigFont "fonts/Resistance" 40        // font
     cursor "ui/assets/3_cursor3"      // cursor 
     gradientBar "ui/assets/gradientbar2.tga"  // gradient bar
