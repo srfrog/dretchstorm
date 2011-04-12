@@ -122,11 +122,17 @@ static char    *netnames[] = {
 };
 
 static const creditRow_t credits[] = {
+	{"Dretchstorm Team","","",""},
+	{"","","",""},
 	{"ghostshell",   "USA",    "Code",  "Game programming, UI design and project direction"},
 	{"evilchampion", "Canada", "Code",  "Lua scripts, game programming, IRC"},
 	{"sumburn",      "USA",    "Design", "Hi-res textures and meshes, logo"},
 	{"Brandon",      "USA",    "Sound",  "Music and sound effects"},
-	{"Bad_Command",  "Canada", "Code",   "Game programming"}
+	{"","","",""},
+	{"Dretchstorm Contributors","","",""},
+	{"","","",""},
+	{"Bad_Command",  "Canada", "Code",   "Game programming"},
+	{"","","",""}
 };
 
 static const int numCredits = sizeof(credits) / sizeof(creditRow_t);
