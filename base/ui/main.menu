@@ -138,7 +138,7 @@
     itemDef
     {
       name copyright
-      text "Dretchstorm (C) 2011 GameBoom Enterprises"
+      text "Dretchstorm (C) 2011 GameBoom Entertainment"
       style WINDOW_STYLE_EMPTY
       textstyle ITEM_TEXTSTYLE_NORMAL
       textscale .125
