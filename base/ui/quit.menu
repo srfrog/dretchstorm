@@ -9,7 +9,7 @@
     visible 0
     fullscreen 0
     rect 380 20 240 80
-    focusColor 1 .75 0 1
+    focusColor 1 1 1 1
     style 1
     border 1
     onESC
@@ -64,7 +64,7 @@
       textalign 1
       textalignx 15
       textaligny 20
-      forecolor 1 1 1 1
+      forecolor 1 1 1 0.66
       visible 1
       action
       { 
@@ -86,7 +86,7 @@
       textalign 1
       textalignx 15
       textaligny 20
-      forecolor 1 1 1 1
+      forecolor 1 1 1 0.66
       visible 1
       action
       {
