@@ -125,7 +125,7 @@
     itemDef
     {
       name creditlist
-      rect 0 40 440 330
+      rect 0 40 440 340
       type ITEM_TYPE_LISTBOX
       style WINDOW_STYLE_EMPTY
       elementwidth 120

@@ -23,7 +23,7 @@
     fullScreen MENU_TRUE        
     rect 0 0 640 480        // Size and position of the menu
     visible MENU_TRUE       // Visible on open
-    focusColor 1 .75 0 1        // Menu focus color for text and items
+    focusColor 0.78 0.36 0.21 1        // Menu focus color for text and items
 
     onOpen { uiScript stopRefresh ; playlooped "sound/ui/heartbeat.wav" }	
     onESC { open quit_popmenu }
@@ -52,7 +52,7 @@
 
     itemDef
     {
-      name mainmenu
+      name play
       text "Play"
       type ITEM_TYPE_BUTTON
       style WINDOW_STYLE_EMPTY
@@ -67,20 +67,71 @@
       action
       {
         play "sound/misc/menu1.wav"; 
-        close main; 
-        open joinserver
+        close credits;
+        close createserver;
+        open joinserver;
+        open "joinserveroptions"
+      }
+    }
+    
+    itemDef
+    {
+      name host
+      text "Host"
+      type ITEM_TYPE_BUTTON
+      style WINDOW_STYLE_EMPTY
+      textstyle ITEM_TEXTSTYLE_NORMAL 
+      rect 20 45 128 20 
+      textalign ITEM_ALIGN_LEFT
+      textalignx 0 
+      textaligny 20 
+      textscale .5
+      forecolor 1 1 1 1 
+      visible 1 
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        close joinserver;
+        close joinserveroptions;
+        close credits;
+        close createserver;
+        open createserver
+      }
+    }
+    
+    itemDef
+    {
+      name Updates
+      text "News"
+      type ITEM_TYPE_BUTTON
+      style WINDOW_STYLE_EMPTY
+      textstyle ITEM_TEXTSTYLE_NORMAL 
+      rect 20 70 128 20 
+      textalign ITEM_ALIGN_LEFT
+      textalignx 0 
+      textaligny 20 
+      textscale .5
+      forecolor 1 1 1 1 
+      visible 1 
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        close joinserver;
+        close joinserveroptions;
+        close credits;
+        close createserver;
       }
     }
 
     itemDef
     {
-      name mainmenu
+      name setup
       text "Setup"
       type ITEM_TYPE_BUTTON
       style WINDOW_STYLE_EMPTY 
       textstyle ITEM_TEXTSTYLE_NORMAL
       textscale .5
-      rect 20 45 128 20 
+      rect 20 95 128 20 
       textalignx 0 
       textaligny 20 
       textalign ITEM_ALIGN_LEFT   
@@ -90,17 +141,21 @@
       action
       {
         play "sound/misc/menu1.wav"; 
+        close joinserver;
+        close joinserveroptions;
+        close credits;
+        close createserver;
       }
     }
 
     itemDef
     {
-      name mainmenu
+      name credits
       text "Credits"
       type ITEM_TYPE_BUTTON
       style WINDOW_STYLE_EMPTY
       textstyle ITEM_TEXTSTYLE_NORMAL
-      rect 20 70 128 20
+      rect 20 120 128 20
       textalignx 0 
       textaligny 20 
       textscale .5
@@ -110,18 +165,21 @@
       action
       {
         play "sound/misc/menu1.wav";
+        close joinserver;
+        close joinserveroptions;
+        close createserver;
         open credits
       }
     }
     
     itemDef
     {
-      name mainmenu
+      name quit
       text "Quit"
       type ITEM_TYPE_BUTTON
       style WINDOW_STYLE_EMPTY
       textstyle ITEM_TEXTSTYLE_NORMAL
-      rect 20 95 128 20
+      rect 20 145 128 20
       textalignx 0 
       textaligny 20 
       textscale .5
@@ -131,6 +189,10 @@
       action
       {
         play "sound/misc/menu1.wav";
+        close joinserver;
+        close joinserveroptions;
+        close credits;
+        close createserver;
         open quit_popmenu
       }
     }
