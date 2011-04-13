@@ -23,9 +23,13 @@
     fullScreen MENU_TRUE        
     rect 0 0 640 480        // Size and position of the menu
     visible MENU_TRUE       // Visible on open
-    focusColor 0.78 0.36 0.21 1        // Menu focus color for text and items
+    focusColor 1 1 1 1        // Menu focus color for text and items
 
-    onOpen { uiScript stopRefresh ; playlooped "sound/ui/heartbeat.wav" }	
+    onOpen { 
+      uiScript stopRefresh;
+       setitemcolor grpMainNav forecolor 1 1 1 0.66;
+      playlooped "sound/ui/heartbeat.wav" 
+    }	
     onESC { open quit_popmenu }
   
     itemDef
@@ -52,7 +56,8 @@
 
     itemDef
     {
-      name play
+      name playNav
+      group grpMainNav
       text "Play"
       type ITEM_TYPE_BUTTON
       style WINDOW_STYLE_EMPTY
@@ -62,11 +67,13 @@
       textalignx 0 
       textaligny 20 
       textscale .5
-      forecolor 1 1 1 1 
+      forecolor 1 1 1 0.66
       visible 1 
       action
       {
         play "sound/misc/menu1.wav"; 
+        setitemcolor grpMainNav forecolor 1 1 1 0.66;
+        setitemcolor playNav forecolor 1 .75 0 1;
         close credits;
         close createserver;
         open joinserver;
@@ -76,7 +83,8 @@
     
     itemDef
     {
-      name host
+      name hostNav
+      group grpMainNav
       text "Host"
       type ITEM_TYPE_BUTTON
       style WINDOW_STYLE_EMPTY
@@ -86,11 +94,13 @@
       textalignx 0 
       textaligny 20 
       textscale .5
-      forecolor 1 1 1 1 
+      forecolor 1 1 1 0.66
       visible 1 
       action
       {
         play "sound/misc/menu1.wav"; 
+        setitemcolor grpMainNav forecolor 1 1 1 0.66;
+        setitemcolor hostNav forecolor 1 .75 0 1;
         close joinserver;
         close joinserveroptions;
         close credits;
@@ -101,7 +111,8 @@
     
     itemDef
     {
-      name Updates
+      name newsNav
+      group grpMainNav
       text "News"
       type ITEM_TYPE_BUTTON
       style WINDOW_STYLE_EMPTY
@@ -111,11 +122,13 @@
       textalignx 0 
       textaligny 20 
       textscale .5
-      forecolor 1 1 1 1 
+      forecolor 1 1 1 0.66
       visible 1 
       action
       {
         play "sound/misc/menu1.wav"; 
+        setitemcolor grpMainNav forecolor 1 1 1 0.66;
+        setitemcolor newsNav forecolor 1 .75 0 1;
         close joinserver;
         close joinserveroptions;
         close credits;
@@ -125,7 +138,8 @@
 
     itemDef
     {
-      name setup
+      name setupNav
+      group grpMainNav
       text "Setup"
       type ITEM_TYPE_BUTTON
       style WINDOW_STYLE_EMPTY 
@@ -135,12 +149,13 @@
       textalignx 0 
       textaligny 20 
       textalign ITEM_ALIGN_LEFT   
-      backcolor 0 0 0 0
-      forecolor 1 1 1 1
+      forecolor 1 1 1 0.66
       visible 1 
       action
       {
         play "sound/misc/menu1.wav"; 
+        setitemcolor grpMainNav forecolor 1 1 1 0.66;
+        setitemcolor setupNav forecolor 1 .75 0 1;
         close joinserver;
         close joinserveroptions;
         close credits;
@@ -150,7 +165,8 @@
 
     itemDef
     {
-      name credits
+      name creditsNav
+      group grpMainNav
       text "Credits"
       type ITEM_TYPE_BUTTON
       style WINDOW_STYLE_EMPTY
@@ -160,11 +176,13 @@
       textaligny 20 
       textscale .5
       textalign ITEM_ALIGN_LEFT   
-      forecolor 1 1 1 1
+      forecolor 1 1 1 0.66
       visible 1 
       action
       {
         play "sound/misc/menu1.wav";
+        setitemcolor grpMainNav forecolor 1 1 1 0.66;
+        setitemcolor creditsNav forecolor 1 .75 0 1;
         close joinserver;
         close joinserveroptions;
         close createserver;
@@ -174,7 +192,8 @@
     
     itemDef
     {
-      name quit
+      name quitNav
+      group grpMainNav
       text "Quit"
       type ITEM_TYPE_BUTTON
       style WINDOW_STYLE_EMPTY
@@ -184,11 +203,13 @@
       textaligny 20 
       textscale .5
       textalign ITEM_ALIGN_LEFT   
-      forecolor 1 1 1 1
+      forecolor 1 1 1 0.66
       visible 1 
       action
       {
         play "sound/misc/menu1.wav";
+        setitemcolor grpMainNav forecolor 1 1 1 0.66;
+        setitemcolor quitNav forecolor 1 .75 0 1;
         close joinserver;
         close joinserveroptions;
         close credits;

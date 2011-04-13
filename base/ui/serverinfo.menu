@@ -26,13 +26,12 @@
       name window
       rect 10 15 300 320
       style 1
-      backcolor 0 0 0 1
+      backcolor 0.086 0.086 0.117 .8
       visible 1
       decoration
-
       border WINDOW_BORDER_FULL
       borderSize 1.0
-      borderColor 0.5 0.5 0.5 1
+      borderColor 0.086 0.086 0.117 1
     }
 
     itemDef
@@ -56,7 +55,7 @@
       name serverinfo
       rect 20 55 280 230
       type ITEM_TYPE_LISTBOX
-      style WINDOW_STYLE_FILLED
+      style WINDOW_STYLE_EMPTY
       elementwidth 120
       elementheight 16
       textscale .225

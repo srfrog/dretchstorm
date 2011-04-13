@@ -10,7 +10,7 @@
     visible 1
     fullscreen 0
     rect 20 175 155 225
-    focusColor 0.78 0.36 0.21 1        // Menu focus color for text and items
+    focusColor 1 1 1 1        // Menu focus color for text and items
     style 1
 
     itemDef
@@ -41,7 +41,7 @@
       textalign ITEM_ALIGN_LEFT
       textalignx 10    
       textaligny 10
-      forecolor 1 1 1 1
+      forecolor 1 1 1 0.66
       backcolor .5 .5 .5 .5
       visible 1
       action
@@ -63,7 +63,7 @@
       textalign ITEM_ALIGN_LEFT
       textalignx 10    
       textaligny 10
-      forecolor 1 1 1 1
+      forecolor 1 1 1 0.66
       backcolor .5 .5 .5 .5
       visible 1
       action
@@ -84,7 +84,7 @@
       textalignx 10   // center
       textaligny 10
       backcolor 0 0 0 1
-      forecolor 1 1 1 1
+      forecolor 1 1 1 0.66
       visible 1
       action
       {
@@ -105,7 +105,7 @@
       textalignx 10   // center
       textaligny 10
       backcolor 0 0 0 1
-      forecolor 1 1 1 1
+      forecolor 1 1 1 0.66
       visible 1
       action
       {
@@ -127,7 +127,7 @@
       textalignx 10   // center
       textaligny 10
       backcolor 0 0 0 1
-      forecolor 1 1 1 1
+      forecolor 1 1 1 0.66
       visible 1
       action
       {
@@ -148,7 +148,7 @@
       textalignx 10   // center
       textaligny 10
       backcolor 0 0 0 1
-      forecolor 1 1 1 1
+      forecolor 1 1 1 0.66
       visible 1
       action
       {
