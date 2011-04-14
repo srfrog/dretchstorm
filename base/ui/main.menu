@@ -207,7 +207,7 @@
         close joinserver;
         close credits;
         close createserver;
-        open quit_popmenu
+        uiScript "quit"
       }
     }
 
