@@ -8,29 +8,399 @@
   {
     name "joinserver"
     visible 0
-    fullscreen 0
-    rect 180 20 440 380
+    fullscreen 1
+    rect 0 0 640 480
     focusColor 1 1 1 1        // Menu focus color for text and items
     outOfBoundsClick  
+    disablecolor 0 0 0 0 
     style 1
-    onOpen
+    
+     onOpen
     {
       uiScript UpdateFilter;
-      hide accept_alt; 
-      show accept;
       hide grpmessage;
     }
     
     onEsc 
     {
       uiScript closeJoin;
-      close joinserveroptions
+      open main
+    }
+  
+    itemDef
+    {
+      name background
+      rect 0 0 640 480
+      style WINDOW_STYLE_SHADER
+      backcolor 0 0 0 1
+      visible 1
+      decoration
+      background "ui/assets/mainmenu.png"
+    }
+    
+    itemDef
+    {
+      name title
+      rect 20 403 600 67
+      style WINDOW_STYLE_SHADER
+      backcolor 0 0 0 1
+      visible 1
+      decoration
+      background "ui/assets/title.png"
+    }
+
+    itemDef
+    {
+      name playNav
+      group grpMainNav
+      text "Play"
+      type ITEM_TYPE_BUTTON
+      style WINDOW_STYLE_EMPTY
+      textstyle ITEM_TEXTSTYLE_NORMAL 
+      rect 20 20 128 20 
+      textalign ITEM_ALIGN_LEFT
+      textalignx 0 
+      textaligny 20 
+      textscale .5
+      forecolor 1 0.75 0 1
+      visible 1 
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        setitemcolor grpMainNav forecolor 1 1 1 0.66;
+        setitemcolor playNav forecolor 1 .75 0 1;
+        close credits;
+        close createserver;
+        open joinserver;
+      }
+    }
+    
+    itemDef
+    {
+      name hostNav
+      group grpMainNav
+      text "Host"
+      type ITEM_TYPE_BUTTON
+      style WINDOW_STYLE_EMPTY
+      textstyle ITEM_TEXTSTYLE_NORMAL 
+      rect 20 45 128 20 
+      textalign ITEM_ALIGN_LEFT
+      textalignx 0 
+      textaligny 20 
+      textscale .5
+      forecolor 1 1 1 0.66
+      visible 1 
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        setitemcolor grpMainNav forecolor 1 1 1 0.66;
+        setitemcolor hostNav forecolor 1 .75 0 1;
+        close joinserver;
+        close credits;
+        close createserver;
+        open createserver
+      }
+    }
+    
+    itemDef
+    {
+      name newsNav
+      group grpMainNav
+      text "News"
+      type ITEM_TYPE_BUTTON
+      style WINDOW_STYLE_EMPTY
+      textstyle ITEM_TEXTSTYLE_NORMAL 
+      rect 20 70 128 20 
+      textalign ITEM_ALIGN_LEFT
+      textalignx 0 
+      textaligny 20 
+      textscale .5
+      forecolor 1 1 1 0.66
+      visible 1 
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        setitemcolor grpMainNav forecolor 1 1 1 0.66;
+        setitemcolor newsNav forecolor 1 .75 0 1;
+        close joinserver;
+        close credits;
+        close createserver;
+      }
+    }
+
+    itemDef
+    {
+      name setupNav
+      group grpMainNav
+      text "Setup"
+      type ITEM_TYPE_BUTTON
+      style WINDOW_STYLE_EMPTY 
+      textstyle ITEM_TEXTSTYLE_NORMAL
+      textscale .5
+      rect 20 95 128 20 
+      textalignx 0 
+      textaligny 20 
+      textalign ITEM_ALIGN_LEFT   
+      forecolor 1 1 1 0.66
+      visible 1 
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        setitemcolor grpMainNav forecolor 1 1 1 0.66;
+        setitemcolor setupNav forecolor 1 .75 0 1;
+        close joinserver;
+        close credits;
+        close createserver;
+      }
+    }
+
+    itemDef
+    {
+      name creditsNav
+      group grpMainNav
+      text "Credits"
+      type ITEM_TYPE_BUTTON
+      style WINDOW_STYLE_EMPTY
+      textstyle ITEM_TEXTSTYLE_NORMAL
+      rect 20 120 128 20
+      textalignx 0 
+      textaligny 20 
+      textscale .5
+      textalign ITEM_ALIGN_LEFT   
+      forecolor 1 1 1 0.66
+      visible 1 
+      action
+      {
+        play "sound/misc/menu1.wav";
+        setitemcolor grpMainNav forecolor 1 1 1 0.66;
+        setitemcolor creditsNav forecolor 1 .75 0 1;
+        close joinserver;
+        close createserver;
+        open credits
+      }
+    }
+    
+    itemDef
+    {
+      name quitNav
+      group grpMainNav
+      text "Quit"
+      type ITEM_TYPE_BUTTON
+      style WINDOW_STYLE_EMPTY
+      textstyle ITEM_TEXTSTYLE_NORMAL
+      rect 20 145 128 20
+      textalignx 0 
+      textaligny 20 
+      textscale .5
+      textalign ITEM_ALIGN_LEFT   
+      forecolor 1 1 1 0.66
+      visible 1 
+      action
+      {
+        play "sound/misc/menu1.wav";
+        setitemcolor grpMainNav forecolor 1 1 1 0.66;
+        setitemcolor quitNav forecolor 1 .75 0 1;
+        close joinserver;
+        close credits;
+        close createserver;
+        open quit_popmenu
+      }
+    }
+
+    itemDef
+    {
+      name copyright
+      text "Dretchstorm (C) 2011 GameBoom Entertainment"
+      style WINDOW_STYLE_EMPTY
+      textstyle ITEM_TEXTSTYLE_NORMAL
+      textscale .125
+      rect 0 440 640 40
+      textalign 1
+      textaligny 32
+      textalignx 320 
+      forecolor .75 .75 .75 .75
+      visible 1 
+      decoration 
+    }
+    
+    // Options window //
+    
+    itemDef
+    {
+      name optionswindow
+      rect 170 175 10 225
+      type ITEM_TYPE_BUTTON
+      style WINDOW_STYLE_FILLED
+      backcolor 0.34 0.34 0.34 0.8
+      visible 0
+      decoration
+
+      border WINDOW_BORDER_FULL
+      borderSize 1.0
+      borderColor 0.34 0.34 0.34 1
+      action 
+      {
+        play "sound/misc/menu1.wav";
+        setcvar ui_test 1
+      }
+    }
+    itemDef
+    {
+      name back
+      style 3
+      background "ui/assets/backarrow.tga"
+      rect 170 282 10 10 
+      visible 0
+    }
+    
+    itemDef
+    {
+      name optionswindow
+      rect 20 175 155 225
+      style WINDOW_STYLE_FILLED
+      backcolor 0.086 0.086 0.117 0.5
+      visible 1
+      decoration
+
+      border WINDOW_BORDER_FULL
+      borderSize 1.0
+      borderColor 0.086 0.086 0.117 1
+    }
+    
+    //  VIEW OPTIONS  //
+
+    itemDef
+    {
+      name viewEmpty
+      style WINDOW_STYLE_EMPTY
+      type ITEM_TYPE_YESNO
+      text "View Empty:"
+      cvar "ui_browserShowEmpty"
+      textscale 0.2
+      rect 20 185 155 20
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor 1 1 1 0.66
+      backcolor .5 .5 .5 .5
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav";
+        uiScript RefreshFilter
+      }
+    }
+    
+    itemDef
+    {
+      name viewFull
+      style WINDOW_STYLE_EMPTY
+      type ITEM_TYPE_YESNO
+      text "View Full:"
+      cvar "ui_browserShowFull"
+      textscale 0.2
+      rect 20 205 155 20
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor 1 1 1 0.66
+      backcolor .5 .5 .5 .5
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav";
+        uiScript RefreshFilter
+      }
+    }
+    itemDef
+    {
+      name password
+      text "Enter Password"
+      type ITEM_TYPE_BUTTON
+      textscale 0.2
+      style WINDOW_STYLE_EMPTY
+      rect 20 225 155 20
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10   // center
+      textaligny 10
+      backcolor 0 0 0 1
+      forecolor 1 1 1 0.66
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        open password_popmenu
+      }
+    }
+    
+        itemDef
+    {
+      name createFavorite
+      style WINDOW_STYLE_EMPTY
+      text "New Favorite"
+      type ITEM_TYPE_BUTTON
+      textscale 0.2
+      rect 20 245 155 20
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10   // center
+      textaligny 10
+      backcolor 0 0 0 1
+      forecolor 1 1 1 0.66
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        open createfavorite_popmenu
+      }
+    }
+    
+    
+    itemDef
+    {
+      name serverinfo
+      style WINDOW_STYLE_EMPTY
+      text "Server Info"
+      type ITEM_TYPE_BUTTON
+      textscale 0.2
+      rect 20 265 155 20
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10   // center
+      textaligny 10
+      backcolor 0 0 0 1
+      forecolor 1 1 1 0.66
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav";
+        open serverinfo_popmenu
+      }
+    }
+    
+    itemDef
+    {
+      name findplayer
+      style WINDOW_STYLE_EMPTY
+      text "Find Friend"
+      type ITEM_TYPE_BUTTON
+      textscale 0.2
+      rect 20 285 155 20
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10   // center
+      textaligny 10
+      backcolor 0 0 0 1
+      forecolor 1 1 1 0.66
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        open findplayer_popmenu
+      }
     }
 
     itemDef
     {
       name mainwindow
-      rect 0 0 440 380
+      rect 180 20 440 380
       style WINDOW_STYLE_FILLED
       backcolor 0.086 0.086 0.117 0.5
       visible 1
@@ -48,7 +418,7 @@
       name gametypefield
       style WINDOW_STYLE_EMPTY
       ownerdraw UI_NETSOURCE
-      rect 0 7 110 15
+      rect 180 27 110 15
       textalign ITEM_ALIGN_LEFT
       textalignx 7
       textaligny 10
@@ -61,7 +431,6 @@
       action
       {
         play "sound/misc/menu1.wav"
-        open joinserveroptions // stop joinserveroptions from disapearing
       }
     }
     
@@ -72,7 +441,7 @@
       type ITEM_TYPE_BUTTON
       textscale 0.25
       style WINDOW_STYLE_EMPTY
-      rect 110 7 110 15
+      rect 290 27 110 15
       textalign ITEM_ALIGN_CENTER
       textalignx 55
       textaligny 10
@@ -85,7 +454,6 @@
       {
         play "sound/misc/menu1.wav";
         uiScript RefreshServers;
-        open joinserveroptions // stop joinserveroptions from disapearing
       }       
     }
 
@@ -96,7 +464,7 @@
       textscale 0.25
       style WINDOW_STYLE_EMPTY
       type ITEM_TYPE_BUTTON
-      rect 220 7 110 15
+      rect 400 27 110 15
       textalign ITEM_ALIGN_CENTER
       textalignx 55
       textaligny 10
@@ -109,7 +477,6 @@
       {
         play "sound/misc/menu1.wav";
         uiScript RefreshFilter
-        open joinserveroptions // stop joinserveroptions from disapearing
       }
     }
     
@@ -121,7 +488,7 @@
       type ITEM_TYPE_BUTTON
       textscale 0.25
       ownerdrawFlag UI_SHOW_NOTFAVORITESERVERS
-      rect 330 7 110 15
+      rect 510 27 110 15
       textalign ITEM_ALIGN_CENTER
       textalignx 55
       textaligny 10
@@ -132,7 +499,6 @@
       {
         play "sound/misc/menu1.wav" 
         uiScript addFavorite;
-        open joinserveroptions // stop joinserveroptions from disapearing
       }
     }
 
@@ -144,7 +510,7 @@
       type ITEM_TYPE_BUTTON
       textscale 0.25
       ownerdrawFlag UI_SHOW_FAVORITESERVERS
-      rect 330 7 110 15
+      rect 510 27 110 15
       textalign ITEM_ALIGN_CENTER
       textalignx 55
       textaligny 10
@@ -158,7 +524,6 @@
         play "sound/misc/menu1.wav"; 
         uiScript DeleteFavorite;
         uiScript UpdateFilter;
-        open joinserveroptions // stop joinserveroptions from disapearing
       }
     }
 
@@ -190,7 +555,7 @@
     itemDef
     {
       name serverlist
-      rect 0 40 440 340
+      rect 180 60 440 310
       type ITEM_TYPE_LISTBOX
       style WINDOW_STYLE_EMPTY
       elementwidth 120
@@ -225,7 +590,7 @@
       type ITEM_TYPE_BUTTON
       textscale 0.275
       style WINDOW_STYLE_EMPTY
-      rect 7 25 90 15
+      rect 187 45 90 15
       textalign ITEM_ALIGN_LEFT
       textalignx 5
       textaligny 12
@@ -236,7 +601,6 @@
       action
       {
         play "sound/misc/menu1.wav"; 
-        open joinserveroptions; // stop joinserveroptions from disapearing
         uiScript ServerSort 0; 
       
         setitemcolor grpColumn backcolor 0 0 0 0; 
@@ -252,7 +616,7 @@
       text "Map Name"
       textscale 0.275
       style WINDOW_STYLE_EMPTY
-      rect 220 25 90 15
+      rect 400 45 90 15
       textalign ITEM_ALIGN_LEFT
       textalignx 5
       textaligny 12
@@ -263,7 +627,6 @@
       action
       {
         play "sound/misc/menu1.wav"; 
-        open joinserveroptions; // stop joinserveroptions from disapearing
         uiScript ServerSort 1; 
       
         setitemcolor grpColumn backcolor 0 0 0 0; 
@@ -279,7 +642,7 @@
       type ITEM_TYPE_BUTTON
       textscale 0.275
       style WINDOW_STYLE_EMPTY
-      rect 330 25 30 15
+      rect 510 45 30 15
       textalign ITEM_ALIGN_LEFT
       textalignx 5
       textaligny 12
@@ -290,7 +653,6 @@
       action
       {
         play "sound/misc/menu1.wav"; 
-        open joinserveroptions; // stop joinserveroptions from disapearing
         uiScript ServerSort 4; 
       
         setitemcolor grpColumn backcolor 0 0 0 0; 
@@ -305,7 +667,7 @@
       type ITEM_TYPE_BUTTON
       textscale 0.275
       style WINDOW_STYLE_EMPTY
-      rect 370 25 50 15
+      rect 550 45 50 15
       textalign ITEM_ALIGN_LEFT
       textalignx 5
       textaligny 12
@@ -316,7 +678,6 @@
       action
       {
         play "sound/misc/menu1.wav"; 
-        open joinserveroptions; // stop joinserveroptions from disapearing
         uiScript ServerSort 2; 
       
         setitemcolor grpColumn backcolor 0 0 0 0; 
