@@ -27,8 +27,8 @@
 
     onOpen { 
       uiScript stopRefresh;
-       setitemcolor grpMainNav forecolor 1 1 1 0.66;
-      playlooped "sound/ui/heartbeat.wav" 
+      setitemcolor grpMainNav forecolor 1 1 1 0.66;
+      playlooped "sound/ui/heartbeat.ogg" 
     }	
     onESC { open quit_popmenu }
   
@@ -73,11 +73,9 @@
       {
         play "sound/misc/menu1.wav"; 
         setitemcolor grpMainNav forecolor 1 1 1 0.66;
-        setitemcolor playNav forecolor 1 .75 0 1;
         close credits;
         close createserver;
         open joinserver;
-        open "joinserveroptions"
       }
     }
     
@@ -102,7 +100,6 @@
         setitemcolor grpMainNav forecolor 1 1 1 0.66;
         setitemcolor hostNav forecolor 1 .75 0 1;
         close joinserver;
-        close joinserveroptions;
         close credits;
         close createserver;
         open createserver
@@ -130,7 +127,6 @@
         setitemcolor grpMainNav forecolor 1 1 1 0.66;
         setitemcolor newsNav forecolor 1 .75 0 1;
         close joinserver;
-        close joinserveroptions;
         close credits;
         close createserver;
       }
@@ -157,7 +153,6 @@
         setitemcolor grpMainNav forecolor 1 1 1 0.66;
         setitemcolor setupNav forecolor 1 .75 0 1;
         close joinserver;
-        close joinserveroptions;
         close credits;
         close createserver;
       }
@@ -184,7 +179,6 @@
         setitemcolor grpMainNav forecolor 1 1 1 0.66;
         setitemcolor creditsNav forecolor 1 .75 0 1;
         close joinserver;
-        close joinserveroptions;
         close createserver;
         open credits
       }
@@ -211,7 +205,6 @@
         setitemcolor grpMainNav forecolor 1 1 1 0.66;
         setitemcolor quitNav forecolor 1 .75 0 1;
         close joinserver;
-        close joinserveroptions;
         close credits;
         close createserver;
         open quit_popmenu
