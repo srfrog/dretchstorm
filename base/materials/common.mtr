@@ -1,0 +1,43 @@
+textures/common-trem/nobuild
+{
+	qer_editorimage	textures/common-trem/nobuild.tga
+	qer_trans 0.5
+
+	surfaceparm nonsolid	
+	surfaceparm nolightmap
+	surfaceparm nonsolid	
+	surfaceparm nodraw
+	//surfaceparm noshadows
+	surfaceparm trans
+	surfaceparm nomarks
+	surfaceparm nobuild
+}
+
+textures/common-trem/noalienbuild
+{
+	qer_editorimage	textures/common-trem/noalienbuild.tga
+	qer_trans 0.5
+	
+	surfaceparm nodraw
+	surfaceparm nolightmap
+	//surfaceparm noshadows
+	surfaceparm nonsolid
+	surfaceparm trans
+	surfaceparm nomarks
+	surfaceparm noalienbuild
+}
+
+textures/common-trem/nohumanbuild
+{
+	qer_editorimage	textures/common-trem/nohumanbuild.tga
+	qer_trans 0.5
+	
+	surfaceparm nodraw
+	surfaceparm nolightmap
+	//surfaceparm noshadows
+	surfaceparm nonsolid
+	surfaceparm trans
+	surfaceparm nomarks
+	surfaceparm nohumanbuild
+}
+

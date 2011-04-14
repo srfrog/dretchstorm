@@ -1,0 +1,69 @@
+import os, string, sys
+
+Import('env')
+
+# the file with vmMain function MUST be the first one of the list
+cgame_src = [
+'base/code/cgame/cg_main.c',
+'base/code/game/bg_misc.c',
+'base/code/game/bg_pmove.c',
+'base/code/game/bg_slidemove.c',
+'base/code/ui/ui_shared.c',
+'code/qcommon/q_math.c',
+'code/qcommon/q_shared.c',
+'base/code/cgame/cg_animation.c',
+'base/code/cgame/cg_animmapobj.c',
+'base/code/cgame/cg_attachment.c',
+'base/code/cgame/cg_buildable.c',
+'base/code/cgame/cg_consolecmds.c',
+'base/code/cgame/cg_draw.c',
+'base/code/cgame/cg_drawtools.c',
+'base/code/cgame/cg_ents.c',
+'base/code/cgame/cg_event.c',
+'base/code/cgame/cg_marks.c',
+'base/code/cgame/cg_mem.c',
+'base/code/cgame/cg_particles.c',
+'base/code/cgame/cg_players.c',
+'base/code/cgame/cg_playerstate.c',
+'base/code/cgame/cg_predict.c',
+'base/code/cgame/cg_ptr.c',
+'base/code/cgame/cg_scanner.c',
+'base/code/cgame/cg_servercmds.c',
+'base/code/cgame/cg_snapshot.c',
+'base/code/cgame/cg_trails.c',
+'base/code/cgame/cg_tutorial.c',
+'base/code/cgame/cg_view.c',
+'base/code/cgame/cg_weapons.c'
+]
+
+dll_src = [
+'base/code/cgame/cg_syscalls.c'
+]
+
+cgame_env = env.Clone()
+
+if env['arch'] == 'linux-i386':
+	cgame_env.SharedLibrary('cgame', [cgame_src, dll_src], LIBS=['m'])
+	cgame_env.InstallAs('#base/cgamei386.so', 'libcgame.so')
+
+elif env['arch'] == 'linux-x86_64':
+	cgame_env.SharedLibrary('cgame', [cgame_src, dll_src], LIBS=['m'])
+	cgame_env.InstallAs('#base/cgamex86_64.so', 'libcgame.so')
+
+elif env['arch'] == 'sdl':
+	cgame_env.SharedLibrary('cgame', [cgame_src, dll_src], LIBS=['m'])
+	cgame_env.InstallAs('#base/cgame.so', 'libcgame.so')
+
+elif env['arch'] == 'freebsd-i386':
+	cgame_env.SharedLibrary('cgame', [cgame_src, dll_src], LIBS=['m'])
+	cgame_env.InstallAs('#base/cgamei386.so', 'libcgame.so')
+
+elif env['arch'] == 'freebsd-amd64':
+	cgame_env.SharedLibrary('cgame', [cgame_src, dll_src], LIBS=['m'])
+	cgame_env.InstallAs('#base/cgameamd64.so', 'libcgame.so')
+
+elif env['arch'] == 'win32-mingw':
+	cgame_env.SharedLibrary('cgame', [cgame_src, dll_src], LIBS=['m'])
+	cgame_env.InstallAs('#base/cgamex86.dll', 'cgame.dll')
+
+

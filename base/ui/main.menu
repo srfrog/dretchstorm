@@ -1,0 +1,154 @@
+#include "ui/menudef.h"
+
+{
+  assetGlobalDef
+  {
+    font "fonts/Vera" 30        // font
+    smallFont "fonts/Vera" 20        // font
+    bigFont "fonts/Resistance" 40        // font
+    cursor "ui/assets/3_cursor3"      // cursor 
+    gradientBar "ui/assets/gradientbar2.tga"  // gradient bar
+    itemFocusSound "sound/misc/menu2.wav"   // sound for item getting focus (via keyboard or mouse )
+  
+    fadeClamp 1.0         // sets the fadeup alpha
+    fadeCycle 1         // how often fade happens in milliseconds
+    fadeAmount 0.1          // amount to adjust alpha per cycle
+
+    shadowColor 0.1 0.1 0.1 0.25      // shadow color
+  }
+
+  menuDef
+  {
+    name main
+    fullScreen MENU_TRUE        
+    rect 0 0 640 480        // Size and position of the menu
+    visible MENU_TRUE       // Visible on open
+    focusColor 1 .75 0 1        // Menu focus color for text and items
+
+    onOpen { uiScript stopRefresh ; playlooped "sound/ui/heartbeat.wav" }	
+    onESC { open quit_popmenu }
+  
+    itemDef
+    {
+      name background
+      rect 0 0 640 480
+      style WINDOW_STYLE_SHADER
+      backcolor 0 0 0 1
+      visible 1
+      decoration
+      background "ui/assets/mainmenu.png"
+    }
+    
+    itemDef
+    {
+      name title
+      rect 20 403 600 67
+      style WINDOW_STYLE_SHADER
+      backcolor 0 0 0 1
+      visible 1
+      decoration
+      background "ui/assets/title.png"
+    }
+
+    itemDef
+    {
+      name mainmenu
+      text "Play"
+      type ITEM_TYPE_BUTTON
+      style WINDOW_STYLE_EMPTY
+      textstyle ITEM_TEXTSTYLE_NORMAL 
+      rect 20 20 128 20 
+      textalign ITEM_ALIGN_LEFT
+      textalignx 0 
+      textaligny 20 
+      textscale .5
+      forecolor 1 1 1 1 
+      visible 1 
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        close main; 
+        open joinserver
+      }
+    }
+
+    itemDef
+    {
+      name mainmenu
+      text "Setup"
+      type ITEM_TYPE_BUTTON
+      style WINDOW_STYLE_EMPTY 
+      textstyle ITEM_TEXTSTYLE_NORMAL
+      textscale .5
+      rect 20 45 128 20 
+      textalignx 0 
+      textaligny 20 
+      textalign ITEM_ALIGN_LEFT   
+      backcolor 0 0 0 0
+      forecolor 1 1 1 1
+      visible 1 
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+      }
+    }
+
+    itemDef
+    {
+      name mainmenu
+      text "Credits"
+      type ITEM_TYPE_BUTTON
+      style WINDOW_STYLE_EMPTY
+      textstyle ITEM_TEXTSTYLE_NORMAL
+      rect 20 70 128 20
+      textalignx 0 
+      textaligny 20 
+      textscale .5
+      textalign ITEM_ALIGN_LEFT   
+      forecolor 1 1 1 1
+      visible 1 
+      action
+      {
+        play "sound/misc/menu1.wav";
+        open credits
+      }
+    }
+    
+    itemDef
+    {
+      name mainmenu
+      text "Quit"
+      type ITEM_TYPE_BUTTON
+      style WINDOW_STYLE_EMPTY
+      textstyle ITEM_TEXTSTYLE_NORMAL
+      rect 20 95 128 20
+      textalignx 0 
+      textaligny 20 
+      textscale .5
+      textalign ITEM_ALIGN_LEFT   
+      forecolor 1 1 1 1
+      visible 1 
+      action
+      {
+        play "sound/misc/menu1.wav";
+        open quit_popmenu
+      }
+    }
+
+    itemDef
+    {
+      name copyright
+      text "Dretchstorm (C) 2011 GameBoom Entertainment"
+      style WINDOW_STYLE_EMPTY
+      textstyle ITEM_TEXTSTYLE_NORMAL
+      textscale .125
+      rect 0 440 640 40
+      textalign 1
+      textaligny 32
+      textalignx 320 
+      forecolor .75 .75 .75 .75
+      visible 1 
+      decoration 
+    }
+  }
+}
