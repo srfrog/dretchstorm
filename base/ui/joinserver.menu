@@ -203,7 +203,7 @@
         close joinserver;
         close credits;
         close createserver;
-        open quit_popmenu
+        uiScript "quit"
       }
     }
 
@@ -555,7 +555,7 @@
     itemDef
     {
       name serverlist
-      rect 180 60 440 310
+      rect 180 60 440 340
       type ITEM_TYPE_LISTBOX
       style WINDOW_STYLE_EMPTY
       elementwidth 120

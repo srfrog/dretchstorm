@@ -8,7 +8,7 @@
     fullscreen 0
     outOfBoundsClick
     rect 112 111 400 247
-    focusColor 1 .75 0 1
+    focusColor 1 1 1 1
     style 1
     popup
     onOpen { uiScript LoadAlienBuilds; setFocus list }
@@ -18,13 +18,13 @@
       name window
       rect 0 0 400 247
       style WINDOW_STYLE_FILLED
-      backcolor 0 0 0 1
+      backcolor 0.086 0.086 0.117 0.5
       visible 1
       decoration
 
       border WINDOW_BORDER_FULL
       borderSize 1.0
-      borderColor 0.5 0.5 0.5 1
+      borderColor 0.086 0.086 0.117 1
     }
     
     itemDef
@@ -40,7 +40,7 @@
       feeder FEEDER_TREMALIENBUILD
       border 1
       bordercolor   0.5 0.5 0.5 0.5
-      forecolor     1   1   1   1
+      forecolor     1   1   1   0.8
       backcolor     0.2 0.2 0.2 1
       outlinecolor  0.1 0.1 0.1 0.5
       visible 1
@@ -82,7 +82,7 @@
       textalignx 12.5
       textaligny 18
       textscale .3
-      forecolor 1 1 1 1
+      forecolor 1 1 1 0.66
       backcolor 0 0 0 1
       visible 1
       action
@@ -104,7 +104,7 @@
       textalignx 3.8
       textaligny 18
       textscale .3
-      forecolor 1 1 1 1
+      forecolor 1 1 1 0.66
       backcolor 0 0 0 1
       visible 1 
       action

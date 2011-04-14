@@ -26,7 +26,7 @@
       name window
       rect 10 15 300 320
       style 1
-      backcolor 0.086 0.086 0.117 .8
+      backcolor 0.086 0.086 0.117 0.9
       visible 1
       decoration
       border WINDOW_BORDER_FULL
@@ -84,7 +84,7 @@
       border 1
       bordersize 1
       bordercolor .5 .5 .5 1
-      visible 1
+      visible 0
       decoration
     }
 
