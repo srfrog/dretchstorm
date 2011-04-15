@@ -329,7 +329,7 @@ static void G_SanitiseHostName( char *string )
 			isBlack = qfalse;
 
 		// Ignore non-alphanumeric characters
-		if ( !isprint( *reader ) )
+		if ( !Q_isprint( *reader ) )
 			isGoodChar = qfalse;
 		else
 			skipSpaces = qfalse;
