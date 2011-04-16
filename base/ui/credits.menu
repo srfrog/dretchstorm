@@ -1,5 +1,5 @@
 #include "ui/menudef.h"
-
+#include "ui/common.h"
 {
   \\ CREDITS \\
 
@@ -7,29 +7,36 @@
   {
     name "credits"
     visible 0
-    fullscreen 0
-    rect 180 20 440 380
-    focusColor 1 .75 0 1
+    fullscreen 1
+    rect 0 0 440 380
+    focusColor FOCUS_COLOUR
     style 1
     border 0
+    onOpen
+    {
+       setitemcolor grpMainNav forecolor ITEM_NORMAL;
+       setitemcolor creditsNav forecolor ITEM_SELECTED
+    }
     onEsc
     {
       close credits;
       open main
     }
     
+#include "ui/main_common.cfg"
+    
     itemDef
     {
       name window
-      rect 0 0 440 380
+      rect 180 20 440 380
       style WINDOW_STYLE_FILLED
-      backcolor 0.086 0.086 0.117 0.5
+      backcolor WINDOW_BACKGROUND
       visible 1
       decoration
 
       border WINDOW_BORDER_FULL
       borderSize 1.0
-      borderColor 0.086 0.086 0.117 1
+      borderColor WINDOW_BORDER_COLOUR
     }
 
     itemDef
@@ -37,7 +44,7 @@
       name        "credits"
       group       grpidcredit
       style       WINDOW_STYLE_EMPTY
-      rect        0 17 430 20
+      rect        180 37 430 20
       textalign   ITEM_ALIGN_CENTER
       textalignx  215
       textaligny  10
@@ -55,7 +62,7 @@
       name        "name column"
       group       grpidcredit
       style       WINDOW_STYLE_EMPTY
-      rect        0 15 50 20
+      rect        180 35 50 20
       textalign   ITEM_ALIGN_LEFT
       textalignx  8
       textaligny  25
@@ -73,7 +80,7 @@
       name        "location column"
       group       grpidcredit
       style       WINDOW_STYLE_EMPTY
-      rect        80 15 50 20
+      rect        260 35 50 20
       textalign   ITEM_ALIGN_LEFT
       textalignx  0
       textaligny  25
@@ -91,7 +98,7 @@
       name        "component column"
       group       grpidcredit
       style       WINDOW_STYLE_EMPTY
-      rect        130 15 50 20
+      rect        310 35 50 20
       textalign   ITEM_ALIGN_LEFT
       textalignx  0
       textaligny  25
@@ -109,7 +116,7 @@
       name        "task column"
       group       grpidcredit
       style       WINDOW_STYLE_EMPTY
-      rect        190 15 50 20
+      rect        370 35 50 20
       textalign   ITEM_ALIGN_LEFT
       textalignx  0
       textaligny  25
@@ -125,7 +132,7 @@
     itemDef
     {
       name creditlist
-      rect 0 40 440 340
+      rect 180 60 440 340
       type ITEM_TYPE_LISTBOX
       style WINDOW_STYLE_EMPTY
       elementwidth 120

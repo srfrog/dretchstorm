@@ -1,5 +1,5 @@
 #include "ui/menudef.h"
-
+#include "ui/common.h"
 {
   \\ Server Creation \\
 
@@ -9,7 +9,7 @@
     visible 0
     fullscreen 1
     rect 0 0 640 480
-    focusColor 1 .75 0 1
+    focusColor FOCUS_COLOUR
     outOfBoundsClick  
     style 0
     

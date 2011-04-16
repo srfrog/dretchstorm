@@ -1,5 +1,5 @@
 #include "ui/menudef.h"
-
+#include "ui/common.h"
 {
   \\ INGAME OPTIONS BOX \\
 
@@ -10,7 +10,7 @@
     fullscreen 0
     outOfBoundsClick      // this closes the window if it gets a click out of the rectangle
     rect 10 56 292 280
-    focusColor 1 .75 0 1
+    focusColor FOCUS_COLOUR
     onopen
     {
       hide optionsGrp;
