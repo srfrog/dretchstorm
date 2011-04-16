@@ -1,5 +1,5 @@
 #include "ui/menudef.h"
-
+#include "ui/common.h"
 {
   \\ FIND PLAYER POPUP MENU \\
 
@@ -9,7 +9,7 @@
     visible 0
     fullscreen 0
     rect 158 80 320 340
-    focusColor 1 1 1 1
+    focusColor FOCUS_COLOUR
     style 1
     border 1
     popup
@@ -42,13 +42,13 @@
       name window
       rect 10 15 300 320
       style WINDOW_STYLE_FILLED
-      backcolor 0.086 0.086 0.117 0.9
+      backcolor WINDOW_BACKGROUND
       visible 1
       decoration
 
       border WINDOW_BORDER_FULL
       borderSize 1.0
-      borderColor 0.086 0.086 0.117 1
+      borderColor WINDOW_BORDER_COLOUR
     }
        
     itemDef
@@ -92,7 +92,7 @@
       textscale .25        
       outlinecolor .2 .2 .2 .5
       backcolor 0.086 0.086 0.117 0.5
-      forecolor 1 1 1 1
+      forecolor ENTRY_R ENTRY_G ENTRY_B ENTRY_A
       border 0
       bordercolor 0 0 0 0
       action { ui_script FindPlayer }
@@ -188,7 +188,7 @@
       textalign 1
       textalignx 22
       textaligny 20
-      forecolor 1 1 1 0.66
+      forecolor ITEM_NORMAL
       backcolor .37 .1 .1 1
       visible 1
       action
@@ -212,7 +212,7 @@
       textalign 1
       textalignx 30
       textaligny 20
-      forecolor 1 1 1 0.66
+      forecolor ITEM_NORMAL
       backcolor .37 .1 .1 1
       visible 1
       action
@@ -235,7 +235,7 @@
       textalign 1
       textalignx 22
       textaligny 20
-      forecolor 1 1 1 0.66
+      forecolor ITEM_NORMAL
       backcolor .37 .1 .1 1
       visible 1
       action { ui_script FoundPlayerJoinServer }

@@ -1,5 +1,5 @@
 #include "ui/menudef.h"
-
+#include "ui/common.h"
 {
   \\ INGAME_LEAVE MENU \\
 
@@ -10,7 +10,7 @@
     fullScreen 0
     outOfBoundsClick      // this closes the window if it gets a click out of the rectangle
     rect 160 56 128 125
-    focusColor 1 .75 0 1
+    focusColor FOCUS_COLOUR
     onOpen
     {
       show grpMenu;

@@ -1,5 +1,5 @@
 #include "ui/menudef.h"
-
+#include "ui/common.h"
 {
   \\ VOTE MENU \\
 
@@ -10,7 +10,7 @@
     fullscreen 0
     outOfBoundsClick			// this closes the window if it gets a click out of the rectangle
     rect 27 56 260 107
-    focusColor 1 .75 0 1
+    focusColor FOCUS_COLOUR
 
     itemDef
     {

@@ -1,5 +1,5 @@
 #include "ui/menudef.h"
-
+#include "ui/common.h"
 {
   \\ QUIT POPUP MENU \\
 
@@ -9,7 +9,7 @@
     visible 0
     fullscreen 0
     rect 380 20 240 80
-    focusColor 1 1 1 1
+    focusColor FOCUS_COLOUR
     style 1
     border 1
     onESC
@@ -31,7 +31,7 @@
 
       border WINDOW_BORDER_FULL
       borderSize 1.0
-      borderColor 0.086 0.086 0.117 1
+      borderColor WINDOW_BORDER_COLOUR
     }
 
 

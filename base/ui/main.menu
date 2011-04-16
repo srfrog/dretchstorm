@@ -1,4 +1,5 @@
 #include "ui/menudef.h"
+#include "ui/common.h"
 
 {
   assetGlobalDef
@@ -23,208 +24,16 @@
     fullScreen MENU_TRUE        
     rect 0 0 640 480        // Size and position of the menu
     visible MENU_TRUE       // Visible on open
-    focusColor 1 1 1 1        // Menu focus color for text and items
+    focusColor FOCUS_COLOUR
 
     onOpen { 
       uiScript stopRefresh;
-      setitemcolor grpMainNav forecolor 1 1 1 0.66;
+      setitemcolor grpMainNav forecolor ITEM_NORMAL;
       playlooped "sound/ui/heartbeat.ogg" 
     }	
     onESC { open quit_popmenu }
   
-    itemDef
-    {
-      name background
-      rect 0 0 640 480
-      style WINDOW_STYLE_SHADER
-      backcolor 0 0 0 1
-      visible 1
-      decoration
-      background "ui/assets/mainmenu.png"
-    }
-    
-    itemDef
-    {
-      name title
-      rect 20 403 600 67
-      style WINDOW_STYLE_SHADER
-      backcolor 0 0 0 1
-      visible 1
-      decoration
-      background "ui/assets/title.png"
-    }
+#include "ui/main_common.cfg"
 
-    itemDef
-    {
-      name playNav
-      group grpMainNav
-      text "Play"
-      type ITEM_TYPE_BUTTON
-      style WINDOW_STYLE_EMPTY
-      textstyle ITEM_TEXTSTYLE_NORMAL 
-      rect 20 20 128 20 
-      textalign ITEM_ALIGN_LEFT
-      textalignx 0 
-      textaligny 20 
-      textscale .5
-      forecolor 1 1 1 0.66
-      visible 1 
-      action
-      {
-        play "sound/misc/menu1.wav"; 
-        setitemcolor grpMainNav forecolor 1 1 1 0.66;
-        close credits;
-        close createserver;
-        open joinserver;
-      }
-    }
-    
-    itemDef
-    {
-      name hostNav
-      group grpMainNav
-      text "Host"
-      type ITEM_TYPE_BUTTON
-      style WINDOW_STYLE_EMPTY
-      textstyle ITEM_TEXTSTYLE_NORMAL 
-      rect 20 45 128 20 
-      textalign ITEM_ALIGN_LEFT
-      textalignx 0 
-      textaligny 20 
-      textscale .5
-      forecolor 1 1 1 0.66
-      visible 1 
-      action
-      {
-        play "sound/misc/menu1.wav"; 
-        setitemcolor grpMainNav forecolor 1 1 1 0.66;
-        setitemcolor hostNav forecolor 1 .75 0 1;
-        close joinserver;
-        close credits;
-        close createserver;
-        open createserver
-      }
-    }
-    
-    itemDef
-    {
-      name newsNav
-      group grpMainNav
-      text "News"
-      type ITEM_TYPE_BUTTON
-      style WINDOW_STYLE_EMPTY
-      textstyle ITEM_TEXTSTYLE_NORMAL 
-      rect 20 70 128 20 
-      textalign ITEM_ALIGN_LEFT
-      textalignx 0 
-      textaligny 20 
-      textscale .5
-      forecolor 1 1 1 0.66
-      visible 1 
-      action
-      {
-        play "sound/misc/menu1.wav"; 
-        setitemcolor grpMainNav forecolor 1 1 1 0.66;
-        setitemcolor newsNav forecolor 1 .75 0 1;
-        close joinserver;
-        close credits;
-        close createserver;
-      }
-    }
-
-    itemDef
-    {
-      name setupNav
-      group grpMainNav
-      text "Setup"
-      type ITEM_TYPE_BUTTON
-      style WINDOW_STYLE_EMPTY 
-      textstyle ITEM_TEXTSTYLE_NORMAL
-      textscale .5
-      rect 20 95 128 20 
-      textalignx 0 
-      textaligny 20 
-      textalign ITEM_ALIGN_LEFT   
-      forecolor 1 1 1 0.66
-      visible 1 
-      action
-      {
-        play "sound/misc/menu1.wav"; 
-        setitemcolor grpMainNav forecolor 1 1 1 0.66;
-        setitemcolor setupNav forecolor 1 .75 0 1;
-        close joinserver;
-        close credits;
-        close createserver;
-      }
-    }
-
-    itemDef
-    {
-      name creditsNav
-      group grpMainNav
-      text "Credits"
-      type ITEM_TYPE_BUTTON
-      style WINDOW_STYLE_EMPTY
-      textstyle ITEM_TEXTSTYLE_NORMAL
-      rect 20 120 128 20
-      textalignx 0 
-      textaligny 20 
-      textscale .5
-      textalign ITEM_ALIGN_LEFT   
-      forecolor 1 1 1 0.66
-      visible 1 
-      action
-      {
-        play "sound/misc/menu1.wav";
-        setitemcolor grpMainNav forecolor 1 1 1 0.66;
-        setitemcolor creditsNav forecolor 1 .75 0 1;
-        close joinserver;
-        close createserver;
-        open credits
-      }
-    }
-    
-    itemDef
-    {
-      name quitNav
-      group grpMainNav
-      text "Quit"
-      type ITEM_TYPE_BUTTON
-      style WINDOW_STYLE_EMPTY
-      textstyle ITEM_TEXTSTYLE_NORMAL
-      rect 20 145 128 20
-      textalignx 0 
-      textaligny 20 
-      textscale .5
-      textalign ITEM_ALIGN_LEFT   
-      forecolor 1 1 1 0.66
-      visible 1 
-      action
-      {
-        play "sound/misc/menu1.wav";
-        setitemcolor grpMainNav forecolor 1 1 1 0.66;
-        setitemcolor quitNav forecolor 1 .75 0 1;
-        close joinserver;
-        close credits;
-        close createserver;
-        uiScript "quit"
-      }
-    }
-
-    itemDef
-    {
-      name copyright
-      text "Dretchstorm (C) 2011 GameBoom Entertainment"
-      style WINDOW_STYLE_EMPTY
-      textstyle ITEM_TEXTSTYLE_NORMAL
-      textscale .125
-      rect 0 440 640 40
-      textalign 1
-      textaligny 32
-      textalignx 320 
-      forecolor .75 .75 .75 .75
-      visible 1 
-      decoration 
-    }
   }
 }

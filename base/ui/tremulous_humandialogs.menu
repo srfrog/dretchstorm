@@ -1,5 +1,5 @@
 #include "ui/menudef.h"
-
+#include "ui/common.h"
 {
   menuDef
   {
@@ -8,7 +8,7 @@
     fullscreen 0
     outOfBoundsClick
     rect 185 140 280 190
-    focusColor 1 1 1 1
+    focusColor FOCUS_COLOUR
     style WINDOW_STYLE_EMPTY
     popup
 
@@ -23,7 +23,7 @@
 
       border WINDOW_BORDER_FULL
       borderSize 1.0
-      borderColor 0.086 0.086 0.117 1
+      borderColor WINDOW_BORDER_COLOUR
     }
     
     itemDef

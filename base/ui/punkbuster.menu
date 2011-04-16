@@ -1,5 +1,5 @@
 #include "ui/menudef.h"
-
+#include "ui/common.h"
 {
 
   // PB enable ----------------
@@ -10,7 +10,7 @@
     visible 0
     fullscreen 0
     rect 204 122 235 235
-    focusColor 1 .75 0 1
+    focusColor FOCUS_COLOUR
     style 1
     border 1
     popup
@@ -102,7 +102,7 @@
     visible 0
     fullscreen 0
     rect 204 122 235 235
-    focusColor 1 .75 0 1
+    focusColor FOCUS_COLOUR
     style 1
     border 1
     popup
@@ -193,7 +193,7 @@
     visible 0
     fullscreen 0
     rect 204 122 235 235
-    focusColor 1 .75 0 1
+    focusColor FOCUS_COLOUR
     style 1
     border 1
     popup
