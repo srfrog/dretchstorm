@@ -111,26 +111,6 @@ opts.Save('dstorm.conf', env)
 #
 Export('env')
 
-# export the Java -> C interfaces first because the engine requires them
-if env['java'] == 1:
-	env.Java(target = 'quaplexity/classes', source = 'quaplexity/classes')
-	env.Jar(target = 'quaplexity/game.jar', source = ['quaplexity/classes/com', 'quaplexity/classes/javax', 'quaplexity/classes/xreal'], JARCHDIR = 'quaplexity/classes')
-	
-	classFileList = ['quaplexity/classes/xreal/Engine.class',
-					 'quaplexity/classes/xreal/CVar.class']
-	env.JavaH(target = 'code/qcommon/java', source = classFileList, JAVACLASSDIR = 'quaplexity/classes')
-	
-	classFileList = ['quaplexity/classes/xreal/server/Server.class',
-					 'quaplexity/classes/xreal/server/game/GameEntity.class',
-					 'quaplexity/classes/xreal/server/game/Player.class']
-	env.JavaH(target = 'code/server/java', source = classFileList, JAVACLASSDIR = 'quaplexity/classes')
-	
-	classFileList = ['quaplexity/classes/xreal/client/Client.class',
-					 'quaplexity/classes/xreal/client/renderer/Renderer.class']
-	env.JavaH(target = 'code/client/java', source = classFileList, JAVACLASSDIR = 'quaplexity/classes')
-
-
-
 if env['noclient'] == 0:
 	SConscript('SConscript_dstorm', variant_dir='build/dstorm', duplicate=0)
 	SConscript('SConscript_rendererGL', variant_dir='build/rendererGL', duplicate=0)
