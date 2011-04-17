@@ -17,7 +17,7 @@
       name window
       rect 10 5 256 150
       style 1
-      backcolor 0 0 0 1
+      backcolor WINDOW_BACKGROUND
       visible 1
       decoration
 
