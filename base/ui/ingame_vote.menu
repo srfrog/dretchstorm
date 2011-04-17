@@ -19,7 +19,7 @@
       ownerdrawflag UI_SHOW_CANTEAMVOTE
       rect 10 5 240 47
       style WINDOW_STYLE_FILLED
-      backcolor 0 0 0 1
+      backcolor WINDOW_BACKGROUND
       visible 1
       decoration
 
@@ -35,7 +35,7 @@
       ownerdrawflag UI_SHOW_CANTEAMVOTE
       rect 10 5 240 72
       style WINDOW_STYLE_FILLED
-      backcolor 0 0 0 1
+      backcolor WINDOW_BACKGROUND
       visible 1
       decoration
 
@@ -50,7 +50,7 @@
       ownerdrawflag UI_SHOW_TEAMVOTEACTIVE
       rect 10 5 240 97
       style WINDOW_STYLE_FILLED
-      backcolor 0 0 0 1
+      backcolor WINDOW_BACKGROUND
       visible 1
       decoration
 
@@ -70,7 +70,7 @@
       textalign ITEM_ALIGN_CENTER
       textalignx 50
       textaligny 17
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -91,7 +91,7 @@
       textalign ITEM_ALIGN_CENTER
       textalignx 50
       textaligny 17
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -112,7 +112,7 @@
       textalign ITEM_ALIGN_CENTER
       textalignx 50
       textaligny 17
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -133,7 +133,7 @@
       textalign ITEM_ALIGN_CENTER
       textalignx 50
       textaligny 17
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -154,7 +154,7 @@
       textalign ITEM_ALIGN_CENTER
       textalignx 50
       textaligny 17
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -175,7 +175,7 @@
       textalign ITEM_ALIGN_CENTER
       textalignx 50
       textaligny 17
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -196,7 +196,7 @@
       textalign ITEM_ALIGN_CENTER
       textalignx 22
       textaligny 16
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -204,10 +204,10 @@
         hide grpCallVote;
         show misc;
 
-        setitemcolor miscBtn      forecolor 0.2 0.2 0.2 1.0;
-        setitemcolor kickBtn      forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor teamKickBtn  forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor mapBtn       forecolor 1.0 1.0 1.0 1.0
+        setitemcolor miscBtn      forecolor ITEM_SELECTED;
+        setitemcolor kickBtn      forecolor ITEM_NORMAL;
+        setitemcolor teamKickBtn  forecolor ITEM_NORMAL;
+        setitemcolor mapBtn       forecolor ITEM_NORMAL
       }
     }
     
@@ -222,7 +222,7 @@
       textalign ITEM_ALIGN_CENTER
       textalignx 22
       textaligny 16
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -230,10 +230,10 @@
         hide grpCallVote;
         show kick;
 
-        setitemcolor miscBtn      forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor kickBtn      forecolor 0.2 0.2 0.2 1.0;
-        setitemcolor teamKickBtn  forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor mapBtn       forecolor 1.0 1.0 1.0 1.0
+        setitemcolor miscBtn      forecolor ITEM_NORMAL;
+        setitemcolor kickBtn      forecolor ITEM_SELECTED;
+        setitemcolor teamKickBtn  forecolor ITEM_NORMAL;
+        setitemcolor mapBtn       forecolor ITEM_NORMAL
       }
     }
     
@@ -248,7 +248,7 @@
       textalign ITEM_ALIGN_CENTER
       textalignx 22
       textaligny 16
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -256,10 +256,10 @@
         hide grpCallVote;
         show teamKick;
 
-        setitemcolor miscBtn      forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor kickBtn      forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor teamKickBtn  forecolor 0.2 0.2 0.2 1.0;
-        setitemcolor mapBtn       forecolor 1.0 1.0 1.0 1.0
+        setitemcolor miscBtn      forecolor ITEM_NORMAL;
+        setitemcolor kickBtn      forecolor ITEM_NORMAL;
+        setitemcolor teamKickBtn  forecolor ITEM_SELECTED;
+        setitemcolor mapBtn       forecolor ITEM_NORMAL
       }
     }
     
@@ -274,7 +274,7 @@
       textalign ITEM_ALIGN_CENTER
       textalignx 22
       textaligny 16
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -282,10 +282,10 @@
         hide grpCallVote;
         show map;
 
-        setitemcolor miscBtn      forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor kickBtn      forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor teamKickBtn  forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor mapBtn       forecolor 0.2 0.2 0.2 1.0
+        setitemcolor miscBtn      forecolor ITEM_NORMAL;
+        setitemcolor kickBtn      forecolor ITEM_NORMAL;
+        setitemcolor teamKickBtn  forecolor ITEM_NORMAL;
+        setitemcolor mapBtn       forecolor ITEM_SELECTED
       }
     }
 
@@ -303,7 +303,7 @@
       textalign 1
       textalignx 50
       textaligny 16
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0
       action
       {
@@ -324,7 +324,7 @@
       textalign 1
       textalignx 50
       textaligny 16
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0
       action
       {
@@ -367,7 +367,7 @@
       border 1
       bordercolor   0.5 0.5 0.5 0.5
       forecolor     1   1   1   1
-      backcolor     0.2 0.2 0.2 1
+      backcolor     LISTBOX_BACKGROUND
       outlinecolor  0.1 0.1 0.1 0.5
       visible 0
     }
@@ -383,7 +383,7 @@
       textalign 1
       textalignx 25
       textaligny 15
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0
       action
       {
@@ -426,7 +426,7 @@
       border 1
       bordercolor   0.5 0.5 0.5 0.5
       forecolor     1   1   1   1
-      backcolor     0.2 0.2 0.2 1
+      backcolor     LISTBOX_BACKGROUND
       outlinecolor  0.1 0.1 0.1 0.5
       visible 0
     }
@@ -442,7 +442,7 @@
       textalign 1
       textalignx 25
       textaligny 15
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0
       action
       {
@@ -486,7 +486,7 @@
       border 1
       bordercolor   0.5 0.5 0.5 0.5
       forecolor     1   1   1   1
-      backcolor     0.2 0.2 0.2 1 
+      backcolor     LISTBOX_BACKGROUND
       outlinecolor  0.1 0.1 0.1 0.5
       visible 0
     }
@@ -502,7 +502,7 @@
       textalign 1
       textalignx 25
       textaligny 15
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0
       action
       {

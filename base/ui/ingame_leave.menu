@@ -22,7 +22,7 @@
       name leave
       style WINDOW_STYLE_FILLED
       rect 5 5 107 90 
-      backcolor 0 0 0 1
+      backcolor WINDOW_BACKGROUND
       visible 1 
       decoration
 
@@ -43,7 +43,7 @@
       textalignx 64
       textaligny 18        
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1 
       action
       {
@@ -145,7 +145,7 @@
       textalign 1
       textalignx 20
       textaligny 15
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -166,7 +166,7 @@
       textalign 1
       textalignx 20
       textaligny 15
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -220,7 +220,7 @@
       textalign 1
       textalignx 20
       textaligny 15
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -243,7 +243,7 @@
       textalign 1
       textalignx 20
       textaligny 15
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -297,7 +297,7 @@
       textalign 1
       textalignx 20
       textaligny 15
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -318,7 +318,7 @@
       textalign 1
       textalignx 20
       textaligny 15
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       { 
