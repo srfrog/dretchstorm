@@ -111,7 +111,7 @@ game_t struct
 {
 	"xreal",			/* -game x */
 	"base",				/* default base game data dir */
-	".xreal",			/* unix home sub-dir */
+	".dstorm",			/* unix home sub-dir */
 	"xreal",			/* magic path word */
 	"materials",		/* shader directory */
 	1024,				/* max lightmapped surface verts */
