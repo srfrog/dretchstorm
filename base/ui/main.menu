@@ -1,0 +1,39 @@
+#include "ui/menudef.h"
+#include "ui/common.h"
+
+{
+  assetGlobalDef
+  {
+    font "fonts/Vera" 30        // font
+    smallFont "fonts/Vera" 20        // font
+    bigFont "fonts/Resistance" 40        // font
+    cursor "ui/assets/3_cursor3"      // cursor 
+    gradientBar "ui/assets/gradientbar2.tga"  // gradient bar
+    itemFocusSound "sound/misc/menu2.wav"   // sound for item getting focus (via keyboard or mouse )
+  
+    fadeClamp 1.0         // sets the fadeup alpha
+    fadeCycle 1         // how often fade happens in milliseconds
+    fadeAmount 0.1          // amount to adjust alpha per cycle
+
+    shadowColor 0.1 0.1 0.1 0.25      // shadow color
+  }
+
+  menuDef
+  {
+    name main
+    fullScreen MENU_TRUE        
+    rect 0 0 640 480        // Size and position of the menu
+    visible MENU_TRUE       // Visible on open
+    focusColor FOCUS_COLOUR
+
+    onOpen { 
+      uiScript stopRefresh;
+      setitemcolor grpMainNav forecolor ITEM_NORMAL;
+      playlooped "sound/ui/heartbeat.ogg" 
+    }	
+    onESC { open quit_popmenu }
+  
+#include "ui/main_common.cfg"
+
+  }
+}
