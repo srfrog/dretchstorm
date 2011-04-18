@@ -15,7 +15,7 @@
 
 
 # fs_basepath is generally '../..' since xmap2_compile is in the base/maps/ dir.
-FS_BASEPATH='.'
+FS_BASEPATH='../..'
 # fs_game should be 'base'
 FS_GAME='base'
 # game should be 'xreal'
@@ -147,13 +147,13 @@ map_help() {
 check_compiler() {
 	case `uname -m` in
 		x86_64)
-			COMPILER='./xmap2.x86_64'
+			COMPILER="$FS_BASEPATH/xmap2.x86_64"
 			;;
 		i386|i486|i586|i686)
-			COMPILER='./xmap2.i386'
+			COMPILER="$FS_BASEPATH/xmap2.i386"
 			;;
 		powerpc|powerpc64)
-			COMPILER='./xmap2.ppc'
+			COMPILER="$FS_BASEPATH/xmap2.ppc"
 			;;
 		*)
 			echo "You are not running a supported platform for compiling XreaL maps. If you would like to compile XreaL maps on your platform, please visit http://www.xreal-project.net for contact information."
