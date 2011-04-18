@@ -148,7 +148,7 @@
       border 1
       bordercolor .5 .5 .5 1
       forecolor 1 1 1 1
-      backcolor 0 0 0 1
+      backcolor WINDOW_BACKGROUND
       visible 1
       decoration
     }

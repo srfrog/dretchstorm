@@ -57,13 +57,13 @@
       maxchars 15
       text ""
       textscale .25
-      TYPE 4
+      type ITEM_TYPE_EDITFIELD
       cvar "ui_favoriteName"
       rect 60 81 120 20
       textalign 0
       textalignx 10
       textaligny 16
-      forecolor ENTRY_R ENTRY_G ENTRY_B ENTRY_A
+      forecolor ENTRY_BOX_COLOUR
       backcolor .2 .2 .2 .5
       visible 1
     }
@@ -98,7 +98,7 @@
       textalign 0
       textalignx 10
       textaligny 16
-      forecolor ENTRY_R ENTRY_G ENTRY_B ENTRY_A
+      forecolor ENTRY_BOX_COLOUR
       backcolor .2 .2 .2 .5
       visible 1
     }

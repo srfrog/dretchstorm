@@ -16,9 +16,9 @@
       hide optionsGrp;
       show game;
 
-      setitemcolor gameBtn      forecolor 0.2 0.2 0.2 1.0;
-      setitemcolor controlsBtn  forecolor 1.0 1.0 1.0 1.0;
-      setitemcolor systemBtn    forecolor 1.0 1.0 1.0 1.0
+      setitemcolor gameBtn      forecolor ITEM_SELECTED;
+      setitemcolor controlsBtn  forecolor ITEM_NORMAL;
+      setitemcolor systemBtn    forecolor ITEM_NORMAL
     }
 
     itemDef
@@ -26,13 +26,13 @@
       name window
       rect 10 5 292 270
       style WINDOW_STYLE_FILLED
-      backcolor 0 0 0 1
+      backcolor WINDOW_BACKGROUND
       visible 1
       decoration
 
       border WINDOW_BORDER_KCGRADIENT
       borderSize 2.0
-      borderColor 0.5 0.5 0.5 1
+      borderColor WINDOW_BORDER_COLOUR
     }
 
     //Section menus
@@ -48,7 +48,7 @@
       textalignx 34
       textaligny 18
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1 
       action
       {
@@ -56,9 +56,9 @@
         hide optionsGrp;
         show game;
         
-        setitemcolor gameBtn      forecolor 0.2 0.2 0.2 1.0;
-        setitemcolor controlsBtn  forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor systemBtn    forecolor 1.0 1.0 1.0 1.0
+        setitemcolor gameBtn      forecolor ITEM_SELECTED;
+        setitemcolor controlsBtn  forecolor ITEM_NORMAL;
+        setitemcolor systemBtn    forecolor ITEM_NORMAL
       }
     }
 
@@ -74,7 +74,7 @@
       textalignx 34
       textaligny 18        
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1 
       action
       {
@@ -83,9 +83,9 @@
         show controls;
         show look;
         
-        setitemcolor gameBtn      forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor controlsBtn  forecolor 0.2 0.2 0.2 1.0;
-        setitemcolor systemBtn    forecolor 1.0 1.0 1.0 1.0
+        setitemcolor gameBtn      forecolor ITEM_NORMAL;
+        setitemcolor controlsBtn  forecolor ITEM_SELECTED;
+        setitemcolor systemBtn    forecolor ITEM_NORMAL
       }
     }
 
@@ -101,7 +101,7 @@
       textalignx 34
       textaligny 18        
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1 
       action
       {
@@ -110,9 +110,9 @@
         show system;
         show ghardware;
         
-        setitemcolor gameBtn      forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor controlsBtn  forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor systemBtn    forecolor 0.2 0.2 0.2 1.0
+        setitemcolor gameBtn      forecolor ITEM_NORMAL;
+        setitemcolor controlsBtn  forecolor ITEM_NORMAL;
+        setitemcolor systemBtn    forecolor ITEM_SELECTED
       }
     }
 
@@ -132,7 +132,7 @@
       textalignx 64 
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ENTRY_BOX_COLOUR
       visible 0 
     }
     
@@ -148,7 +148,7 @@
       textalignx 128
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -168,7 +168,7 @@
       textalignx 128
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -188,7 +188,7 @@
       textalignx 128
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -208,7 +208,7 @@
       textalignx 128
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -229,7 +229,7 @@
       textalignx 128 
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -249,7 +249,7 @@
       textalignx 128
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -269,7 +269,7 @@
       textalignx 128 
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -289,7 +289,7 @@
       textalignx 128 
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -313,7 +313,7 @@
       textalignx 64
       textaligny 16
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -339,7 +339,7 @@
       maxPaintChars 20
       textaligny 12   
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -360,7 +360,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -381,7 +381,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -402,7 +402,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -423,7 +423,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0
       action
       {
@@ -444,7 +444,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -465,7 +465,7 @@
       maxPaintChars 20
       textaligny 15
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
     }
 
@@ -482,7 +482,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action 
       {
@@ -504,7 +504,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action 
       {
@@ -526,7 +526,7 @@
       textalignx 64
       textaligny 16
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -550,7 +550,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -571,7 +571,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -592,7 +592,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -613,7 +613,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -634,7 +634,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -655,7 +655,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -676,7 +676,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -697,7 +697,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -718,7 +718,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0
       action
       {
@@ -739,7 +739,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -760,7 +760,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -781,7 +781,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -805,7 +805,7 @@
       textalignx 64
       textaligny 16
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -829,7 +829,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -850,7 +850,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -871,7 +871,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -892,7 +892,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25       
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -913,7 +913,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25       
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -934,7 +934,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25       
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -955,7 +955,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25       
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -976,7 +976,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25       
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -998,7 +998,7 @@
       textalignx 64
       textaligny 16
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1022,7 +1022,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25                  
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1043,7 +1043,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25               
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1064,7 +1064,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25               
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1085,7 +1085,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25             
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1106,7 +1106,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25             
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1127,7 +1127,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25           
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1148,7 +1148,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25             
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1169,7 +1169,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25            
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1190,7 +1190,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25              
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1211,7 +1211,7 @@
       maxPaintChars 20
       textaligny 12
       textscale .25             
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1234,7 +1234,7 @@
       textalignx 64
       textaligny 16
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1260,7 +1260,7 @@
       textalignx 100
       textaligny 12
       textscale .25         
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1282,7 +1282,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      foreforecolor 1 1 1 1   
       visible 0 
       decoration
     }
@@ -1299,7 +1299,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1323,7 +1323,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1345,7 +1345,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1367,7 +1367,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1389,7 +1389,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1411,7 +1411,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1434,7 +1434,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1456,7 +1456,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1477,7 +1477,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1498,7 +1498,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1519,7 +1519,7 @@
       textalign ITEM_ALIGN_CENTER
       textalignx 37
       textaligny 15
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0
       action
       {
@@ -1542,7 +1542,7 @@
       textalignx 64
       textaligny 16
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1565,7 +1565,7 @@
       textalignx 80
       textaligny 17
       textscale .25         
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
     }
 
@@ -1582,7 +1582,7 @@
       textalignx 80
       textaligny 17
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
     }
 
@@ -1598,7 +1598,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1 
       action
       {
@@ -1618,7 +1618,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1 
       action
       {
@@ -1638,7 +1638,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1 
       action
       {
@@ -1658,7 +1658,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1 
       action
       {
@@ -1678,7 +1678,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1 
       action
       {
@@ -1698,7 +1698,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1 
       action
       {
@@ -1718,7 +1718,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1 
       action
       {
@@ -1738,7 +1738,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1 
       action
       {
@@ -1758,7 +1758,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1 
       action
       {
@@ -1779,7 +1779,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1 
       action
       {
@@ -1801,7 +1801,7 @@
       textalignx 64
       textaligny 16
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1841,7 +1841,7 @@
       textalignx 64
       textaligny 16
       textscale .25
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1884,7 +1884,7 @@
       textalignx 90
       textaligny 17
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
     }
   
@@ -1900,7 +1900,7 @@
       textalignx 90
       textaligny 17
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
     }
 
@@ -1916,7 +1916,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1937,8 +1937,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
-      visible 0 
+      forecoloforecolor ITEM_NORMALisible 0 
       action
       {
         play "sound/misc/menu1.wav"; 
@@ -1957,7 +1956,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
@@ -1977,7 +1976,7 @@
       textalign ITEM_ALIGN_CENTER
       textalignx 37
       textaligny 15
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0
       action
       {
@@ -2020,7 +2019,7 @@
       textalignx 100
       textaligny 17
       textscale .25        
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0 
       action
       {
