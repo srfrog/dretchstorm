@@ -92,7 +92,7 @@
       textscale .25        
       outlinecolor .2 .2 .2 .5
       backcolor 0.086 0.086 0.117 0.5
-      forecolor ENTRY_R ENTRY_G ENTRY_B ENTRY_A
+      forecolor ENTRY_BOX_COLOUR
       border 0
       bordercolor 0 0 0 0
       action { ui_script FindPlayer }
@@ -145,7 +145,7 @@
       backcolor 0 0 0 1
       border 1
       bordersize 1
-      backcolor 0.086 0.086 0.117 0.5
+      backcolor LISTBOX_BACKGROUND
       bordercolor .5 .5 .5 1
       elementtype LISTBOX_TEXT
       feeder FEEDER_SERVERSTATUS

@@ -15,9 +15,9 @@
       hide grpCallVote;
       show misc;
 
-      setitemcolor miscBtn      forecolor 0.2 0.2 0.2 1.0;
-      setitemcolor kickBtn      forecolor 1.0 1.0 1.0 1.0;
-      setitemcolor mapBtn       forecolor 1.0 1.0 1.0 1.0;
+      setitemcolor miscBtn      forecolor ITEM_SELECTED;
+      setitemcolor kickBtn      forecolor ITEM_NORMAL;
+      setitemcolor mapBtn       forecolor ITEM_NORMAL;
     }
 
     itemDef
@@ -25,7 +25,7 @@
       name window
       rect 10 5 230 147
       style WINDOW_STYLE_FILLED
-      backcolor 0 0 0 1
+      backcolor WINDOW_BACKGROUND
       visible 1
       decoration
 
@@ -45,7 +45,7 @@
       textalign ITEM_ALIGN_CENTER
       textalignx 22
       textaligny 16
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -53,9 +53,9 @@
         hide grpCallVote;
         show misc;
 
-        setitemcolor miscBtn      forecolor 0.2 0.2 0.2 1.0;
-        setitemcolor kickBtn      forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor mapBtn       forecolor 1.0 1.0 1.0 1.0
+        setitemcolor miscBtn      forecolor ITEM_SELECTED;
+        setitemcolor kickBtn      forecolor ITEM_NORMAL;
+        setitemcolor mapBtn       forecolor ITEM_NORMAL
       }
     }
     
@@ -70,7 +70,7 @@
       textalign ITEM_ALIGN_CENTER
       textalignx 22
       textaligny 16
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -78,9 +78,9 @@
         hide grpCallVote;
         show kick;
 
-        setitemcolor miscBtn      forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor kickBtn      forecolor 0.2 0.2 0.2 1.0;
-        setitemcolor mapBtn       forecolor 1.0 1.0 1.0 1.0
+        setitemcolor miscBtn      forecolor ITEM_NORMAL;
+        setitemcolor kickBtn      forecolor ITEM_SELECTED;
+        setitemcolor mapBtn       forecolor ITEM_NORMAL
       }
     }
     
@@ -95,7 +95,7 @@
       textalign ITEM_ALIGN_CENTER
       textalignx 22
       textaligny 16
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 1
       action
       {
@@ -103,9 +103,9 @@
         hide grpCallVote;
         show map;
 
-        setitemcolor miscBtn      forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor kickBtn      forecolor 1.0 1.0 1.0 1.0;
-        setitemcolor mapBtn       forecolor 0.2 0.2 0.2 1.0
+        setitemcolor miscBtn      forecolor ITEM_NORMAL;
+        setitemcolor kickBtn      forecolor ITEM_NORMAL;
+        setitemcolor mapBtn       forecolor ITEM_SELECTED
       }
     }
 
@@ -123,7 +123,7 @@
       textalign 1
       textalignx 50
       textaligny 16
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0
       action
       {
@@ -144,7 +144,7 @@
       textalign 1
       textalignx 50
       textaligny 16
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0
       action
       {
@@ -187,7 +187,7 @@
       border 1
       bordercolor   0.5 0.5 0.5 0.5
       forecolor     1   1   1   1
-      backcolor     0.2 0.2 0.2 1
+      backcolor     LISTBOX_BACKGROUND
       outlinecolor  0.1 0.1 0.1 0.5
       visible 0
     }
@@ -203,7 +203,7 @@
       textalign 1
       textalignx 25
       textaligny 15
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0
       action
       {
@@ -247,7 +247,7 @@
       border 1
       bordercolor   0.5 0.5 0.5 0.5
       forecolor     1   1   1   1
-      backcolor     0.2 0.2 0.2 1 
+      backcolor     LISTBOX_BACKGROUND
       outlinecolor  0.1 0.1 0.1 0.5
       visible 0
     }
@@ -263,7 +263,7 @@
       textalign 1
       textalignx 25
       textaligny 15
-      forecolor 1 1 1 1
+      forecolor ITEM_NORMAL
       visible 0
       action
       {
