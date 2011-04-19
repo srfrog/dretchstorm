@@ -1,0 +1,389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A78CE356-910C-4C0E-886D-5E3F09F40082}</ProjectGuid>
+    <RootNamespace>rendererGL</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\rendererGL\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\rendererGL\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\freetype\include;..\sdl\include;..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;BUILD_FREETYPE;FT2_BUILD_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;SDL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\sdl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>rendererGL.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>$(IntDir)$(TargetFileName).bsc</OutputFile>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\freetype\include;..\sdl\include;..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;BUILD_FREETYPE;FT2_BUILD_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
+      <WarningLevel>Level4</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;SDL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\sdl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>rendererGL.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetFileName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>$(IntDir)$(TargetFileName).bsc</OutputFile>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="gl_shader.cpp" />
+    <ClCompile Include="..\qcommon\q_math.c" />
+    <ClCompile Include="..\qcommon\q_shared.c" />
+    <ClCompile Include="qgl.c" />
+    <ClCompile Include="..\sys\sdl_gamma.c" />
+    <ClCompile Include="..\sys\sdl_glimp.c" />
+    <ClCompile Include="tr_animation.c" />
+    <ClCompile Include="tr_backend.cpp" />
+    <ClCompile Include="tr_bsp.c" />
+    <ClCompile Include="tr_cmds.c" />
+    <ClCompile Include="tr_curve.c" />
+    <ClCompile Include="tr_fbo.c" />
+    <ClCompile Include="tr_flares.c" />
+    <ClCompile Include="tr_font.c" />
+    <ClCompile Include="tr_image.c" />
+    <ClCompile Include="tr_image_dds.c" />
+    <ClCompile Include="tr_image_exr.cpp" />
+    <ClCompile Include="tr_image_jpg.c" />
+    <ClCompile Include="tr_image_png.c" />
+    <ClCompile Include="tr_image_tga.c" />
+    <ClCompile Include="tr_init.c" />
+    <ClCompile Include="tr_light.c" />
+    <ClCompile Include="tr_main.c" />
+    <ClCompile Include="tr_marks.c" />
+    <ClCompile Include="tr_mesh.c" />
+    <ClCompile Include="tr_model.c" />
+    <ClCompile Include="tr_model_md3.c" />
+    <ClCompile Include="tr_model_md5.c" />
+    <ClCompile Include="tr_model_psk.c" />
+    <ClCompile Include="tr_model_skel.c" />
+    <ClCompile Include="tr_noise.c" />
+    <ClCompile Include="tr_scene.c" />
+    <ClCompile Include="tr_shade.cpp" />
+    <ClCompile Include="tr_shade_calc.c" />
+    <ClCompile Include="tr_shader.c" />
+    <ClCompile Include="tr_shadows.c" />
+    <ClCompile Include="tr_skin.c" />
+    <ClCompile Include="tr_sky.cpp" />
+    <ClCompile Include="tr_surface.c" />
+    <ClCompile Include="tr_vbo.c" />
+    <ClCompile Include="tr_world.cpp" />
+    <ClCompile Include="..\jpeg-6\jcapimin.c" />
+    <ClCompile Include="..\jpeg-6\jccoefct.c" />
+    <ClCompile Include="..\jpeg-6\jccolor.c" />
+    <ClCompile Include="..\jpeg-6\jcdctmgr.c" />
+    <ClCompile Include="..\jpeg-6\jchuff.c" />
+    <ClCompile Include="..\jpeg-6\jcinit.c" />
+    <ClCompile Include="..\jpeg-6\jcmainct.c" />
+    <ClCompile Include="..\jpeg-6\jcmarker.c" />
+    <ClCompile Include="..\jpeg-6\jcmaster.c" />
+    <ClCompile Include="..\jpeg-6\jcomapi.c" />
+    <ClCompile Include="..\jpeg-6\jcparam.c" />
+    <ClCompile Include="..\jpeg-6\jcphuff.c" />
+    <ClCompile Include="..\jpeg-6\jcprepct.c" />
+    <ClCompile Include="..\jpeg-6\jcsample.c" />
+    <ClCompile Include="..\jpeg-6\jctrans.c" />
+    <ClCompile Include="..\jpeg-6\jdapimin.c" />
+    <ClCompile Include="..\jpeg-6\jdapistd.c" />
+    <ClCompile Include="..\jpeg-6\jdatadst.c" />
+    <ClCompile Include="..\jpeg-6\jdatasrc.c" />
+    <ClCompile Include="..\jpeg-6\jdcoefct.c" />
+    <ClCompile Include="..\jpeg-6\jdcolor.c" />
+    <ClCompile Include="..\jpeg-6\jddctmgr.c" />
+    <ClCompile Include="..\jpeg-6\jdhuff.c" />
+    <ClCompile Include="..\jpeg-6\jdinput.c" />
+    <ClCompile Include="..\jpeg-6\jdmainct.c" />
+    <ClCompile Include="..\jpeg-6\jdmarker.c" />
+    <ClCompile Include="..\jpeg-6\jdmaster.c" />
+    <ClCompile Include="..\jpeg-6\jdpostct.c" />
+    <ClCompile Include="..\jpeg-6\jdsample.c" />
+    <ClCompile Include="..\jpeg-6\jdtrans.c" />
+    <ClCompile Include="..\jpeg-6\jerror.c" />
+    <ClCompile Include="..\jpeg-6\jfdctflt.c" />
+    <ClCompile Include="..\jpeg-6\jidctflt.c" />
+    <ClCompile Include="..\jpeg-6\jmemmgr.c" />
+    <ClCompile Include="..\jpeg-6\jmemnobs.c" />
+    <ClCompile Include="..\jpeg-6\jutils.c" />
+    <ClCompile Include="..\png\png.c" />
+    <ClCompile Include="..\png\pngerror.c" />
+    <ClCompile Include="..\png\pngget.c" />
+    <ClCompile Include="..\png\pngmem.c" />
+    <ClCompile Include="..\png\pngpread.c" />
+    <ClCompile Include="..\png\pngread.c" />
+    <ClCompile Include="..\png\pngrio.c" />
+    <ClCompile Include="..\png\pngrtran.c" />
+    <ClCompile Include="..\png\pngrutil.c" />
+    <ClCompile Include="..\png\pngset.c" />
+    <ClCompile Include="..\png\pngtrans.c" />
+    <ClCompile Include="..\png\pngwio.c" />
+    <ClCompile Include="..\png\pngwrite.c" />
+    <ClCompile Include="..\png\pngwtran.c" />
+    <ClCompile Include="..\png\pngwutil.c" />
+    <ClCompile Include="..\zlib\adler32.c" />
+    <ClCompile Include="..\zlib\compress.c" />
+    <ClCompile Include="..\zlib\crc32.c" />
+    <ClCompile Include="..\zlib\deflate.c" />
+    <ClCompile Include="..\zlib\gzio.c" />
+    <ClCompile Include="..\zlib\infback.c" />
+    <ClCompile Include="..\zlib\inffast.c" />
+    <ClCompile Include="..\zlib\inflate.c" />
+    <ClCompile Include="..\zlib\inftrees.c" />
+    <ClCompile Include="..\zlib\ioapi.c" />
+    <ClCompile Include="..\zlib\trees.c" />
+    <ClCompile Include="..\zlib\uncompr.c" />
+    <ClCompile Include="..\zlib\zutil.c" />
+    <ClCompile Include="..\freetype\src\autofit\autofit.c" />
+    <ClCompile Include="..\freetype\src\bdf\bdf.c" />
+    <ClCompile Include="..\freetype\src\cff\cff.c" />
+    <ClCompile Include="..\freetype\src\base\ftbase.c" />
+    <ClCompile Include="..\freetype\src\base\ftbitmap.c" />
+    <ClCompile Include="..\freetype\src\cache\ftcache.c" />
+    <ClCompile Include="..\freetype\src\base\ftdebug.c" />
+    <ClCompile Include="..\freetype\src\base\ftgasp.c" />
+    <ClCompile Include="..\freetype\src\base\ftglyph.c" />
+    <ClCompile Include="..\freetype\src\gzip\ftgzip.c" />
+    <ClCompile Include="..\freetype\src\base\ftinit.c" />
+    <ClCompile Include="..\freetype\src\lzw\ftlzw.c" />
+    <ClCompile Include="..\freetype\src\base\ftstroke.c" />
+    <ClCompile Include="..\freetype\src\base\ftsystem.c" />
+    <ClCompile Include="..\freetype\src\smooth\smooth.c" />
+    <ClCompile Include="..\freetype\src\base\ftbbox.c" />
+    <ClCompile Include="..\freetype\src\base\ftmm.c" />
+    <ClCompile Include="..\freetype\src\base\ftpfr.c" />
+    <ClCompile Include="..\freetype\src\base\ftsynth.c" />
+    <ClCompile Include="..\freetype\src\base\fttype1.c" />
+    <ClCompile Include="..\freetype\src\base\ftwinfnt.c" />
+    <ClCompile Include="..\freetype\src\pcf\pcf.c" />
+    <ClCompile Include="..\freetype\src\pfr\pfr.c" />
+    <ClCompile Include="..\freetype\src\psaux\psaux.c" />
+    <ClCompile Include="..\freetype\src\pshinter\pshinter.c" />
+    <ClCompile Include="..\freetype\src\psnames\psmodule.c" />
+    <ClCompile Include="..\freetype\src\raster\raster.c" />
+    <ClCompile Include="..\freetype\src\sfnt\sfnt.c" />
+    <ClCompile Include="..\freetype\src\truetype\truetype.c" />
+    <ClCompile Include="..\freetype\src\type1\type1.c" />
+    <ClCompile Include="..\freetype\src\cid\type1cid.c" />
+    <ClCompile Include="..\freetype\src\type42\type42.c" />
+    <ClCompile Include="..\freetype\src\winfonts\winfnt.c" />
+    <ClCompile Include="..\openexr\half.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="gl_shader.h" />
+    <ClInclude Include="..\qcommon\q_platform.h" />
+    <ClInclude Include="..\qcommon\q_shared.h" />
+    <ClInclude Include="qgl.h" />
+    <ClInclude Include="tr_local.h" />
+    <ClInclude Include="tr_public.h" />
+    <ClInclude Include="tr_types.h" />
+    <ClInclude Include="..\jpeg-6\jchuff.h" />
+    <ClInclude Include="..\jpeg-6\jconfig.h" />
+    <ClInclude Include="..\jpeg-6\jdct.h" />
+    <ClInclude Include="..\jpeg-6\jdhuff.h" />
+    <ClInclude Include="..\jpeg-6\jerror.h" />
+    <ClInclude Include="..\jpeg-6\jinclude.h" />
+    <ClInclude Include="..\jpeg-6\jmemsys.h" />
+    <ClInclude Include="..\jpeg-6\jmorecfg.h" />
+    <ClInclude Include="..\jpeg-6\jpegint.h" />
+    <ClInclude Include="..\jpeg-6\jpeglib.h" />
+    <ClInclude Include="..\jpeg-6\jversion.h" />
+    <ClInclude Include="..\png\png.h" />
+    <ClInclude Include="..\png\pngconf.h" />
+    <ClInclude Include="..\zlib\inftrees.h" />
+    <ClInclude Include="..\zlib\ioapi.h" />
+    <ClInclude Include="..\zlib\zconf.h" />
+    <ClInclude Include="..\zlib\zlib.h" />
+    <ClInclude Include="..\freetype\include\ft2build.h" />
+    <ClInclude Include="..\freetype\include\freetype\config\ftconfig.h" />
+    <ClInclude Include="..\freetype\include\freetype\config\ftheader.h" />
+    <ClInclude Include="..\freetype\include\freetype\config\ftmodule.h" />
+    <ClInclude Include="..\freetype\include\freetype\config\ftoption.h" />
+    <ClInclude Include="..\freetype\include\freetype\config\ftstdlib.h" />
+    <ClInclude Include="..\openexr\eLut.h" />
+    <ClInclude Include="..\openexr\half.h" />
+    <ClInclude Include="..\openexr\halfLimits.h" />
+    <ClInclude Include="..\openexr\toFloat.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="rendererGL.def" />
+    <None Include="..\..\base\glsl\bloom_fp.glsl" />
+    <None Include="..\..\base\glsl\bloom_vp.glsl" />
+    <None Include="..\..\base\glsl\blurX_fp.glsl" />
+    <None Include="..\..\base\glsl\blurX_vp.glsl" />
+    <None Include="..\..\base\glsl\blurY_fp.glsl" />
+    <None Include="..\..\base\glsl\blurY_vp.glsl" />
+    <None Include="..\..\base\glsl\cameraEffects_fp.glsl" />
+    <None Include="..\..\base\glsl\cameraEffects_vp.glsl" />
+    <None Include="..\..\base\glsl\contrast_fp.glsl" />
+    <None Include="..\..\base\glsl\contrast_vp.glsl" />
+    <None Include="..\..\base\glsl\debugShadowMap_fp.glsl" />
+    <None Include="..\..\base\glsl\debugShadowMap_vp.glsl" />
+    <None Include="..\..\base\glsl\deferredLighting_DBS_directional_fp.glsl" />
+    <None Include="..\..\base\glsl\deferredLighting_DBS_directional_vp.glsl" />
+    <None Include="..\..\base\glsl\deferredLighting_DBS_omni_fp.glsl" />
+    <None Include="..\..\base\glsl\deferredLighting_DBS_omni_vp.glsl" />
+    <None Include="..\..\base\glsl\deferredLighting_DBS_proj_fp.glsl" />
+    <None Include="..\..\base\glsl\deferredLighting_DBS_proj_vp.glsl" />
+    <None Include="..\..\base\glsl\deferredShadowing_proj_fp.glsl" />
+    <None Include="..\..\base\glsl\deferredShadowing_proj_vp.glsl" />
+    <None Include="..\..\base\glsl\deluxeMapping_fp.glsl" />
+    <None Include="..\..\base\glsl\deluxeMapping_vp.glsl" />
+    <None Include="..\..\base\glsl\depthFill_fp.glsl" />
+    <None Include="..\..\base\glsl\depthFill_vp.glsl" />
+    <None Include="..\..\base\glsl\depthOfField_fp.glsl" />
+    <None Include="..\..\base\glsl\depthOfField_vp.glsl" />
+    <None Include="..\..\base\glsl\depthTest_fp.glsl" />
+    <None Include="..\..\base\glsl\depthTest_vp.glsl" />
+    <None Include="..\..\base\glsl\depthToColor_fp.glsl" />
+    <None Include="..\..\base\glsl\depthToColor_vp.glsl" />
+    <None Include="..\..\base\glsl\dispersion_C_fp.glsl" />
+    <None Include="..\..\base\glsl\dispersion_C_vp.glsl" />
+    <None Include="..\..\base\glsl\forwardLighting_DBS_directional_fp.glsl" />
+    <None Include="..\..\base\glsl\forwardLighting_DBS_directional_vp.glsl" />
+    <None Include="..\..\base\glsl\forwardLighting_DBS_omni_fp.glsl" />
+    <None Include="..\..\base\glsl\forwardLighting_DBS_omni_vp.glsl" />
+    <None Include="..\..\base\glsl\forwardLighting_DBS_post_fp.glsl" />
+    <None Include="..\..\base\glsl\forwardLighting_DBS_post_vp.glsl" />
+    <None Include="..\..\base\glsl\forwardLighting_DBS_proj_fp.glsl" />
+    <None Include="..\..\base\glsl\forwardLighting_DBS_proj_vp.glsl" />
+    <None Include="..\..\base\glsl\genericSingle_fp.glsl" />
+    <None Include="..\..\base\glsl\genericSingle_vp.glsl" />
+    <None Include="..\..\base\glsl\geometricFill_DBS_fp.glsl" />
+    <None Include="..\..\base\glsl\geometricFill_DBS_vp.glsl" />
+    <None Include="..\..\base\glsl\heatHaze_fp.glsl" />
+    <None Include="..\..\base\glsl\heatHaze_vp.glsl" />
+    <None Include="..\..\base\glsl\lightMapping_fp.glsl" />
+    <None Include="..\..\base\glsl\lightMapping_vp.glsl" />
+    <None Include="..\..\base\glsl\lightVolume_omni_fp.glsl" />
+    <None Include="..\..\base\glsl\lightVolume_omni_vp.glsl" />
+    <None Include="..\..\base\glsl\liquid_fp.glsl" />
+    <None Include="..\..\base\glsl\liquid_vp.glsl" />
+    <None Include="..\..\base\glsl\portal_fp.glsl" />
+    <None Include="..\..\base\glsl\portal_vp.glsl" />
+    <None Include="..\..\base\glsl\reflection_C_fp.glsl" />
+    <None Include="..\..\base\glsl\reflection_C_vp.glsl" />
+    <None Include="..\..\base\glsl\reflection_CB_fp.glsl" />
+    <None Include="..\..\base\glsl\reflection_CB_vp.glsl" />
+    <None Include="..\..\base\glsl\refraction_C_fp.glsl" />
+    <None Include="..\..\base\glsl\refraction_C_vp.glsl" />
+    <None Include="..\..\base\glsl\rotoscope_fp.glsl" />
+    <None Include="..\..\base\glsl\rotoscope_vp.glsl" />
+    <None Include="..\..\base\glsl\screen_fp.glsl" />
+    <None Include="..\..\base\glsl\screen_vp.glsl" />
+    <None Include="..\..\base\glsl\screenSpaceAmbientOcclusion_fp.glsl" />
+    <None Include="..\..\base\glsl\screenSpaceAmbientOcclusion_vp.glsl" />
+    <None Include="..\..\base\glsl\shadowExtrude_fp.glsl" />
+    <None Include="..\..\base\glsl\shadowExtrude_vp.glsl" />
+    <None Include="..\..\base\glsl\shadowFill_fp.glsl" />
+    <None Include="..\..\base\glsl\shadowFill_vp.glsl" />
+    <None Include="..\..\base\glsl\skybox_fp.glsl" />
+    <None Include="..\..\base\glsl\skybox_vp.glsl" />
+    <None Include="..\..\base\glsl\toneMapping_fp.glsl" />
+    <None Include="..\..\base\glsl\toneMapping_vp.glsl" />
+    <None Include="..\..\base\glsl\uniformFog_fp.glsl" />
+    <None Include="..\..\base\glsl\uniformFog_vp.glsl" />
+    <None Include="..\..\base\glsl\vertexLighting_DBS_entity_fp.glsl" />
+    <None Include="..\..\base\glsl\vertexLighting_DBS_entity_vp.glsl" />
+    <None Include="..\..\base\glsl\vertexLighting_DBS_world_fp.glsl" />
+    <None Include="..\..\base\glsl\vertexLighting_DBS_world_vp.glsl" />
+    <None Include="..\..\base\glsl\volumetricFog_fp.glsl" />
+    <None Include="..\..\base\glsl\volumetricFog_vp.glsl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,101 @@
+#include "ui/menudef.h"
+#include "ui/common.h"
+{
+  \\ QUIT POPUP MENU \\
+
+  menuDef
+  {
+    name "quit_popmenu"
+    visible 0
+    fullscreen 0
+    rect 380 20 240 80
+    focusColor FOCUS_COLOUR
+    style 1
+    border 1
+    onESC
+    {
+      play "sound/misc/menu1.wav"; 
+      close quit_popmenu;
+      open main
+    }
+
+    
+    itemDef
+    {
+      name window
+      rect 0 0 240 80
+      style WINDOW_STYLE_FILLED
+      backcolor 0.086 0.086 0.117 0.5
+      visible 1
+      decoration
+
+      border WINDOW_BORDER_FULL
+      borderSize 1.0
+      borderColor WINDOW_BORDER_COLOUR
+    }
+
+
+    // QUIT //
+
+    itemDef
+    {
+      name confirm
+      text "Are you sure you want to quit?"
+      style 0
+      textscale .25 
+      textstyle 3
+      rect 0 20 110 20
+      textalign 1
+      textalignx 117
+      textaligny 16
+      decoration
+      forecolor 1 1 1 1
+      visible 1
+    }
+
+
+    itemDef
+    {
+      name yes
+      text "YES"
+      type 1
+      textscale .25
+      rect 75 40 30 26
+      textalign 1
+      textalignx 15
+      textaligny 20
+      forecolor 1 1 1 0.66
+      visible 1
+      action
+      { 
+        play "sound/misc/menu4.wav"; 
+        close main;
+        close quit_popmenu; 
+        uiScript "quit"
+      }
+    }
+    
+
+    itemDef
+    {
+      name no
+      text "NO"
+      type 1
+      textscale .25
+      rect 128 40 30 26
+      textalign 1
+      textalignx 15
+      textaligny 20
+      forecolor 1 1 1 0.66
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        close quit_popmenu;
+        open main
+      }
+    }
+  }
+}
+
+
