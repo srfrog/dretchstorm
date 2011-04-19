@@ -21,4 +21,5 @@ base/textures/*
 build/*
 config.log
 dstorm.conf
+filelist.txt
 tmp/*
