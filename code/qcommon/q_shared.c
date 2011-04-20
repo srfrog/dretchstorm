@@ -990,8 +990,6 @@ char           *Com_ParseExt(char **data_p, qboolean allowLineBreaks)
 	int             c = 0, len;
 	qboolean        hasNewLines = qfalse;
 	char           *data;
-	// XXX let's be tidy...
-	// XXX const char    **punc;
 
 	if(!data_p)
 	{
@@ -1087,168 +1085,40 @@ char           *Com_ParseExt(char **data_p, qboolean allowLineBreaks)
 		}
 	}
 
-/* XXX ghostshell - this breaks a lot of stuff. so instead of checking for type let's just load
- * whatever as a string.
-	// check for a number
-	// is this parsing of negative numbers going to cause expression problems
-	if(	(c >= '0' && c <= '9') ||
-		(c == '-' && data[1] >= '0' && data[1] <= '9') ||
-		(c == '.' && data[1] >= '0' && data[1] <= '9') ||
-		(c == '-' && data[1] == '.' && data[2] >= '0' && data[2] <= '9'))
-	{
-		do
-		{
-			if(len < MAX_TOKEN_CHARS - 1)
-			{
-				com_token[len] = c;
-				len++;
-			}
-			data++;
-
-			c = *data;
-		} while((c >= '0' && c <= '9') || c == '.');
-
-		// parse the exponent
-		if(c == 'e' || c == 'E')
-		{
-			if(len < MAX_TOKEN_CHARS - 1)
-			{
-				com_token[len] = c;
-				len++;
-			}
-			data++;
-			c = *data;
-
-			if(c == '-' || c == '+')
-			{
-				if(len < MAX_TOKEN_CHARS - 1)
-				{
-					com_token[len] = c;
-					len++;
-				}
-				data++;
-				c = *data;
-			}
-
-			do
-			{
-				if(len < MAX_TOKEN_CHARS - 1)
-				{
-					com_token[len] = c;
-					len++;
-				}
-				data++;
-
-				c = *data;
-			} while(c >= '0' && c <= '9');
-		}
-
-		if(len == MAX_TOKEN_CHARS)
-		{
-			len = 0;
-		}
-		com_token[len] = 0;
-
-		*data_p = (char *)data;
-		return com_token;
-	}
-
-	// check for a regular word
-	// we still allow forward and back slashes in name tokens for pathnames
-	// and also colons for drive letters
-	if(	(c >= 'a' && c <= 'z') ||
-		(c >= 'A' && c <= 'Z') ||
-		(c == '_') ||
-		(c == '/') ||
-		(c == '\\') ||
-		(c == '$') || (c == '*')) // Tr3B - for bad shader strings
-	{
-		do
-		{
-			if(len < MAX_TOKEN_CHARS - 1)
-			{
-				com_token[len] = c;
-				len++;
-			}
-			data++;
-
-			c = *data;
-		}
-		while
-			((c >= 'a' && c <= 'z') ||
-			 (c >= 'A' && c <= 'Z') ||
-			 (c == '_') ||
-			 (c == '-') ||
-			 (c >= '0' && c <= '9') ||
-			 (c == '/') ||
-			 (c == '\\') ||
-			 (c == ':') ||
-			 (c == '.') ||
-			 (c == '$') ||
-			 (c == '*') ||
-			 (c == '@'));
-
-		if(len == MAX_TOKEN_CHARS)
-		{
-			len = 0;
-		}
-		com_token[len] = 0;
-
-		*data_p = (char *)data;
-		return com_token;
-	}
-
-	// check for multi-character punctuation token
-	for(punc = punctuation; *punc; punc++)
-	{
-		int             l;
-		int             j;
-
-		l = strlen(*punc);
-		for(j = 0; j < l; j++)
-		{
-			if(data[j] != (*punc)[j])
-			{
-				break;
-			}
-		}
-		if(j == l)
-		{
-			// a valid multi-character punctuation
-			Com_Memcpy(com_token, *punc, l);
-			com_token[l] = 0;
-			data += l;
-			*data_p = (char *)data;
-			return com_token;
-		}
-	}
-
-	// single character punctuation
-	com_token[0] = *data;
-	com_token[1] = 0;
-	data++;
-* XXX ghostshell - end of cut
-*/
-
 	/*************************************************************
 	 * XXX ghostshell - parse as regular words, forget about types
 	 *************************************************************/
-	do
+	if (c>32 && (c != '(' && c != ')'))
 	{
-		if (len < MAX_TOKEN_CHARS - 1)
+		do
 		{
-			com_token[len] = c;
-			len++;
-		}
-		data++;
-		c = *data;
-		if ( c == '\n' )
-			com_lines++;
-	} while (c>32);
-	com_token[len] = 0;
+			if (len < MAX_TOKEN_CHARS - 1)
+			{
+				com_token[len] = c;
+				len++;
+			}
+			data++;
+			c = *data;
+			if ( c == '\n' )
+				com_lines++;
+		} while (c>32 && (c != '(' && c != ')'));
+
+      if(len == MAX_TOKEN_CHARS)
+      {
+         len = 0;
+      }
+		com_token[len] = 0;
+
+   	*data_p = (char *)data;
+		return com_token;
+	}
 	/*************************************************************/
 
-	*data_p = (char *)data;
+  // single character punctuation
+   com_token[0] = *data;
+   com_token[1] = 0;
+   data++;
+   *data_p = (char *)data;
 
 	return com_token;
 }
