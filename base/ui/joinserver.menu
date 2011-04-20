@@ -208,7 +208,7 @@
     itemDef
     {
       name mainwindow
-      rect 180 20 440 380
+      rect MAIN_WINDOW_RECT
       style WINDOW_STYLE_FILLED
       backcolor WINDOW_BACKGROUND
       visible 1
@@ -219,6 +219,25 @@
       borderColor WINDOW_BORDER_COLOUR
     }
     
+    // TITLE //
+    
+    itemDef
+    {
+      name        playTitle
+      style       WINDOW_STYLE_EMPTY
+      rect        180 37 430 20
+      textalign   ITEM_ALIGN_CENTER
+      textalignx  215
+      textaligny  10
+      textscale   0.5
+      textstyle   ITEM_TEXTSTYLE_NORMAL
+      text        "Play"
+      forecolor   1 1 1 1
+      backcolor   1 0 1 1
+      visible     1
+      decoration 
+    }
+    
     //  BUTTONS   //
     
     itemDef
@@ -226,7 +245,7 @@
       name gametypefield
       style WINDOW_STYLE_EMPTY
       ownerdraw UI_NETSOURCE
-      rect 180 27 110 15
+      rect 180 52 110 15
       textalign ITEM_ALIGN_LEFT
       textalignx 7
       textaligny 10
@@ -249,7 +268,7 @@
       type ITEM_TYPE_BUTTON
       textscale 0.25
       style WINDOW_STYLE_EMPTY
-      rect 290 27 110 15
+      rect 290 52 110 15
       textalign ITEM_ALIGN_CENTER
       textalignx 55
       textaligny 10
@@ -272,7 +291,7 @@
       textscale 0.25
       style WINDOW_STYLE_EMPTY
       type ITEM_TYPE_BUTTON
-      rect 400 27 110 15
+      rect 400 52 110 15
       textalign ITEM_ALIGN_CENTER
       textalignx 55
       textaligny 10
@@ -296,7 +315,7 @@
       type ITEM_TYPE_BUTTON
       textscale 0.25
       ownerdrawFlag UI_SHOW_NOTFAVORITESERVERS
-      rect 510 27 110 15
+      rect 510 52 110 15
       textalign ITEM_ALIGN_CENTER
       textalignx 55
       textaligny 10
@@ -318,7 +337,7 @@
       type ITEM_TYPE_BUTTON
       textscale 0.25
       ownerdrawFlag UI_SHOW_FAVORITESERVERS
-      rect 510 27 110 15
+      rect 510 52 110 15
       textalign ITEM_ALIGN_CENTER
       textalignx 55
       textaligny 10
@@ -363,7 +382,7 @@
     itemDef
     {
       name serverlist
-      rect 180 60 440 340
+      rect 180 85 440 340
       type ITEM_TYPE_LISTBOX
       style WINDOW_STYLE_EMPTY
       elementwidth 120
@@ -398,7 +417,7 @@
       type ITEM_TYPE_BUTTON
       textscale 0.275
       style WINDOW_STYLE_EMPTY
-      rect 187 45 90 15
+      rect 187 70 90 15
       textalign ITEM_ALIGN_LEFT
       textalignx 5
       textaligny 12
@@ -424,7 +443,7 @@
       text "Map Name"
       textscale 0.275
       style WINDOW_STYLE_EMPTY
-      rect 400 45 90 15
+      rect 400 70 90 15
       textalign ITEM_ALIGN_LEFT
       textalignx 5
       textaligny 12
@@ -450,7 +469,7 @@
       type ITEM_TYPE_BUTTON
       textscale 0.275
       style WINDOW_STYLE_EMPTY
-      rect 510 45 30 15
+      rect 510 70 30 15
       textalign ITEM_ALIGN_LEFT
       textalignx 5
       textaligny 12
@@ -475,7 +494,7 @@
       type ITEM_TYPE_BUTTON
       textscale 0.275
       style WINDOW_STYLE_EMPTY
-      rect 550 45 50 15
+      rect 550 70 50 15
       textalign ITEM_ALIGN_LEFT
       textalignx 5
       textaligny 12

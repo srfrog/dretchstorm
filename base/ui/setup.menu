@@ -1,0 +1,634 @@
+#include "ui/menudef.h"
+#include "ui/common.h"
+
+{
+  \\ SETUP \\
+
+  menuDef
+  {
+    name setup
+    visible 0
+    fullscreen 1
+    rect 0 0 640 480
+    focusColor FOCUS_COLOUR
+    style 1
+    border 0
+    onOpen
+    {
+       setitemcolor grpMainNav forecolor ITEM_NORMAL;
+       setitemcolor setupNav forecolor ITEM_SELECTED
+    }
+    onEsc
+    {
+      close setup;
+      open main
+    }
+    
+#include "ui/main_common.cfg"
+    
+    itemDef
+    {
+      name window
+      rect MAIN_WINDOW_RECT
+      style WINDOW_STYLE_FILLED
+      backcolor WINDOW_BACKGROUND
+      visible 1
+      decoration
+
+      border WINDOW_BORDER_FULL
+      borderSize 1.0
+      borderColor WINDOW_BORDER_COLOUR
+    }
+
+    itemDef
+    {
+      name        setupTitle
+      group       grpidcredit
+      style       WINDOW_STYLE_EMPTY
+      rect        180 37 430 20
+      textalign   ITEM_ALIGN_CENTER
+      textalignx  215
+      textaligny  10
+      textscale   0.5
+      textstyle   ITEM_TEXTSTYLE_NORMAL
+      text        "Setup"
+      forecolor   1 1 1 1
+      backcolor   1 0 1 1
+      visible     1
+      decoration 
+    }
+    
+    itemDef
+    {
+      name controlButton
+      group grpSetupNav
+      text "Controls"
+      type ITEM_TYPE_BUTTON
+      textscale 0.25
+      style WINDOW_STYLE_EMPTY
+      rect (180+((440/3)*1-55)) 52 110 15
+      textalign ITEM_ALIGN_CENTER
+      textalignx 55
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav";
+        setitemcolor grpSetupNav forecolor ITEM_NORMAL;
+        setitemcolor controlButton forecolor ITEM_SELECTED;
+        hide grpVideo;
+        show grpControls
+      }
+    }
+    
+    itemDef
+    {
+      name videoButton
+      group grpSetupNav
+      text "Video"
+      type ITEM_TYPE_BUTTON
+      textscale 0.25
+      style WINDOW_STYLE_EMPTY
+      rect (180+((440/3)*2-55)) 52 110 15
+      textalign ITEM_ALIGN_CENTER
+      textalignx 55
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav";
+        setitemcolor grpSetupNav forecolor ITEM_NORMAL;
+        setitemcolor videoButton forecolor ITEM_SELECTED;
+        show grpVideo;
+        hide grpControls
+      }
+    }
+    
+
+//Offsets for the first column of options
+#define OC1X (MAIN_WINDOW_OFFSET_X + 20)
+#define OC1Y (MAIN_WINDOW_OFFSET_Y + 50)
+//Offsets for the first column of options
+#define OC2X (MAIN_WINDOW_OFFSET_X + MAIN_WINDOW_WIDTH - 20)
+#define OC2Y OC1Y
+// Spacing for items
+#define OS 17
+    itemDef
+    {
+      name test1
+      group grpVideo
+      style WINDOW_STYLE_EMPTY
+      type ITEM_TYPE_MULTI
+      text "Resolution:"
+      cvar "r_mode"
+      cvarFloatList { "320x240" 0 "400x300" 1 "512x384" 2 "640x480" 3
+                      "800x600" 4 "960x720" 5 "1024x768" 6 "1152x864" 7
+                      "1280x1024" 8 "1600x1200" 9 "2048x1536" 10 
+                      "856x480 wide screen" 11 "Custom" -1 }
+      textscale 0.2
+      rect OC1X OC1Y 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10
+      textaligny 10
+      forecolor ITEM_NORMAL
+      border 0
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav";
+      }
+    }
+    itemDef
+    {
+      name test2
+      group grpVideo
+      style WINDOW_STYLE_EMPTY
+      type ITEM_TYPE_YESNO
+      text "Fullscreen:"
+      cvar "r_fullscreen"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*1)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav";
+      }
+    }
+    itemDef
+    {
+      name vsync
+      group grpVideo
+      style WINDOW_STYLE_EMPTY
+      type ITEM_TYPE_YESNO
+      text "Vsync:"
+      cvar "r_swapInterval"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*2)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav";
+      }
+    }
+    
+    itemDef
+    {
+      name vsync
+      group grpVideo
+      style WINDOW_STYLE_EMPTY
+      type ITEM_TYPE_SLIDER
+      text "Brightness:"
+      cvarfloat "r_gamma" 1 .5 2
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*3)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav";
+      }
+    }
+    
+    itemDef
+    {
+      name geometricdetail
+      group grpVideo
+      type ITEM_TYPE_MULTI
+      text "Geometric Detail:"
+      cvar "r_lodbias"
+      cvarFloatList { "High" 0 "Medium" 1 "Low" 2 }
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*4)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript glCustom;
+        uiScript update "r_lodbias"
+      }
+    }
+    itemDef
+    {
+      name geometricdetail
+      group grpVideo
+      type ITEM_TYPE_MULTI
+      text "Texture Detail:"
+      cvar "r_picmip"
+      cvarFloatList { "Low" 2 "Normal" 1 "High" 0 }
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*5)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript glCustom;
+      }
+    }
+    itemDef
+    {
+      name geometricdetail
+      group grpVideo
+      type ITEM_TYPE_MULTI
+      text "Texture Filter:"
+      cvar "r_texturemode"
+      cvarStrList { "Bilinear", "GL_LINEAR_MIPMAP_NEAREST", "Trilinear", "GL_LINEAR_MIPMAP_LINEAR"  }
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*6)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript glCustom;
+      }
+    }
+    itemDef
+    {
+      name r_ext_compressed_textures
+      group grpVideo
+      type ITEM_TYPE_YESNO
+      text "Compress Textures:"
+      cvar "r_ext_compressed_textures"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*7)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript glCustom;
+      }
+    }
+    itemDef
+    {
+      name ext_texture_filter_anisotropic
+      group grpVideo
+      type ITEM_TYPE_TEXT
+      text "Anisotropic Filter:"
+      cvar "r_ext_texture_filter_anisotropic"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*8)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript glCustom;
+      }
+    }
+    itemDef
+    {
+      name deferredShading
+      group grpVideo
+      type ITEM_TYPE_YESNO
+      text "Deferred Shading:"
+      cvar "r_deferredShading"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*9)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript glCustom;
+      }
+    }
+    itemDef
+    {
+      name r_normalMapping
+      group grpVideo
+      type ITEM_TYPE_YESNO
+      text "Normal Mapping:"
+      cvar "r_normalMapping"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*10)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript glCustom;
+        uiScript update "r_normalMapping"
+      }
+    }
+    itemDef
+    {
+      name r_parallaxMapping
+      group grpVideo
+      type ITEM_TYPE_YESNO
+      text "Relief Mapping:"
+      cvar "r_parallaxMapping"
+      showCvar { 1 }
+      cvarTest "r_normalMapping"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*11)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript glCustom;
+      }
+    }
+    itemDef
+    {
+      name r_parallaxMapping
+      group grpVideo
+      type ITEM_TYPE_YESNO
+      text "Relief Mapping:"
+      cvar "r_parallaxMapping"
+      hideCvar { 1 }
+      cvarTest "r_normalMapping"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*11)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_DISABLED
+      visible 0
+      decoration
+    }
+    itemDef
+    {
+      name cg_shadows
+      group grpVideo
+      type ITEM_TYPE_MULTI
+      text "Shadow Type:"
+      cvar "cg_shadows"
+      cvarFloatList { "Off" 0 "Blob" 1 "Planar" 2 "Stencil Volumes" 3
+                      "VSM 16 bit" 4 "VSM 32 bit" 5 "ESM 32 bit" 6}
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*12)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript glCustom;
+        uiScript update "cg_shadows"
+      }
+    }
+    itemDef
+    {
+      name r_softShadows
+      group grpVideo
+      type ITEM_TYPE_MULTI
+      text "Shadow Filter:"
+      cvar "r_softShadows"
+      cvarFloatList { "Off" 0 "PCF 2x2" 1 "PCF 3x3" 2 "PCF 4x4" 3
+                      "PCF 5x5" 4 "PCF 6x6" 5}
+      showCvar { 4 5 6 }
+      cvarTest "cg_shadows"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*13)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript glCustom;
+      }
+    }
+    itemDef
+    {
+      name r_softShadowsDisabled
+      group grpVideo
+      type ITEM_TYPE_TEXT
+      text "Shadow Filter:  Off"
+      hideCvar { 4 5 6 }
+      cvarTest "cg_shadows"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*13)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_DISABLED
+      visible 0
+      decoration
+    }
+    itemDef
+    {
+      name r_shadowBlur
+      group grpVideo
+      type ITEM_TYPE_SLIDER
+      text "Shadow Blur:"
+      cvarfloat "r_shadowBlur" 2 1 10
+      hideCvar { 0 }
+      cvarTest "r_softShadows"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*14)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript glCustom;
+      }
+    }
+    itemDef
+    {
+      name r_shadowBlurDisabled
+      group grpVideo
+      type ITEM_TYPE_SLIDER
+      text "Shadow Blur:"
+      cvarfloat "r_shadowBlur" 2 1 10
+      showCvar { 0 }
+      cvarTest "r_softShadows"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*14)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10
+      textaligny 10
+      forecolor ITEM_DISABLED
+      visible 0
+      decoration
+    }
+    itemDef
+    {
+      name r_shadowMapQuality
+      group grpVideo
+      type ITEM_TYPE_MULTI
+      text "Shadow Map Quality:"
+      cvar "r_shadowMapQuality"
+      cvarFloatList { "Custom" 0 "Low" 1 "Medium" 2 "High" 3 "Very High" 4 }
+      showCvar { 4 5 6 }
+      cvarTest "cg_shadows"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*15)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript glCustom;
+        uiScript update "r_shadowMapQuality"
+      }
+    }
+    itemDef
+    {
+      name r_shadowMapDisabled
+      group grpVideo
+      type ITEM_TYPE_TEXT
+      text "Shadow Map Quality:  Custom"
+      hideCvar { 4 5 6 }
+      cvarTest "cg_shadows"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*15)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_DISABLED
+      visible 0
+      decoration
+    }
+    itemDef
+    {
+      name r_dynamicLightsCastShadows
+      group grpVideo
+      type ITEM_TYPE_YESNO
+      text "Dynamic Light Shadows:"
+      cvar "r_dynamicLightsCastShadows"
+      showCvar { 3 4 5 6 }
+      cvarTest "cg_shadows"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*16)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript glCustom;
+      }
+    }
+    itemDef
+    {
+      name r_dynamicLightsCastShadowsDisabled
+      group grpVideo
+      type ITEM_TYPE_TEXT
+      text "Dynamic Light Shadows:  No"
+      hideCvar { 3 4 5 6 }
+      cvarTest "cg_shadows"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*16)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_DISABLED
+      visible 0
+      decoration
+    }
+    itemDef
+    {
+      name r_hdrRendering
+      group grpVideo
+      type ITEM_TYPE_YESNO
+      text "HDR Rendering:"
+      cvar "r_hdrRendering"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*17)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript glCustom;
+      }
+    }
+    itemDef
+    {
+      name r_bloom
+      group grpVideo
+      type ITEM_TYPE_YESNO
+      text "Bloom:"
+      cvar "r_bloom"
+      textscale 0.2
+      rect OC1X (OC1Y+(OS*18)) 155 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript glCustom;
+      }
+    }
+    itemDef
+    {
+      name r_bloom
+      group grpVideo
+      type ITEM_TYPE_BUTTON
+      text "Apply"
+      textscale 0.5
+      rect (OC2X-130) (OC2Y+(OS*18)) 155 30
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 15
+      forecolor ITEM_NORMAL
+      visible 0
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        exec "vid_restart"
+      }
+    }
+  }
+}
