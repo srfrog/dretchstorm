@@ -28,7 +28,7 @@
     itemDef
     {
       name window
-      rect 180 20 440 380
+      rect MAIN_WINDOW_RECT
       style WINDOW_STYLE_FILLED
       backcolor WINDOW_BACKGROUND
       visible 1
