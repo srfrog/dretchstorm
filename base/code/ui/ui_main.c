@@ -4257,6 +4257,76 @@ static void UI_Update(const char *name)
 				break;
 		}
 	}
+	else if(Q_stricmp(name, "r_shadowMapQuality") == 0)
+	{
+		switch (val)
+		{
+			case 1:				// low
+				trap_Cvar_SetValue("r_shadowMapSizeUltra", 256);
+				trap_Cvar_SetValue("r_shadowMapSizeVeryHigh", 128);
+				trap_Cvar_SetValue("r_shadowMapSizeHigh", 64);
+				trap_Cvar_SetValue("r_shadowMapSizeMedium", 32);
+				trap_Cvar_SetValue("r_shadowMapSizeLow", 16);
+				break;
+			case 2:				// medium
+				trap_Cvar_SetValue("r_shadowMapSizeUltra", 512);
+				trap_Cvar_SetValue("r_shadowMapSizeVeryHigh", 256);
+				trap_Cvar_SetValue("r_shadowMapSizeHigh", 128);
+				trap_Cvar_SetValue("r_shadowMapSizeMedium", 64);
+				trap_Cvar_SetValue("r_shadowMapSizeLow", 32);
+				break;
+			case 3:				// high
+				trap_Cvar_SetValue("r_shadowMapSizeUltra", 1024);
+				trap_Cvar_SetValue("r_shadowMapSizeVeryHigh", 512);
+				trap_Cvar_SetValue("r_shadowMapSizeHigh", 256);
+				trap_Cvar_SetValue("r_shadowMapSizeMedium", 128);
+				trap_Cvar_SetValue("r_shadowMapSizeLow", 64);
+				break;
+			case 4:				// very high
+				trap_Cvar_SetValue("r_shadowMapSizeUltra", 2048);
+				trap_Cvar_SetValue("r_shadowMapSizeVeryHigh", 1024);
+				trap_Cvar_SetValue("r_shadowMapSizeHigh", 512);
+				trap_Cvar_SetValue("r_shadowMapSizeMedium", 256);
+				trap_Cvar_SetValue("r_shadowMapSizeLow", 128);
+				break;
+				/*
+				   case 5: // ultra
+				   trap_Cvar_SetValue("r_shadowMapSizeUltra", 2048);
+				   trap_Cvar_SetValue("r_shadowMapSizeVeryHigh", 2048);
+				   trap_Cvar_SetValue("r_shadowMapSizeHigh", 1024);
+				   trap_Cvar_SetValue("r_shadowMapSizeMedium", 512);
+				   trap_Cvar_SetValue("r_shadowMapSizeLow", 128);
+				   break;
+				 */
+			case 0:				// custom
+			default:
+				break;
+		}
+	}
+	else if(Q_stricmp(name, "cg_shadows") == 0)
+	{
+		switch (val)
+		{
+			case 0:
+			case 1:
+			case 2:
+				trap_Cvar_SetValue("r_dynamicLightsCastShadows", 0);
+			case 3:
+				trap_Cvar_SetValue("r_softShadows", 0);
+				trap_Cvar_SetValue("r_shadowBlur", 1);
+				trap_Cvar_SetValue("r_shadowMapQuality", 0);
+				break;
+		}
+	}
+	else if(Q_stricmp(name, "r_normalMapping") == 0)
+	{
+		switch (val)
+		{
+			case 0:
+				trap_Cvar_SetValue("r_parallaxMapping", 0);
+				break;
+		}
+	}
 	else if(Q_stricmp(name, "ui_glCustom") == 0)
 	{
 		switch (val)

@@ -3,7 +3,7 @@
 { 
   loadMenu { "ui/main.menu" }
   loadMenu { "ui/joinserver.menu" }
-  loadMenu { "ui/joinserveroptions.menu" }
+  loadMenu { "ui/setup.menu" }
   loadMenu { "ui/punkbuster.menu" }
   loadMenu { "ui/createserver.menu" }
   loadMenu { "ui/mod.menu" }

@@ -1282,7 +1282,7 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      foreforecolor 1 1 1 1   
+      forecolor 1 1 1 1   
       visible 0 
       decoration
     }
@@ -1937,7 +1937,8 @@
       textalignx 100
       textaligny 12
       textscale .25        
-      forecoloforecolor ITEM_NORMALisible 0 
+      forecolor ITEM_NORMAL
+      visible 0 
       action
       {
         play "sound/misc/menu1.wav"; 
