@@ -4569,6 +4569,9 @@ char           *eventnames[] = {
 
 	"EV_GIB_PLAYER",			// gib a previously living player
 
+	"EV_PROXIMITY_MINE_STICK",
+	"EV_PROXIMITY_MINE_TRIGGER",
+
 	"EV_BUILD_CONSTRUCT",		//TA
 	"EV_BUILD_DESTROY",			//TA
 	"EV_BUILD_DELAY",			//TA: can't build yet
@@ -4593,7 +4596,9 @@ char           *eventnames[] = {
 
 	"EV_DCC_ATTACK",			//TA: dcc under attack
 
-	"EV_RPTUSE_SOUND"			//TA: trigger a sound
+	"EV_RPTUSE_SOUND",			//TA: trigger a sound
+
+	"EV_EFFECT"            // Lua scripted special effect
 };
 
 /*

@@ -206,6 +206,75 @@ gentity_t      *G_Find(gentity_t * from, int fieldofs, const char *match)
 	return NULL;
 }
 
+/*
+=================
+G_FindRadius
+
+Returns entities that have origins within a spherical area
+
+G_FindRadius (origin, radius)
+=================
+*/
+gentity_t      *G_FindRadius(gentity_t * from, const vec3_t org, float rad)
+{
+	vec3_t          eorg;
+	int             j;
+
+	if(!from)
+		from = g_entities;
+	else
+		from++;
+
+	for(; from < &g_entities[level.num_entities]; from++)
+	{
+		if(!from->inuse)
+			continue;
+
+		for(j = 0; j < 3; j++)
+			eorg[j] = org[j] - (from->s.origin[j] + (from->r.mins[j] + from->r.maxs[j]) * 0.5);
+
+		if(VectorLength(eorg) > rad)
+			continue;
+
+		return from;
+	}
+
+	return NULL;
+}
+
+/*
+===============
+G_Visible
+
+Test for a LOS between two entities
+===============
+*/
+qboolean G_Visible( gentity_t *ent1, gentity_t *ent2 )
+{
+	trace_t trace;
+
+	trap_Trace( &trace, ent1->s.pos.trBase, NULL, NULL, ent2->s.pos.trBase, ent1->s.number, MASK_SHOT );
+
+	if( trace.contents & CONTENTS_SOLID )
+		return qfalse;
+
+	return qtrue;
+}
+
+// Visiblilty check
+qboolean G_IsVisible(const gentity_t * self, const vec3_t goal)
+{
+	trace_t         trace;
+
+	trap_Trace(&trace, self->r.currentOrigin, NULL, NULL, goal, self->s.number, MASK_SHOT);
+
+	// Yes we can see it
+	if(trace.contents & CONTENTS_SOLID)
+		return qfalse;
+	else
+		return qtrue;
+}
+
 
 /*
 =============
@@ -288,7 +357,23 @@ void G_UseTargets(gentity_t * ent, gentity_t * activator)
 		else
 		{
 			if(t->use)
+			{
 				t->use(t, ent, activator);
+#ifdef G_LUA
+				// Lua API callbacks
+				if(t->luaUse)
+				{
+					if(activator)
+					{
+						G_LuaHook_EntityUse(t->luaUse, t->s.number, ent->s.number, activator->s.number);
+					}
+					else
+					{
+						G_LuaHook_EntityUse(t->luaUse, t->s.number, ent->s.number, ENTITYNUM_WORLD);
+					}
+				}
+#endif
+			}
 		}
 
 		if(!ent->inuse)
@@ -376,6 +461,36 @@ void G_SetMovedir(vec3_t angles, vec3_t movedir)
 		AngleVectors(angles, movedir, NULL, NULL);
 
 	VectorClear(angles);
+}
+
+/*
+================
+G_ActivateUse
+
+An activate function that calls the ent's use function.
+================
+*/
+void G_ActivateUse(gentity_t * ent, gentity_t * other, qboolean firstActivate)
+{
+	if(ent->use)
+	{
+		ent->use(ent, other, other);
+	}
+}
+
+/*
+================
+G_ActivateUseFirst
+
+An activate function that calls the ent's use function, but only on the first press.
+================
+*/
+void G_ActivateUseFirst(gentity_t * ent, gentity_t * other, qboolean firstActivate)
+{
+	if(ent->use && (firstActivate == qtrue))
+	{
+		ent->use(ent, other, other);
+	}
 }
 
 
@@ -517,6 +632,14 @@ void G_FreeEntity(gentity_t * ent)
 
 	if(ent->neverFree)
 		return;
+
+#ifdef G_LUA
+// Lua API callbacks
+	if(ed->luaFree && !ed->client)
+	{
+		G_LuaHook_EntityFree(ed->luaFree, ed->s.number);
+	}
+#endif
 
 	memset(ent, 0, sizeof(*ent));
 	ent->classname = "freent";
@@ -926,55 +1049,6 @@ void G_SetOrigin(gentity_t * ent, vec3_t origin)
 
 	VectorCopy(origin, ent->r.currentOrigin);
 	VectorCopy(origin, ent->s.origin);	//TA: if shit breaks - blame this line
-}
-
-//TA: from quakestyle.telefragged.com
-// (NOBODY): Code helper function
-//
-gentity_t      *G_FindRadius(gentity_t * from, vec3_t org, float rad)
-{
-	vec3_t          eorg;
-	int             j;
-
-	if(!from)
-		from = g_entities;
-	else
-		from++;
-
-	for(; from < &g_entities[level.num_entities]; from++)
-	{
-		if(!from->inuse)
-			continue;
-
-		for(j = 0; j < 3; j++)
-			eorg[j] = org[j] - (from->r.currentOrigin[j] + (from->r.mins[j] + from->r.maxs[j]) * 0.5);
-
-		if(VectorLength(eorg) > rad)
-			continue;
-
-		return from;
-	}
-
-	return NULL;
-}
-
-/*
-===============
-G_Visible
-
-Test for a LOS between two entities
-===============
-*/
-qboolean G_Visible(gentity_t * ent1, gentity_t * ent2)
-{
-	trace_t         trace;
-
-	trap_Trace(&trace, ent1->s.pos.trBase, NULL, NULL, ent2->s.pos.trBase, ent1->s.number, MASK_SHOT);
-
-	if(trace.contents & CONTENTS_SOLID)
-		return qfalse;
-
-	return qtrue;
 }
 
 /*

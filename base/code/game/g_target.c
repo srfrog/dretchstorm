@@ -31,6 +31,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 void Think_Target_Delay(gentity_t * ent)
 {
+#ifdef G_LUA
+	// Lua API callbacks
+	if(ent->luaTrigger)
+	{
+		if(ent->activator)
+		{
+			G_LuaHook_EntityTrigger(ent->luaTrigger, ent->s.number, ent->activator->s.number);
+		}
+		else
+		{
+			G_LuaHook_EntityTrigger(ent->luaTrigger, ent->s.number, ENTITYNUM_WORLD);
+		}
+	}
+#endif
 	G_UseTargets(ent, ent->activator);
 }
 

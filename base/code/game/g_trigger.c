@@ -62,6 +62,21 @@ void multi_trigger(gentity_t * ent, gentity_t * activator)
 
 	G_UseTargets(ent, ent->activator);
 
+#ifdef G_LUA
+	// Lua API callbacks
+	if(ent->luaTrigger)
+	{
+		if(activator)
+		{
+			G_LuaHook_EntityTrigger(ent->luaTrigger, ent->s.number, activator->s.number);
+		}
+		else
+		{
+			G_LuaHook_EntityTrigger(ent->luaTrigger, ent->s.number, ENTITYNUM_WORLD);
+		}
+	}
+#endif
+
 	if(ent->wait > 0)
 	{
 		ent->think = multi_wait;
@@ -128,6 +143,15 @@ trigger_always
 void trigger_always_think(gentity_t * ent)
 {
 	G_UseTargets(ent, ent);
+
+#ifdef G_LUA
+	// Lua API callbacks
+	if(ent->luaTrigger)
+	{
+		G_LuaHook_EntityTrigger(ent->luaTrigger, ent->s.number, ent->s.number);
+	}
+#endif
+
 	G_FreeEntity(ent);
 }
 
@@ -154,6 +178,15 @@ void trigger_push_touch(gentity_t * self, gentity_t * other, trace_t * trace)
 {
 	if(!other->client)
 		return;
+
+#ifdef G_LUA
+	// Lua API callbacks
+	if(self->luaTrigger)
+	{
+		G_LuaHook_EntityTrigger(self->luaTrigger, self->s.number, other->s.number);
+	}
+#endif
+
 }
 
 
@@ -234,6 +267,14 @@ void Use_target_push(gentity_t * self, gentity_t * other, gentity_t * activator)
 	if(activator->client->ps.pm_type != PM_NORMAL)
 		return;
 
+#ifdef G_LUA
+	// Lua API callbacks
+	if(self->luaTrigger)
+	{
+		G_LuaHook_EntityTrigger(self->luaTrigger, self->s.number, activator->s.number);
+	}
+#endif
+
 	VectorCopy(self->s.origin2, activator->client->ps.velocity);
 
 	// play fly sound every 1.5 seconds
@@ -303,6 +344,14 @@ void trigger_teleporter_touch(gentity_t * self, gentity_t * other, trace_t * tra
 		G_Printf("Couldn't find teleporter destination\n");
 		return;
 	}
+
+#ifdef G_LUA
+	// Lua API callbacks
+	if(self->luaTrigger)
+	{
+		G_LuaHook_EntityTrigger(self->luaTrigger, self->s.number, other->s.number);
+	}
+#endif
 
 	TeleportPlayer(other, dest->s.origin, dest->s.angles);
 }
@@ -384,6 +433,14 @@ void hurt_touch(gentity_t * self, gentity_t * other, trace_t * trace)
 	if(!(self->spawnflags & 4))
 		G_Sound(other, CHAN_AUTO, self->noise_index);
 
+#ifdef G_LUA
+	// Lua API callbacks
+	if(self->luaTrigger)
+	{
+		G_LuaHook_EntityTrigger(self->luaTrigger, self->s.number, other->s.number);
+	}
+#endif
+
 	if(self->spawnflags & 8)
 		dflags = DAMAGE_NO_PROTECTION;
 	else
@@ -436,6 +493,21 @@ so, the basic time between firing is a random time between
 void func_timer_think(gentity_t * self)
 {
 	G_UseTargets(self, self->activator);
+#ifdef G_LUA
+	// Lua API callbacks
+	if(self->luaTrigger)
+	{
+		if(self->activator)
+		{
+			G_LuaHook_EntityTrigger(self->luaTrigger, self->s.number, self->activator->s.number);
+		}
+		else
+		{
+			G_LuaHook_EntityTrigger(self->luaTrigger, self->s.number, self->s.number);
+		}
+	}
+#endif
+
 	// set time before next firing
 	self->nextthink = level.time + 1000 * (self->wait + crandom() * self->random);
 }

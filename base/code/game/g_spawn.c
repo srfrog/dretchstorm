@@ -66,6 +66,28 @@ qboolean G_SpawnInt(const char *key, const char *defaultString, int *out)
 	return present;
 }
 
+qboolean G_SpawnBoolean(const char *key, const char *defaultString, qboolean * out)
+{
+	char           *s;
+	qboolean        present;
+
+	present = G_SpawnString(key, defaultString, &s);
+
+	if(!Q_stricmp(s, "qfalse") || !Q_stricmp(s, "false") || !Q_stricmp(s, "0"))
+	{
+		*out = qfalse;
+	}
+	else if(!Q_stricmp(s, "qtrue") || !Q_stricmp(s, "true") || !Q_stricmp(s, "1"))
+	{
+		*out = qtrue;
+	}
+	else
+	{
+		*out = qfalse;
+	}
+	return present;
+}
+
 qboolean G_SpawnVector(const char *key, const char *defaultString, float *out)
 {
 	char           *s;
@@ -124,8 +146,8 @@ field_t         fields[] = {
 	{"spawnflags", FOFS(spawnflags), F_INT},
 	{"speed", FOFS(speed), F_FLOAT},
 	{"target", FOFS(target), F_LSTRING},
-   {"target0", FOFS(target), F_LSTRING},
-   {"name", FOFS(name), F_LSTRING},
+	{"target0", FOFS(target), F_LSTRING},
+	{"name", FOFS(name), F_LSTRING},
 	{"targetname", FOFS(name), F_LSTRING},
 	{"message", FOFS(message), F_LSTRING},
 	{"team", FOFS(team), F_LSTRING},
@@ -137,8 +159,8 @@ field_t         fields[] = {
 	{"dmg", FOFS(damage), F_INT},
 	{"angles", FOFS(s.angles), F_VECTOR},
 	{"angle", FOFS(s.angles), F_ANGLEHACK},
-   {"movedir", FOFS(movedir), F_MOVEDIRHACK},
-   {"rotation", FOFS(s.angles), F_ROTATIONHACK},
+	{"movedir", FOFS(movedir), F_MOVEDIRHACK},
+	{"rotation", FOFS(s.angles), F_ROTATIONHACK},
 	//TA
 	{"bounce", FOFS(physicsBounce), F_FLOAT},
 	{"alpha", FOFS(pos1), F_VECTOR},
@@ -150,20 +172,20 @@ field_t         fields[] = {
 	{"targetShaderName", FOFS(targetShaderName), F_LSTRING},
 	{"targetShaderNewName", FOFS(targetShaderNewName), F_LSTRING},
 
-#ifdef G_LUAXXX
-   {"luaThink", FOFS(luaThink), F_LSTRING},
-   {"luaTouch", FOFS(luaTouch), F_LSTRING},
-   {"luaUse", FOFS(luaUse), F_LSTRING},
-   {"luaHurt", FOFS(luaHurt), F_LSTRING},
-   {"luaDie", FOFS(luaDie), F_LSTRING},
-   {"luaFree", FOFS(luaFree), F_LSTRING},
-   {"luaTrigger", FOFS(luaTrigger), F_LSTRING},
-   {"luaSpawn", FOFS(luaSpawn), F_LSTRING},
+#ifdef G_LUA
+	{"luaThink", FOFS(luaThink), F_LSTRING},
+	{"luaTouch", FOFS(luaTouch), F_LSTRING},
+	{"luaUse", FOFS(luaUse), F_LSTRING},
+	{"luaHurt", FOFS(luaHurt), F_LSTRING},
+	{"luaDie", FOFS(luaDie), F_LSTRING},
+	{"luaFree", FOFS(luaFree), F_LSTRING},
+	{"luaTrigger", FOFS(luaTrigger), F_LSTRING},
+	{"luaSpawn", FOFS(luaSpawn), F_LSTRING},
 
-   {"luaParam1", FOFS(luaParam1), F_LSTRING},
-   {"luaParam2", FOFS(luaParam2), F_LSTRING},
-   {"luaParam3", FOFS(luaParam3), F_LSTRING},
-   {"luaParam4", FOFS(luaParam4), F_LSTRING},
+	{"luaParam1", FOFS(luaParam1), F_LSTRING},
+	{"luaParam2", FOFS(luaParam2), F_LSTRING},
+	{"luaParam3", FOFS(luaParam3), F_LSTRING},
+	{"luaParam4", FOFS(luaParam4), F_LSTRING},
 #endif
 
 	{NULL}
@@ -263,7 +285,7 @@ spawn_t         spawns[] = {
 
 	{"info_null", SP_info_null},
 	{"info_notnull", SP_info_notnull},	// use target_position instead
-   {"info_camp", SP_info_camp},
+	{"info_camp", SP_info_camp},
 
 	{"func_plat", SP_func_plat},
 	{"func_button", SP_func_button},
@@ -313,7 +335,7 @@ spawn_t         spawns[] = {
 	{"target_alien_win", SP_target_alien_win},
 	{"target_human_win", SP_target_human_win},
 
-   {"speaker", SP_target_speaker},
+	{"speaker", SP_target_speaker},
 
 	{"light", SP_light},
 	{"path_corner", SP_path_corner},
@@ -359,37 +381,45 @@ qboolean G_CallSpawn(gentity_t * ent)
 		}
 
 		G_SpawnBuildable(ent, buildable);
+
+#ifdef G_LUA
+			// Lua API callbacks
+		if(ent->luaSpawn)
+		{
+			G_LuaHook_EntitySpawn(ent->luaSpawn, ent->s.number);
+		}
+#endif
 		return qtrue;
 	}
 
-   // check normal spawn functions
-   for(s = spawns; s->name; s++)
-   {
-      if(!Q_stricmp(s->name, ent->classname))
-      {
-         // found it
+	// check normal spawn functions
+	for(s = spawns; s->name; s++)
+	{
+		if(!Q_stricmp(s->name, ent->classname))
+		{
+			// found it
 			/*
-         if(ent->name)
-         {
-            G_Printf("...spawning %s\n", ent->name);
-         }
-         else
-         {
-            G_Printf("...spawning %s\n", ent->classname);
-         }
+			if(ent->name)
+			{
+				G_Printf("...spawning %s\n", ent->name);
+			}
+			else
+			{
+				G_Printf("...spawning %s\n", ent->classname);
+			}
 			*/
-         s->spawn(ent);
+			s->spawn(ent);
 
-#ifdef G_LUAXXX
-         // Lua API callbacks
-         if(ent->luaSpawn)
-         {
-            G_LuaHook_EntitySpawn(ent->luaSpawn, ent->s.number);
-         }
+#ifdef G_LUA
+			// Lua API callbacks
+			if(ent->luaSpawn)
+			{
+				G_LuaHook_EntitySpawn(ent->luaSpawn, ent->s.number);
+			}
 #endif
-         return qtrue;
-      }
-   }
+			return qtrue;
+		}
+	}
 
 	G_Printf("%s doesn't have a spawn function\n", ent->classname);
 	return qfalse;
@@ -449,12 +479,12 @@ void G_ParseField(const char *key, const char *value, gentity_t * ent)
 	byte           *b;
 	float           v;
 	vec3_t          vec;
-   vec3_t          angles;
+	vec3_t          angles;
 	vec4_t          vec4;
-   matrix_t        rotation;
-   int             i;
-   char           *p;
-   char           *token;
+	matrix_t        rotation;
+	int             i;
+	char           *p;
+	char           *token;
 
 	for(f = fields; f->name; f++)
 	{
@@ -501,32 +531,32 @@ void G_ParseField(const char *key, const char *value, gentity_t * ent)
 					((float *)(b + f->ofs))[2] = 0;
 					break;
 
-            case F_MOVEDIRHACK:
-               v = atof(value);
-               angles[0] = 0;
-               angles[1] = v;
-               angles[2] = 0;
+				case F_MOVEDIRHACK:
+					v = atof(value);
+					angles[0] = 0;
+					angles[1] = v;
+					angles[2] = 0;
 
-               G_SetMovedir(angles, vec);
+					G_SetMovedir(angles, vec);
 
-               ((float *)(b + f->ofs))[0] = vec[0];
-               ((float *)(b + f->ofs))[1] = vec[1];
-               ((float *)(b + f->ofs))[2] = vec[2];
-               break;
+					((float *)(b + f->ofs))[0] = vec[0];
+					((float *)(b + f->ofs))[1] = vec[1];
+					((float *)(b + f->ofs))[2] = vec[2];
+					break;
 
-            case F_ROTATIONHACK:
-               MatrixIdentity(rotation);
-               p = (char *)value;
-               for(i = 0; i < 9; i++)
-               {
-                  token = Com_Parse(&p);
-                  rotation[i] = atof(token);
-               }
-               MatrixToAngles(rotation, vec);
-               ((float *)(b + f->ofs))[0] = vec[0];
-               ((float *)(b + f->ofs))[1] = vec[1];
-               ((float *)(b + f->ofs))[2] = vec[2];
-               break;
+				case F_ROTATIONHACK:
+					MatrixIdentity(rotation);
+					p = (char *)value;
+					for(i = 0; i < 9; i++)
+					{
+						token = Com_Parse(&p);
+						rotation[i] = atof(token);
+					}
+					MatrixToAngles(rotation, vec);
+					((float *)(b + f->ofs))[0] = vec[0];
+					((float *)(b + f->ofs))[1] = vec[1];
+					((float *)(b + f->ofs))[2] = vec[2];
+					break;
 
 				default:
 				case F_IGNORE:

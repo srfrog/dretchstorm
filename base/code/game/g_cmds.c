@@ -564,7 +564,7 @@ static void G_SayTo(gentity_t * ent, gentity_t * other, int mode, int color, con
 		return;
 
 	G_SendCommandFromServer(other - g_entities, va("%s \"%s%c%c%s\"",
-												   mode == SAY_TEAM ? "tchat" : "chat", name, Q_COLOR_ESCAPE, color, message));
+													mode == SAY_TEAM ? "tchat" : "chat", name, Q_COLOR_ESCAPE, color, message));
 }
 
 #define EC    "\x19"
@@ -602,8 +602,8 @@ void G_Say(gentity_t * ent, gentity_t * target, int mode, const char *chatText)
 
 		case SAY_TELL:
 			if(target &&
-			   target->client->ps.stats[STAT_PTEAM] == ent->client->ps.stats[STAT_PTEAM] &&
-			   Team_GetLocationMsg(ent, location, sizeof(location)))
+				target->client->ps.stats[STAT_PTEAM] == ent->client->ps.stats[STAT_PTEAM] &&
+				Team_GetLocationMsg(ent, location, sizeof(location)))
 				Com_sprintf(name, sizeof(name), EC "[%s%c%c" EC "] (%s)" EC ": ",
 							ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE, location);
 			else
@@ -1139,9 +1139,9 @@ void Cmd_Class_f(gentity_t * ent)
 		allowedClasses[numClasses++] = PCL_ALIEN_LEVEL0;
 
 	if(ent->client->pers.teamSelection == PTE_ALIENS &&
-	   !(ent->client->ps.stats[STAT_STATE] & SS_INFESTING) &&
-	   !(ent->client->ps.stats[STAT_STATE] & SS_HOVELING) &&
-	   !(ent->client->ps.stats[STAT_STATE] & SS_WALLCLIMBING) && !(ent->client->ps.stats[STAT_STATE] & SS_WALLCLIMBINGCEILING))
+		!(ent->client->ps.stats[STAT_STATE] & SS_INFESTING) &&
+		!(ent->client->ps.stats[STAT_STATE] & SS_HOVELING) &&
+		!(ent->client->ps.stats[STAT_STATE] & SS_WALLCLIMBING) && !(ent->client->ps.stats[STAT_STATE] & SS_WALLCLIMBINGCEILING))
 	{
 		//if we are not currently spectating, we are attempting evolution
 		if(currentClass != PCL_NONE)
@@ -1156,7 +1156,7 @@ void Cmd_Class_f(gentity_t * ent)
 				other = &g_entities[entityList[i]];
 
 				if((other->client && other->client->ps.stats[STAT_PTEAM] == PTE_HUMANS) ||
-				   (other->s.eType == ET_BUILDABLE && other->biteam == BIT_HUMANS))
+					(other->s.eType == ET_BUILDABLE && other->biteam == BIT_HUMANS))
 				{
 					ent->client->pers.classSelection = PCL_NONE;
 					G_TriggerMenu(clientNum, MN_A_TOOCLOSE);
@@ -1218,8 +1218,8 @@ void Cmd_Class_f(gentity_t * ent)
 			{
 				//...check we can evolve to that class
 				if(numLevels >= 0 &&
-				   BG_FindStagesForClass(ent->client->pers.classSelection, g_alienStage.integer) &&
-				   BG_ClassIsAllowed(ent->client->pers.classSelection))
+					BG_FindStagesForClass(ent->client->pers.classSelection, g_alienStage.integer) &&
+					BG_ClassIsAllowed(ent->client->pers.classSelection))
 				{
 					ent->client->pers.evolveHealthFraction = (float)ent->client->ps.stats[STAT_HEALTH] /
 						(float)BG_FindHealthForClass(currentClass);
@@ -1261,8 +1261,8 @@ void Cmd_Class_f(gentity_t * ent)
 				for(i = 0; i < numClasses; i++)
 				{
 					if(allowedClasses[i] == ent->client->pers.classSelection &&
-					   BG_FindStagesForClass(ent->client->pers.classSelection, g_alienStage.integer) &&
-					   BG_ClassIsAllowed(ent->client->pers.classSelection))
+						BG_FindStagesForClass(ent->client->pers.classSelection, g_alienStage.integer) &&
+						BG_ClassIsAllowed(ent->client->pers.classSelection))
 					{
 						G_PushSpawnQueue(&level.alienSpawnQueue, clientNum);
 						return;
@@ -1341,9 +1341,9 @@ void Cmd_Destroy_f(gentity_t * ent, qboolean deconstruct)
 		traceEnt = &g_entities[tr.entityNum];
 
 		if(tr.fraction < 1.0f &&
-		   (traceEnt->s.eType == ET_BUILDABLE) &&
-		   (traceEnt->biteam == ent->client->pers.teamSelection) &&
-		   ((ent->client->ps.weapon >= WP_ABUILD) && (ent->client->ps.weapon <= WP_HBUILD)))
+			(traceEnt->s.eType == ET_BUILDABLE) &&
+			(traceEnt->biteam == ent->client->pers.teamSelection) &&
+			((ent->client->ps.weapon >= WP_ABUILD) && (ent->client->ps.weapon <= WP_HBUILD)))
 		{
 			if(ent->client->ps.stats[STAT_MISC] > 0)
 			{
@@ -1790,7 +1790,7 @@ void Cmd_Sell_f(gentity_t * ent)
 					for(j = WP_NONE; j < WP_NUM_WEAPONS; j++)
 					{
 						if(BG_InventoryContainsWeapon(j, ent->client->ps.stats) &&
-						   BG_FindUsesEnergyForWeapon(j) && !BG_FindInfinteAmmoForWeapon(j))
+							BG_FindUsesEnergyForWeapon(j) && !BG_FindInfinteAmmoForWeapon(j))
 						{
 							BG_PackAmmoArray(j, ent->client->ps.ammo, ent->client->ps.powerups, 0, 0);
 						}
@@ -1838,11 +1838,11 @@ void Cmd_Build_f(gentity_t * ent)
 	team = ent->client->ps.stats[STAT_PTEAM];
 
 	if(buildable != BA_NONE &&
-	   ((1 << ent->client->ps.weapon) & BG_FindBuildWeaponForBuildable(buildable)) &&
-	   !(ent->client->ps.stats[STAT_STATE] & SS_INFESTING) &&
-	   !(ent->client->ps.stats[STAT_STATE] & SS_HOVELING) &&
-	   BG_BuildableIsAllowed(buildable) &&
-	   ((team == PTE_ALIENS && BG_FindStagesForBuildable(buildable, g_alienStage.integer)) ||
+		((1 << ent->client->ps.weapon) & BG_FindBuildWeaponForBuildable(buildable)) &&
+		!(ent->client->ps.stats[STAT_STATE] & SS_INFESTING) &&
+		!(ent->client->ps.stats[STAT_STATE] & SS_HOVELING) &&
+		BG_BuildableIsAllowed(buildable) &&
+		((team == PTE_ALIENS && BG_FindStagesForBuildable(buildable, g_alienStage.integer)) ||
 		(team == PTE_HUMANS && BG_FindStagesForBuildable(buildable, g_humanStage.integer))))
 	{
 		dist = BG_FindBuildDistForClass(ent->client->ps.stats[STAT_PCLASS]);
@@ -2210,6 +2210,21 @@ void ClientCommand(int clientNum)
 		return;					// not fully in game yet
 
 	trap_Argv(0, cmd, sizeof(cmd));
+
+#ifdef G_LUA
+
+	if(Q_stricmp(cmd, "lua_status") == 0)
+	{
+		G_LuaStatus(ent);
+		return;
+	}
+
+	// Lua API callbacks
+	if(G_LuaHook_ClientCommand(clientNum, cmd))
+	{
+		return;
+	}
+#endif
 
 	if(Q_stricmp(cmd, "say") == 0)
 	{
