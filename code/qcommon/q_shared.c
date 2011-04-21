@@ -1088,7 +1088,7 @@ char           *Com_ParseExt(char **data_p, qboolean allowLineBreaks)
 	/*************************************************************
 	 * XXX ghostshell - parse as regular words, forget about types
 	 *************************************************************/
-	if (c>32 && (c != '(' && c != ')'))
+	if (c>32 && (c != '(' && c != ')' && c != ','))
 	{
 		do
 		{
@@ -1101,7 +1101,7 @@ char           *Com_ParseExt(char **data_p, qboolean allowLineBreaks)
 			c = *data;
 			if ( c == '\n' )
 				com_lines++;
-		} while (c>32 && (c != '(' && c != ')'));
+		} while (c>32 && (c != '(' && c != ')' && c != ','));
 
       if(len == MAX_TOKEN_CHARS)
       {
