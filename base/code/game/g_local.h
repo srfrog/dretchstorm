@@ -29,6 +29,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 //==================================================================
 
+#define BODY_QUEUE_SIZE    8
+
 #define INFINITE      1000000
 
 #define FRAMETIME     100		// msec
@@ -156,6 +158,7 @@ struct gentity_s
 	void            (*use) (gentity_t * self, gentity_t * other, gentity_t * activator);
 	void            (*pain) (gentity_t * self, gentity_t * attacker, int damage);
 	void            (*die) (gentity_t * self, gentity_t * inflictor, gentity_t * attacker, int damage, int mod);
+	void            (*activate) (gentity_t * self, gentity_t * other, qboolean firstActivate);
 
 	int             pain_debounce_time;
 	int             fly_sound_debounce_time;	// wind tunnel
@@ -583,6 +586,8 @@ typedef struct
 
 	qboolean        locationLinked;	// target_locations get linked
 	gentity_t      *locationHead;	// head of the location list
+	int             bodyQueIndex; // dead bodies
+	gentity_t      *bodyQue[BODY_QUEUE_SIZE];
 
 	//TA: extra stuff:
 	int             numAlienSpawns;
@@ -635,6 +640,7 @@ qboolean        G_SpawnString(const char *key, const char *defaultString, char *
 // spawn string returns a temporary reference, you must CopyString() if you want to keep it
 qboolean        G_SpawnFloat(const char *key, const char *defaultString, float *out);
 qboolean        G_SpawnInt(const char *key, const char *defaultString, int *out);
+qboolean        G_SpawnBoolean(const char *key, const char *defaultString, qboolean * out);
 qboolean        G_SpawnVector(const char *key, const char *defaultString, float *out);
 void            G_SpawnEntitiesFromString(void);
 char           *G_NewString(const char *string);
@@ -712,9 +718,14 @@ int             G_SoundIndex(char *name);
 void            G_TeamCommand(pTeam_t team, char *cmd);
 void            G_KillBox(gentity_t * ent);
 gentity_t      *G_Find(gentity_t * from, int fieldofs, const char *match);
+gentity_t      *G_FindRadius(gentity_t * from, const vec3_t org, float rad);
+qboolean        G_IsVisible(const gentity_t * self, const vec3_t goal);
 gentity_t      *G_PickTarget(char *targetname);
 void            G_UseTargets(gentity_t * ent, gentity_t * activator);
 void            G_SetMovedir(vec3_t angles, vec3_t movedir);
+
+void            G_ActivateUse(gentity_t * ent, gentity_t * other, qboolean firstActivate);
+void            G_ActivateUseFirst(gentity_t * ent, gentity_t * other, qboolean firstActivate);
 
 void            G_InitGentity(gentity_t * e);
 gentity_t      *G_Spawn(void);
@@ -1035,6 +1046,39 @@ void            G_ResetPTRConnections(void);
 connectionRecord_t *G_FindConnectionForCode(int code);
 void            G_DeletePTRConnection(connectionRecord_t * connection);
 
+#if defined(G_LUA)
+
+//
+// g_lua.c 
+//
+// Callbacks
+void            G_LuaHook_InitGame(int levelTime, int randomSeed, int restart);
+void            G_LuaHook_ShutdownGame(int restart);
+void            G_LuaHook_RunFrame(int levelTime);
+qboolean        G_LuaHook_ClientConnect(int clientNum, qboolean firstTime, qboolean isBot, char *reason);
+void            G_LuaHook_ClientDisconnect(int clientNum);
+void            G_LuaHook_ClientBegin(int clientNum);
+void            G_LuaHook_ClientUserinfoChanged(int clientNum);
+void            G_LuaHook_ClientSpawn(int clientNum);
+qboolean        G_LuaHook_ClientCommand(int clientNum, char *command);
+qboolean        G_LuaHook_ConsoleCommand(char *command);
+void            G_LuaHook_Print(char *text);
+qboolean        G_LuaHook_Obituary(int victim, int killer, int meansOfDeath, char *customObit);
+qboolean        G_LuaHook_EntityThink(char *function, int entity);
+qboolean        G_LuaHook_EntityTouch(char *function, int entity, int other);
+qboolean        G_LuaHook_EntityUse(char *function, int entity, int other, int activator);
+qboolean        G_LuaHook_EntityHurt(char *function, int entity, int inflictor, int attacker);
+qboolean        G_LuaHook_EntityDie(char *function, int entity, int inflictor, int attacker, int dmg, int mod);
+qboolean        G_LuaHook_EntityFree(char *function, int entity);
+qboolean        G_LuaHook_EntityTrigger(char *function, int entity, int other);
+qboolean        G_LuaHook_EntitySpawn(char *function, int entity);
+
+// Other
+void            G_LuaStatus(gentity_t * ent);
+qboolean        G_LuaInit();
+void            G_LuaShutdown();
+
+#endif                     // G_LUA
 
 //some maxs
 #define MAX_FILEPATH      144

@@ -17,6 +17,7 @@ syntax: glob
 base/levelshots
 base/maps/*
 base/materials/*
+base/models/*
 base/textures/*
 build/*
 config.log

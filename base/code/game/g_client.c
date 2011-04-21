@@ -1088,6 +1088,13 @@ void ClientUserinfoChanged(int clientNum)
 
 	trap_SetConfigstring(CS_PLAYERS + clientNum, s);
 
+#ifdef G_LUA
+	// Lua API callbacks
+	// This only gets called when the ClientUserinfo is changed, replicating 
+	// ETPro's behaviour.
+	G_LuaHook_ClientUserinfoChanged(clientNum);
+#endif
+
 	/*G_LogPrintf( "ClientUserinfoChanged: %i %s\n", clientNum, s ); */
 }
 
@@ -1136,6 +1143,14 @@ char           *ClientConnect(int clientNum, qboolean firstTime, qboolean isBot)
 
 	if(g_password.string[0] && Q_stricmp(g_password.string, "none") && strcmp(g_password.string, value) != 0)
 		return "Invalid password";
+
+#ifdef G_LUA
+	// Lua API callbacks (check with Lua scripts)
+	if(G_LuaHook_ClientConnect(clientNum, firstTime, isBot, reason))
+	{
+		return "Connection Rejected by lua module.";
+	}
+#endif
 
 	// they can connect
 	ent->client = level.clients + clientNum;
@@ -1220,6 +1235,11 @@ void ClientBegin(int clientNum)
 
 	// count current clients and rank for scoreboard
 	CalculateRanks();
+
+#ifdef G_LUA
+	// Lua API callbacks
+	G_LuaHook_ClientBegin(clientNum);
+#endif
 }
 
 /*
@@ -1491,6 +1511,13 @@ void ClientSpawn(gentity_t * ent, gentity_t * spawn, vec3_t origin, vec3_t angle
 		// fire the targets of the spawn point
 		if(!spawn)
 			G_UseTargets(spawnPoint, ent);
+#ifdef G_LUA
+		// Lua API callbacks
+		if(spawnPoint && spawnPoint->luaTrigger)
+		{
+			G_LuaHook_EntityTrigger(spawnPoint->luaTrigger, spawnPoint->s.number, ent->s.number);
+		}
+#endif
 
 		// select the highest weapon number available, after any
 		// spawn given items have fired
@@ -1505,6 +1532,11 @@ void ClientSpawn(gentity_t * ent, gentity_t * spawn, vec3_t origin, vec3_t angle
 			}
 		}
 	}
+
+#ifdef G_LUA
+	// Lua API callbacks
+	G_LuaHook_ClientSpawn(ent->s.number);
+#endif
 
 	// run a client frame to drop exactly to the floor,
 	// initialize animations and other things
@@ -1554,11 +1586,16 @@ void ClientDisconnect(int clientNum)
 	if(!ent->client)
 		return;
 
+#ifdef G_LUA
+	// Lua API callbacks
+	G_LuaHook_ClientDisconnect(clientNum);
+#endif
+
 	// stop any following clients
 	for(i = 0; i < level.maxclients; i++)
 	{
 		if(level.clients[i].sess.sessionTeam == TEAM_SPECTATOR &&
-		   level.clients[i].sess.spectatorState == SPECTATOR_FOLLOW && level.clients[i].sess.spectatorClient == clientNum)
+			level.clients[i].sess.spectatorState == SPECTATOR_FOLLOW && level.clients[i].sess.spectatorClient == clientNum)
 		{
 			if(!G_FollowNewClient(&g_entities[i], 1))
 				G_StopFollowing(&g_entities[i]);

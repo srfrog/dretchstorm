@@ -272,6 +272,11 @@ void QDECL G_Printf(const char *fmt, ...)
 	vsprintf(text, fmt, argptr);
 	va_end(argptr);
 
+#ifdef G_LUA
+	// Lua API callbacks
+	G_LuaHook_Print(text);
+#endif
+
 	trap_Printf(text);
 }
 
@@ -283,6 +288,10 @@ void QDECL G_Error(const char *fmt, ...)
 	va_start(argptr, fmt);
 	vsprintf(text, fmt, argptr);
 	va_end(argptr);
+
+#ifdef G_LUA
+	G_LuaShutdown();
+#endif
 
 	trap_Error(text);
 }
@@ -474,6 +483,10 @@ void G_InitGame(int levelTime, int randomSeed, int restart)
 	else
 		G_Printf("Not logging to disk\n");
 
+#ifdef G_LUA
+	G_LuaInit();
+#endif
+
 	// initialize all entities for this game
 	memset(g_entities, 0, MAX_GENTITIES * sizeof(g_entities[0]));
 	level.gentities = g_entities;
@@ -531,6 +544,11 @@ void G_InitGame(int levelTime, int randomSeed, int restart)
 	G_CountSpawns();
 
 	G_ResetPTRConnections();
+
+#ifdef G_LUA
+	// Lua API callbacks
+	G_LuaHook_InitGame(levelTime, randomSeed, restart);
+#endif
 }
 
 
@@ -543,6 +561,12 @@ G_ShutdownGame
 void G_ShutdownGame(int restart)
 {
 	G_Printf("==== ShutdownGame ====\n");
+
+#ifdef G_LUA
+	// quad - Lua API
+	G_LuaHook_ShutdownGame(restart);
+	G_LuaShutdown();
+#endif
 
 	if(level.logFile)
 	{
@@ -991,9 +1015,9 @@ void G_CalculateBuildPoints(void)
 			humanNextStageThreshold = -1;
 
 		trap_SetConfigstring(CS_STAGES, va("%d %d %d %d %d %d",
-										   g_alienStage.integer, g_humanStage.integer,
-										   g_alienKills.integer, g_humanKills.integer,
-										   alienNextStageThreshold, humanNextStageThreshold));
+											g_alienStage.integer, g_humanStage.integer,
+											g_alienKills.integer, g_humanKills.integer,
+											alienNextStageThreshold, humanNextStageThreshold));
 	}
 }
 
@@ -1014,8 +1038,8 @@ void G_CalculateStages(void)
 		humanPlayerCountMod = 0.1f;
 
 	if(g_alienKills.integer >=
-	   (int)(ceil((float)g_alienStage2Threshold.integer * alienPlayerCountMod)) &&
-	   g_alienStage.integer == S1 && g_alienMaxStage.integer > S1)
+		(int)(ceil((float)g_alienStage2Threshold.integer * alienPlayerCountMod)) &&
+		g_alienStage.integer == S1 && g_alienMaxStage.integer > S1)
 	{
 		G_Checktrigger_stages(PTE_ALIENS, S2);
 		trap_Cvar_Set("g_alienStage", va("%d", S2));
@@ -1023,8 +1047,8 @@ void G_CalculateStages(void)
 	}
 
 	if(g_alienKills.integer >=
-	   (int)(ceil((float)g_alienStage3Threshold.integer * alienPlayerCountMod)) &&
-	   g_alienStage.integer == S2 && g_alienMaxStage.integer > S2)
+		(int)(ceil((float)g_alienStage3Threshold.integer * alienPlayerCountMod)) &&
+		g_alienStage.integer == S2 && g_alienMaxStage.integer > S2)
 	{
 		G_Checktrigger_stages(PTE_ALIENS, S3);
 		trap_Cvar_Set("g_alienStage", va("%d", S3));
@@ -1032,8 +1056,8 @@ void G_CalculateStages(void)
 	}
 
 	if(g_humanKills.integer >=
-	   (int)(ceil((float)g_humanStage2Threshold.integer * humanPlayerCountMod)) &&
-	   g_humanStage.integer == S1 && g_humanMaxStage.integer > S1)
+		(int)(ceil((float)g_humanStage2Threshold.integer * humanPlayerCountMod)) &&
+		g_humanStage.integer == S1 && g_humanMaxStage.integer > S1)
 	{
 		G_Checktrigger_stages(PTE_HUMANS, S2);
 		trap_Cvar_Set("g_humanStage", va("%d", S2));
@@ -1041,8 +1065,8 @@ void G_CalculateStages(void)
 	}
 
 	if(g_humanKills.integer >=
-	   (int)(ceil((float)g_humanStage3Threshold.integer * humanPlayerCountMod)) &&
-	   g_humanStage.integer == S2 && g_humanMaxStage.integer > S2)
+		(int)(ceil((float)g_humanStage3Threshold.integer * humanPlayerCountMod)) &&
+		g_humanStage.integer == S2 && g_humanMaxStage.integer > S2)
 	{
 		G_Checktrigger_stages(PTE_HUMANS, S3);
 		trap_Cvar_Set("g_humanStage", va("%d", S3));
@@ -1731,7 +1755,7 @@ void CheckExitRules(void)
 	}
 
 	if(level.uncondHumanWin ||
-	   ((level.time > level.startTime + 1000) && (level.numAlienSpawns == 0) && (level.numLiveAlienClients == 0)))
+		((level.time > level.startTime + 1000) && (level.numAlienSpawns == 0) && (level.numLiveAlienClients == 0)))
 	{
 		//humans win
 		level.lastWin = PTE_HUMANS;
@@ -1912,6 +1936,14 @@ void G_RunThink(gentity_t * ent)
 	ent->nextthink = 0;
 	if(!ent->think)
 		G_Error("NULL ent->think");
+
+#ifdef G_LUA
+	// Lua API callbacks
+	if(ent->luaThink && !ent->client)
+	{
+		G_LuaHook_EntityThink(ent->luaThink, ent->s.number);
+	}
+#endif
 
 	ent->think(ent);
 }
@@ -2099,4 +2131,8 @@ void G_RunFrame(int levelTime)
 
 		trap_Cvar_Set("g_listEntity", "0");
 	}
+
+#ifdef G_LUA
+	G_LuaHook_RunFrame(levelTime);
+#endif
 }

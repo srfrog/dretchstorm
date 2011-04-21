@@ -269,6 +269,14 @@ void G_TouchTriggers(gentity_t * ent)
 	{
 		hit = &g_entities[touch[i]];
 
+#ifdef G_LUA
+		// Lua API callbacks
+		if(hit->luaTouch)
+		{
+			G_LuaHook_EntityTouch(hit->luaTouch, hit->s.number, ent->s.number);
+		}
+#endif
+
 		if(!hit->touch && !ent->touch)
 			continue;
 
@@ -277,12 +285,12 @@ void G_TouchTriggers(gentity_t * ent)
 
 		// ignore most entities if a spectator
 		if((ent->client->sess.sessionTeam == TEAM_SPECTATOR) ||
-		   (ent->client->ps.stats[STAT_STATE] & SS_INFESTING) || (ent->client->ps.stats[STAT_STATE] & SS_HOVELING))
+			(ent->client->ps.stats[STAT_STATE] & SS_INFESTING) || (ent->client->ps.stats[STAT_STATE] & SS_HOVELING))
 		{
 			if(hit->s.eType != ET_TELEPORT_TRIGGER &&
-			   // this is ugly but adding a new ET_? type will
-			   // most likely cause network incompatibilities
-			   hit->touch != Touch_DoorTrigger)
+				// this is ugly but adding a new ET_? type will
+				// most likely cause network incompatibilities
+				hit->touch != Touch_DoorTrigger)
 			{
 				//check for manually triggered doors
 				manualTriggerSpectator(hit, ent);
@@ -642,7 +650,7 @@ void ClientTimerActions(gentity_t * ent, int msec)
 			if(remainingStartupTime < 0)
 			{
 				if(ent->health < ent->client->ps.stats[STAT_MAX_HEALTH] &&
-				   ent->client->medKitHealthToRestore && ent->client->ps.pm_type != PM_DEAD)
+					ent->client->medKitHealthToRestore && ent->client->ps.pm_type != PM_DEAD)
 				{
 					ent->client->medKitHealthToRestore--;
 					ent->health++;
@@ -653,7 +661,7 @@ void ClientTimerActions(gentity_t * ent, int msec)
 			else
 			{
 				if(ent->health < ent->client->ps.stats[STAT_MAX_HEALTH] &&
-				   ent->client->medKitHealthToRestore && ent->client->ps.pm_type != PM_DEAD)
+					ent->client->medKitHealthToRestore && ent->client->ps.pm_type != PM_DEAD)
 				{
 					//partial increase
 					if(level.time > client->medKitIncrementTime)
@@ -718,7 +726,7 @@ void ClientTimerActions(gentity_t * ent, int msec)
 				boostEntity = &g_entities[entityList[i]];
 
 				if(boostEntity->client && boostEntity->client->ps.stats[STAT_PTEAM] == PTE_ALIENS &&
-				   boostEntity->client->ps.stats[STAT_PCLASS] == PCL_ALIEN_LEVEL4)
+					boostEntity->client->ps.stats[STAT_PCLASS] == PCL_ALIEN_LEVEL4)
 				{
 					modifier = LEVEL4_REGEN_MOD;
 					break;
@@ -731,7 +739,7 @@ void ClientTimerActions(gentity_t * ent, int msec)
 			}
 
 			if(ent->health > 0 && ent->health < client->ps.stats[STAT_MAX_HEALTH] &&
-			   (ent->lastDamageTime + ALIEN_REGEN_DAMAGE_TIME) < level.time)
+				(ent->lastDamageTime + ALIEN_REGEN_DAMAGE_TIME) < level.time)
 				ent->health += BG_FindRegenRateForClass(client->ps.stats[STAT_PCLASS]) * modifier;
 
 			if(ent->health > client->ps.stats[STAT_MAX_HEALTH])
@@ -1048,7 +1056,7 @@ void ClientThink_real(gentity_t * ent)
 	{
 		//if currently using a medkit or have no need for a medkit now
 		if(client->ps.stats[STAT_STATE] & SS_MEDKIT_ACTIVE ||
-		   (client->ps.stats[STAT_HEALTH] == client->ps.stats[STAT_MAX_HEALTH] && !(client->ps.stats[STAT_STATE] & SS_POISONED)))
+			(client->ps.stats[STAT_HEALTH] == client->ps.stats[STAT_MAX_HEALTH] && !(client->ps.stats[STAT_STATE] & SS_POISONED)))
 		{
 			BG_DeactivateUpgrade(UP_MEDKIT, client->ps.stats);
 		}

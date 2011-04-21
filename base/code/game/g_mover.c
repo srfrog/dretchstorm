@@ -219,6 +219,62 @@ qboolean G_TryPushingEntity(gentity_t * check, gentity_t * pusher, vec3_t move, 
 	return qfalse;
 }
 
+/*
+==================
+G_CheckProxMinePosition
+==================
+*/
+qboolean G_CheckProxMinePosition(gentity_t * check)
+{
+	vec3_t          start, end;
+	trace_t         tr;
+
+	VectorMA(check->s.pos.trBase, 0.125, check->movedir, start);
+	VectorMA(check->s.pos.trBase, 2, check->movedir, end);
+	trap_Trace(&tr, start, NULL, NULL, end, check->s.number, MASK_SOLID);
+
+	if(tr.startsolid || tr.fraction < 1)
+		return qfalse;
+
+	return qtrue;
+}
+
+/*
+==================
+G_TryPushingProxMine
+==================
+*/
+qboolean G_TryPushingProxMine(gentity_t * check, gentity_t * pusher, vec3_t move, vec3_t amove)
+{
+	vec3_t          forward, right, up;
+	vec3_t          org, org2, move2;
+	int             ret;
+
+	// we need this for pushing things later
+	VectorSubtract(vec3_origin, amove, org);
+	AngleVectors(org, forward, right, up);
+
+	// try moving the contacted entity
+	VectorAdd(check->s.pos.trBase, move, check->s.pos.trBase);
+
+	// figure movement due to the pusher's amove
+	VectorSubtract(check->s.pos.trBase, pusher->r.currentOrigin, org);
+	org2[0] = DotProduct(org, forward);
+	org2[1] = -DotProduct(org, right);
+	org2[2] = DotProduct(org, up);
+	VectorSubtract(org2, org, move2);
+	VectorAdd(check->s.pos.trBase, move2, check->s.pos.trBase);
+
+	ret = G_CheckProxMinePosition(check);
+	if(ret)
+	{
+		VectorCopy(check->s.pos.trBase, check->r.currentOrigin);
+		trap_LinkEntity(check);
+	}
+	return ret;
+}
+
+void            G_ExplodeMissile(gentity_t * ent);
 
 /*
 ============
@@ -292,9 +348,52 @@ qboolean G_MoverPush(gentity_t * pusher, vec3_t move, vec3_t amove, gentity_t **
 	{
 		check = &g_entities[entityList[e]];
 
+		if(check->s.eType == ET_MISSILE)
+		{
+			// if it is a prox mine
+			if(!strcmp(check->classname, "prox mine"))
+			{
+				// if this prox mine is attached to this mover try to move it with the pusher
+				if(check->enemy == pusher)
+				{
+					if(!G_TryPushingProxMine(check, pusher, move, amove))
+					{
+						//explode
+						check->s.loopSound = 0;
+						G_AddEvent(check, EV_PROXIMITY_MINE_TRIGGER, 0);
+						G_ExplodeMissile(check);
+						if(check->activator)
+						{
+							G_FreeEntity(check->activator);
+							check->activator = NULL;
+						}
+						//G_Printf("prox mine explodes\n");
+					}
+				}
+				else
+				{
+					//check if the prox mine is crushed by the mover
+					if(!G_CheckProxMinePosition(check))
+					{
+						//explode
+						check->s.loopSound = 0;
+						G_AddEvent(check, EV_PROXIMITY_MINE_TRIGGER, 0);
+						G_ExplodeMissile(check);
+						if(check->activator)
+						{
+							G_FreeEntity(check->activator);
+							check->activator = NULL;
+						}
+						//G_Printf("prox mine explodes\n");
+					}
+				}
+				continue;
+			}
+		}
+
 		// only push items and players
 		if(check->s.eType != ET_ITEM && check->s.eType != ET_BUILDABLE &&
-		   check->s.eType != ET_CORPSE && check->s.eType != ET_PLAYER && !check->physicsObject)
+			check->s.eType != ET_CORPSE && check->s.eType != ET_PLAYER && !check->physicsObject)
 			continue;
 
 		// if the entity is standing on the pusher, it will definitely be moved
@@ -302,9 +401,9 @@ qboolean G_MoverPush(gentity_t * pusher, vec3_t move, vec3_t amove, gentity_t **
 		{
 			// see if the ent needs to be tested
 			if(check->r.absmin[0] >= maxs[0]
-			   || check->r.absmin[1] >= maxs[1]
-			   || check->r.absmin[2] >= maxs[2]
-			   || check->r.absmax[0] <= mins[0] || check->r.absmax[1] <= mins[1] || check->r.absmax[2] <= mins[2])
+				|| check->r.absmin[1] >= maxs[1]
+				|| check->r.absmin[2] >= maxs[2]
+				|| check->r.absmax[0] <= mins[0] || check->r.absmax[1] <= mins[1] || check->r.absmax[2] <= mins[2])
 				continue;
 
 			// see if the ent's bbox is inside the pusher's final position
@@ -643,7 +742,7 @@ void Think_CloseModelDoor(gentity_t * ent)
 
 		//only test items and players
 		if(check->s.eType != ET_ITEM && check->s.eType != ET_BUILDABLE &&
-		   check->s.eType != ET_CORPSE && check->s.eType != ET_PLAYER && !check->physicsObject)
+			check->s.eType != ET_CORPSE && check->s.eType != ET_PLAYER && !check->physicsObject)
 			continue;
 
 		//test is this entity collides with this door
@@ -715,6 +814,21 @@ void Reached_BinaryMover(gentity_t * ent)
 {
 	// stop the looping sound
 	ent->s.loopSound = ent->soundLoop;
+
+#ifdef G_LUA
+	// Lua API callbacks
+	if(ent->luaTrigger)
+	{
+		if(ent->activator)
+		{
+			G_LuaHook_EntityTrigger(ent->luaTrigger, ent->s.number, ent->activator->s.number);
+		}
+		else
+		{
+			G_LuaHook_EntityTrigger(ent->luaTrigger, ent->s.number, ENTITYNUM_WORLD);
+		}
+	}
+#endif
 
 	if(ent->moverState == MOVER_1TO2)
 	{
@@ -807,6 +921,14 @@ void Use_BinaryMover(gentity_t * ent, gentity_t * other, gentity_t * activator)
 	}
 
 	ent->activator = activator;
+
+#ifdef G_LUA
+	// Lua API callbacks
+	if(ent->luaTrigger)
+	{
+		G_LuaHook_EntityTrigger(ent->luaTrigger, ent->s.number, activator->s.number);
+	}
+#endif
 
 	if(ent->moverState == MOVER_POS1)
 	{
@@ -1131,8 +1253,10 @@ void Blocked_Door(gentity_t * ent, gentity_t * other)
 	if(ent->damage)
 		G_Damage(other, ent, ent, NULL, NULL, ent->damage, 0, MOD_CRUSH);
 
-	if(ent->spawnflags & 4)
-		return;					// crushers don't reverse
+	if(ent->crusher)
+	{
+		return;              // crushers don't reverse
+	}
 
 	// reverse direction
 	Use_BinaryMover(ent, ent, other);
@@ -1153,12 +1277,12 @@ static void Touch_DoorTriggerSpectator(gentity_t * ent, gentity_t * other, trace
 
 	if(fabs(other->s.origin[axis] - ent->r.absmax[axis]) < fabs(other->s.origin[axis] - ent->r.absmin[axis]))
 	{
-		origin[axis] = ent->r.absmin[axis] - 20;
+		origin[axis] = ent->r.absmin[axis] - 10;
 		dir[axis] = -1;
 	}
 	else
 	{
-		origin[axis] = ent->r.absmax[axis] + 20;
+		origin[axis] = ent->r.absmax[axis] + 10;
 		dir[axis] = 1;
 	}
 
@@ -1192,9 +1316,9 @@ static void manualDoorTriggerSpectator(gentity_t * door, gentity_t * player)
 
 	//don't skip a door that is already open
 	if(door->moverState == MOVER_1TO2 ||
-	   door->moverState == MOVER_POS2 ||
-	   door->moverState == ROTATOR_1TO2 ||
-	   door->moverState == ROTATOR_POS2 || door->moverState == MODEL_1TO2 || door->moverState == MODEL_POS2)
+		door->moverState == MOVER_POS2 ||
+		door->moverState == ROTATOR_1TO2 ||
+		door->moverState == ROTATOR_POS2 || door->moverState == MODEL_1TO2 || door->moverState == MODEL_POS2)
 		return;
 
 	// find the bounds of everything on the team
@@ -1299,12 +1423,13 @@ void Touch_DoorTrigger(gentity_t * ent, gentity_t * other, trace_t * trace)
 	{
 		// if the door is not open and not opening
 		if(ent->parent->moverState != MOVER_1TO2 &&
-		   ent->parent->moverState != MOVER_POS2 &&
-		   ent->parent->moverState != ROTATOR_1TO2 && ent->parent->moverState != ROTATOR_POS2)
+			ent->parent->moverState != MOVER_POS2 &&
+			ent->parent->moverState != ROTATOR_1TO2 && ent->parent->moverState != ROTATOR_POS2)
 			Touch_DoorTriggerSpectator(ent, other, trace);
 	}
-	else if(ent->parent->moverState != MOVER_1TO2 &&
-			ent->parent->moverState != ROTATOR_1TO2 && ent->parent->moverState != ROTATOR_2TO1)
+	//else if(ent->parent->moverState != MOVER_1TO2 &&
+	//		ent->parent->moverState != ROTATOR_1TO2 && ent->parent->moverState != ROTATOR_2TO1)
+	else if(ent->parent->moverState != MOVER_1TO2)
 	{
 		Use_BinaryMover(ent->parent, ent, other);
 	}
@@ -1348,8 +1473,8 @@ void Think_SpawnNewDoorTrigger(gentity_t * ent)
 			best = i;
 	}
 
-	maxs[best] += 60;
-	mins[best] -= 60;
+	maxs[best] += 120;
+	mins[best] -= 120;
 
 	// create a trigger with this size
 	other = G_Spawn();
@@ -1363,7 +1488,7 @@ void Think_SpawnNewDoorTrigger(gentity_t * ent)
 	other->count = best;
 	trap_LinkEntity(other);
 
-	if(ent->moverState < MODEL_POS1)
+	//if(ent->moverState < MODEL_POS1)
 		MatchTeam(ent, ent->moverState, level.time);
 }
 
@@ -1393,10 +1518,16 @@ void SP_func_door(gentity_t * ent)
 {
 	vec3_t          abs_movedir;
 	float           distance;
-	vec3_t          size;
+	vec3_t          size, sizeRotated;
 	float           lip;
 	char           *s;
+	matrix_t        rotation;
+	qboolean        start_open;
 
+	ent->sound1to2 = ent->sound2to1 = G_SoundIndex("sound/movers/doors/dr1_strt.ogg");
+	ent->soundPos1 = ent->soundPos2 = G_SoundIndex("sound/movers/doors/dr1_end.ogg");
+
+/*
 	G_SpawnString("sound2to1", "sound/movers/doors/dr1_strt.wav", &s);
 	ent->sound2to1 = G_SoundIndex(s);
 	G_SpawnString("sound1to2", "sound/movers/doors/dr1_strt.wav", &s);
@@ -1406,17 +1537,22 @@ void SP_func_door(gentity_t * ent)
 	ent->soundPos2 = G_SoundIndex(s);
 	G_SpawnString("soundPos1", "sound/movers/doors/dr1_end.wav", &s);
 	ent->soundPos1 = G_SoundIndex(s);
+*/
 
 	ent->blocked = Blocked_Door;
+	ent->activate = G_ActivateUseFirst;
 
 	// default speed of 400
 	if(!ent->speed)
+	{
 		ent->speed = 400;
+	}
 
 	// default wait of 2 seconds
 	if(!ent->wait)
+	{
 		ent->wait = 2;
-
+	}
 	ent->wait *= 1000;
 
 	// default lip of 8 units
@@ -1425,21 +1561,34 @@ void SP_func_door(gentity_t * ent)
 	// default damage of 2 points
 	G_SpawnInt("dmg", "2", &ent->damage);
 
+	G_SpawnBoolean("crusher", "0,", &ent->crusher);
+
 	// first position at start
 	VectorCopy(ent->s.origin, ent->pos1);
 
 	// calculate second position
 	trap_SetBrushModel(ent, ent->model);
-	G_SetMovedir(ent->s.angles, ent->movedir);
+
+	if(VectorCompare(ent->movedir, vec3_origin))
+	{
+		// movedir was not set directly so use entity's angles
+		G_SetMovedir(ent->s.angles, ent->movedir);
+	}
 	abs_movedir[0] = fabs(ent->movedir[0]);
 	abs_movedir[1] = fabs(ent->movedir[1]);
 	abs_movedir[2] = fabs(ent->movedir[2]);
+
 	VectorSubtract(ent->r.maxs, ent->r.mins, size);
-	distance = DotProduct(abs_movedir, size) - lip;
+
+	AnglesToMatrix(ent->s.angles, rotation);
+	MatrixTransformNormal(rotation, size, sizeRotated);
+
+	distance = DotProduct(abs_movedir, sizeRotated) - lip;
 	VectorMA(ent->pos1, distance, ent->movedir, ent->pos2);
 
 	// if "start_open", reverse position 1 and 2
-	if(ent->spawnflags & 1)
+	G_SpawnBoolean("start_open", "0", &start_open);
+	if(start_open)
 	{
 		vec3_t          temp;
 
@@ -1450,6 +1599,9 @@ void SP_func_door(gentity_t * ent)
 
 	InitMover(ent);
 
+	VectorCopy(ent->s.angles, ent->s.apos.trBase);
+	VectorCopy(ent->s.angles, ent->r.currentAngles);
+
 	ent->nextthink = level.time + FRAMETIME;
 
 	if(!(ent->flags & FL_TEAMSLAVE))
@@ -1457,16 +1609,18 @@ void SP_func_door(gentity_t * ent)
 		int             health;
 
 		G_SpawnInt("health", "0", &health);
+
 		if(health)
+		{
 			ent->takedamage = qtrue;
 
-		if(ent->name || health)
-		{
 			// non touch/shoot doors
 			ent->think = Think_MatchTeam;
 		}
 		else
+		{
 			ent->think = Think_SpawnNewDoorTrigger;
+		}
 	}
 }
 
@@ -1492,7 +1646,12 @@ void SP_func_door(gentity_t * ent)
 void SP_func_door_rotating(gentity_t * ent)
 {
 	char           *s;
+	qboolean        start_open;
 
+	ent->sound1to2 = ent->sound2to1 = G_SoundIndex("sound/movers/doors/dr1_strt.ogg");
+	ent->soundPos1 = ent->soundPos2 = G_SoundIndex("sound/movers/doors/dr1_end.ogg");
+
+/*
 	G_SpawnString("sound2to1", "sound/movers/doors/dr1_strt.wav", &s);
 	ent->sound2to1 = G_SoundIndex(s);
 	G_SpawnString("sound1to2", "sound/movers/doors/dr1_strt.wav", &s);
@@ -1502,6 +1661,7 @@ void SP_func_door_rotating(gentity_t * ent)
 	ent->soundPos2 = G_SoundIndex(s);
 	G_SpawnString("soundPos1", "sound/movers/doors/dr1_end.wav", &s);
 	ent->soundPos1 = G_SoundIndex(s);
+*/
 
 	ent->blocked = Blocked_Door;
 
@@ -1551,7 +1711,8 @@ void SP_func_door_rotating(gentity_t * ent)
 	VectorMA(ent->pos1, ent->rotatorAngle, ent->movedir, ent->pos2);
 
 	// if "start_open", reverse position 1 and 2
-	if(ent->spawnflags & 1)
+	G_SpawnBoolean("start_open", "0", &start_open);
+	if(start_open)
 	{
 		vec3_t          temp;
 
@@ -1576,10 +1737,9 @@ void SP_func_door_rotating(gentity_t * ent)
 		G_SpawnInt("health", "0", &health);
 
 		if(health)
+		{
 			ent->takedamage = qtrue;
 
-		if(ent->name || health)
-		{
 			// non touch/shoot doors
 			ent->think = Think_MatchTeam;
 		}
@@ -1610,6 +1770,10 @@ void SP_func_door_model(gentity_t * ent)
 	char           *sound;
 	gentity_t      *clipBrush;
 
+	ent->sound1to2 = ent->sound2to1 = G_SoundIndex("sound/movers/doors/dr1_strt.ogg");
+	ent->soundPos1 = ent->soundPos2 = G_SoundIndex("sound/movers/doors/dr1_end.ogg");
+
+/*
 	G_SpawnString("sound2to1", "sound/movers/doors/dr1_strt.wav", &s);
 	ent->sound2to1 = G_SoundIndex(s);
 	G_SpawnString("sound1to2", "sound/movers/doors/dr1_strt.wav", &s);
@@ -1619,6 +1783,7 @@ void SP_func_door_model(gentity_t * ent)
 	ent->soundPos2 = G_SoundIndex(s);
 	G_SpawnString("soundPos1", "sound/movers/doors/dr1_end.wav", &s);
 	ent->soundPos1 = G_SoundIndex(s);
+*/
 
 	//default speed of 100ms
 	if(!ent->speed)
@@ -2010,6 +2175,18 @@ void Reached_Train(gentity_t * ent)
 	next = ent->nextTrain;
 	if(!next || !next->nextTrain)
 		return;					// just stop
+
+#ifdef G_LUA
+	// Lua API callbacks
+	if(ent->luaTrigger)
+	{
+		G_LuaHook_EntityTrigger(ent->luaTrigger, ent->s.number, -1);
+	}
+	if(next->luaTrigger)
+	{
+		G_LuaHook_EntityTrigger(next->luaTrigger, next->s.number, ent->s.number);
+	}
+#endif
 
 	// fire all other targets
 	G_UseTargets(next, NULL);
