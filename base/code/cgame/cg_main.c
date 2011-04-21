@@ -256,7 +256,7 @@ static cvarTable_t cvarTable[] = {
 	{&cg_fov, "cg_fov", "90", CVAR_ARCHIVE},
 	{&cg_viewsize, "cg_viewsize", "100", CVAR_ARCHIVE},
 	{&cg_stereoSeparation, "cg_stereoSeparation", "0.4", CVAR_ARCHIVE},
-	{&cg_shadows, "cg_shadows", "1", CVAR_ARCHIVE},
+	{&cg_shadows, "cg_shadows", "4", CVAR_ARCHIVE},
 	{&cg_gibs, "cg_gibs", "1", CVAR_ARCHIVE},
 	{&cg_draw2D, "cg_draw2D", "1", CVAR_ARCHIVE},
 	{&cg_drawStatus, "cg_drawStatus", "1", CVAR_ARCHIVE},
