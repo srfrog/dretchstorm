@@ -1,0 +1,6 @@
+
+Windows builds are available at:
+
+http://dl.dropbox.com/u/23448530/dstorm.zip
+http://dl.dropbox.com/u/23448530/dstorm-deps.zip
+

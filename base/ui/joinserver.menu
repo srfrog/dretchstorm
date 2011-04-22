@@ -1,0 +1,516 @@
+#include "ui/menudef.h"
+#include "ui/common.h"
+{
+
+  \\ Server Join \\
+
+  menuDef
+  {
+    name "joinserver"
+    visible 0
+    fullscreen 1
+    rect 0 0 640 480
+    focusColor FOCUS_COLOUR
+    outOfBoundsClick  
+    disablecolor 0 0 0 0 
+    style 1
+    
+    onOpen
+    {
+      uiScript UpdateFilter;
+      hide grpmessage;
+      setitemcolor grpMainNav forecolor ITEM_NORMAL;
+      setitemcolor playNav forecolor ITEM_SELECTED
+    }
+    
+    onEsc 
+    {
+      uiScript closeJoin;
+      open main
+    }
+    
+#include "ui/main_common.cfg"
+
+    // Options window //
+    
+    itemDef
+    {
+      name optionswindowbutton
+      rect 170 175 10 225
+      type ITEM_TYPE_BUTTON
+      style WINDOW_STYLE_FILLED
+      backcolor 0.34 0.34 0.34 0.5
+      visible 0
+      decoration
+
+      border WINDOW_BORDER_FULL
+      borderSize 1.0
+      borderColor 0.34 0.34 0.34 1
+      action 
+      {
+        play "sound/misc/menu1.wav";
+        setcvar ui_test 1
+      }
+    }
+    itemDef
+    {
+      name back
+      style 3
+      background "ui/assets/backarrow.tga"
+      rect 170 282 10 10 
+      visible 0
+    }
+    
+    itemDef
+    {
+      name optionswindow
+      rect 20 175 155 225
+      style WINDOW_STYLE_FILLED
+      backcolor WINDOW_BACKGROUND
+      visible 1
+      decoration
+
+      border WINDOW_BORDER_FULL
+      borderSize 1.0
+      borderColor WINDOW_BORDER_COLOUR
+    }
+    
+    //  VIEW OPTIONS  //
+
+    itemDef
+    {
+      name viewEmpty
+      style WINDOW_STYLE_EMPTY
+      type ITEM_TYPE_YESNO
+      text "View Empty:"
+      cvar "ui_browserShowEmpty"
+      textscale 0.2
+      rect 20 185 155 20
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      backcolor .5 .5 .5 .5
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav";
+        uiScript RefreshFilter
+      }
+    }
+    
+    itemDef
+    {
+      name viewFull
+      style WINDOW_STYLE_EMPTY
+      type ITEM_TYPE_YESNO
+      text "View Full:"
+      cvar "ui_browserShowFull"
+      textscale 0.2
+      rect 20 205 155 20
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10    
+      textaligny 10
+      forecolor ITEM_NORMAL
+      backcolor .5 .5 .5 .5
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav";
+        uiScript RefreshFilter
+      }
+    }
+    itemDef
+    {
+      name password
+      text "Enter Password"
+      type ITEM_TYPE_BUTTON
+      textscale 0.2
+      style WINDOW_STYLE_EMPTY
+      rect 20 225 155 20
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10   // center
+      textaligny 10
+      backcolor 0 0 0 1
+      forecolor ITEM_NORMAL
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        open password_popmenu
+      }
+    }
+    
+    itemDef
+    {
+      name createFavorite
+      style WINDOW_STYLE_EMPTY
+      text "New Favorite"
+      type ITEM_TYPE_BUTTON
+      textscale 0.2
+      rect 20 245 155 20
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10   // center
+      textaligny 10
+      backcolor 0 0 0 1
+      forecolor ITEM_NORMAL
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        open createfavorite_popmenu
+      }
+    }
+    
+    
+    itemDef
+    {
+      name serverinfo
+      style WINDOW_STYLE_EMPTY
+      text "Server Info"
+      type ITEM_TYPE_BUTTON
+      textscale 0.2
+      rect 20 265 155 20
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10   // center
+      textaligny 10
+      backcolor 0 0 0 1
+      forecolor ITEM_NORMAL
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav";
+        open serverinfo_popmenu
+      }
+    }
+    
+    itemDef
+    {
+      name findplayer
+      style WINDOW_STYLE_EMPTY
+      text "Find Friend"
+      type ITEM_TYPE_BUTTON
+      textscale 0.2
+      rect 20 285 155 20
+      textalign ITEM_ALIGN_LEFT
+      textalignx 10   // center
+      textaligny 10
+      backcolor 0 0 0 1
+      forecolor ITEM_NORMAL
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        open findplayer_popmenu
+      }
+    }
+
+    itemDef
+    {
+      name mainwindow
+      rect MAIN_WINDOW_RECT
+      style WINDOW_STYLE_FILLED
+      backcolor WINDOW_BACKGROUND
+      visible 1
+      decoration
+
+      border WINDOW_BORDER_FULL
+      borderSize 1.0
+      borderColor WINDOW_BORDER_COLOUR
+    }
+    
+    // TITLE //
+    
+    itemDef
+    {
+      name        playTitle
+      style       WINDOW_STYLE_EMPTY
+      rect        180 37 430 20
+      textalign   ITEM_ALIGN_CENTER
+      textalignx  215
+      textaligny  10
+      textscale   0.5
+      textstyle   ITEM_TEXTSTYLE_NORMAL
+      text        "Play"
+      forecolor   1 1 1 1
+      backcolor   1 0 1 1
+      visible     1
+      decoration 
+    }
+    
+    //  BUTTONS   //
+    
+    itemDef
+    {
+      name gametypefield
+      style WINDOW_STYLE_EMPTY
+      ownerdraw UI_NETSOURCE
+      rect 180 52 110 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 7
+      textaligny 10
+      textscale 0.25
+      forecolor ITEM_NORMAL
+      backcolor .5 .5 .5 .5
+      borderSize 1.0
+      borderColor WINDOW_BORDER_COLOUR
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav"
+      }
+    }
+    
+    itemDef
+    {
+      name refreshSource
+      text "Get New List"
+      type ITEM_TYPE_BUTTON
+      textscale 0.25
+      style WINDOW_STYLE_EMPTY
+      rect 290 52 110 15
+      textalign ITEM_ALIGN_CENTER
+      textalignx 55
+      textaligny 10
+      backcolor .5 .5 .5 .5
+      forecolor ITEM_NORMAL
+      borderSize 1.0
+      borderColor WINDOW_BORDER_COLOUR
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav";
+        uiScript RefreshServers;
+      }       
+    }
+
+    itemDef
+    {
+      name refreshFilter
+      text "Refresh List"
+      textscale 0.25
+      style WINDOW_STYLE_EMPTY
+      type ITEM_TYPE_BUTTON
+      rect 400 52 110 15
+      textalign ITEM_ALIGN_CENTER
+      textalignx 55
+      textaligny 10
+      backcolor .5 .5 .5 .5
+      forecolor ITEM_NORMAL
+      visible 1
+      borderSize 1.0
+      borderColor WINDOW_BORDER_COLOUR
+      action
+      {
+        play "sound/misc/menu1.wav";
+        uiScript RefreshFilter
+      }
+    }
+    
+    itemDef
+    {
+      name addFavorite
+      style WINDOW_STYLE_EMPTY
+      text "Add Favorite"
+      type ITEM_TYPE_BUTTON
+      textscale 0.25
+      ownerdrawFlag UI_SHOW_NOTFAVORITESERVERS
+      rect 510 52 110 15
+      textalign ITEM_ALIGN_CENTER
+      textalignx 55
+      textaligny 10
+      backcolor .5 .5 .5 .5
+      forecolor ITEM_NORMAL
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav" 
+        uiScript addFavorite;
+      }
+    }
+
+    itemDef
+    {
+      name delfavorite
+      style WINDOW_STYLE_EMPTY
+      text "Del. Favorite"
+      type ITEM_TYPE_BUTTON
+      textscale 0.25
+      ownerdrawFlag UI_SHOW_FAVORITESERVERS
+      rect 510 52 110 15
+      textalign ITEM_ALIGN_CENTER
+      textalignx 55
+      textaligny 10
+      backcolor .5 .5 .5 .5
+      forecolor ITEM_NORMAL
+      borderSize 1.0
+      borderColor WINDOW_BORDER_COLOUR
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript DeleteFavorite;
+        uiScript UpdateFilter;
+      }
+    }
+
+    // map selection
+
+    itemDef
+    {
+      name mappreview
+      style 0 
+      ownerdraw UI_NETMAPCINEMATIC
+      rect 502 5 128 96
+      border 1
+      bordercolor 0 .5 0 .5
+      visible 0 
+    }
+
+    itemDef
+    {
+      name mappreview
+      style WINDOW_STYLE_FILLED 
+      rect 502 5 128 96 
+      border 1
+      bordercolor .5 .5 .5 .5
+      visible 0 
+    }
+
+    //  COLUMNS  just 5 headers.... official, name, map, ping, players //
+
+    itemDef
+    {
+      name serverlist
+      rect 180 85 440 340
+      type ITEM_TYPE_LISTBOX
+      style WINDOW_STYLE_EMPTY
+      elementwidth 120
+      elementheight 15
+      textscale 0.25
+      elementtype LISTBOX_TEXT
+      feeder FEEDER_SERVERS
+      border 0
+      bordercolor   0.5 0.5 0.5 1
+      forecolor     1   1   1   0.8
+      backcolor     0.2 0.2 0.2 1
+      outlinecolor  0.1 0.1 0.1 0.5
+      visible 1
+      columns 5
+        7  220 26  ITEM_ALIGN_LEFT
+        220 40  14  ITEM_ALIGN_LEFT
+        370 5   10  ITEM_ALIGN_LEFT
+        640 20  20  ITEM_ALIGN_LEFT
+        330 20  20  ITEM_ALIGN_LEFT
+
+      doubleClick { uiScript JoinServer }
+    }
+
+
+    //  SORT TABS //
+
+    itemDef
+    {
+      name server
+      group grpTabs
+      text "Server Name"
+      type ITEM_TYPE_BUTTON
+      textscale 0.275
+      style WINDOW_STYLE_EMPTY
+      rect 187 70 90 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 5
+      textaligny 12
+      forecolor     ITEM_NORMAL
+      backcolor     0.2 0.2 0.2 1
+      outlinecolor  0.1 0.1 0.1 0.5
+      visible 1 
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript ServerSort 0; 
+      
+        setitemcolor grpColumn backcolor 0 0 0 0; 
+        setitemcolor serverColumn backcolor 0.3 1 1 0.5
+      }
+    }
+
+    itemDef
+    {
+      name map
+      group grpTabs
+      type ITEM_TYPE_BUTTON
+      text "Map Name"
+      textscale 0.275
+      style WINDOW_STYLE_EMPTY
+      rect 400 70 90 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 5
+      textaligny 12
+      forecolor     ITEM_NORMAL
+      backcolor     0.2 0.2 0.2 1
+      outlinecolor  0.1 0.1 0.1 0.5
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript ServerSort 1; 
+      
+        setitemcolor grpColumn backcolor 0 0 0 0; 
+        setitemcolor mapColumn backcolor 0.3 1 1 0.5
+      }
+    }
+
+    itemDef
+    {
+      name Ping
+      group grpTabs
+      text "Ping"
+      type ITEM_TYPE_BUTTON
+      textscale 0.275
+      style WINDOW_STYLE_EMPTY
+      rect 510 70 30 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 5
+      textaligny 12
+      forecolor     ITEM_NORMAL
+      backcolor     0.2 0.2 0.2 1
+      outlinecolor  0.1 0.1 0.1 0.5
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript ServerSort 4; 
+      
+        setitemcolor grpColumn backcolor 0 0 0 0; 
+        setitemcolor pingColumn backcolor 0.3 1 1 0.5
+      }
+    }
+    itemDef
+    {
+      name Players
+      group grpTabs
+      text "Players"
+      type ITEM_TYPE_BUTTON
+      textscale 0.275
+      style WINDOW_STYLE_EMPTY
+      rect 550 70 50 15
+      textalign ITEM_ALIGN_LEFT
+      textalignx 5
+      textaligny 12
+      forecolor     ITEM_NORMAL
+      backcolor     0.2 0.2 0.2 1
+      outlinecolor  0.1 0.1 0.1 0.5
+      visible 1
+      action
+      {
+        play "sound/misc/menu1.wav"; 
+        uiScript ServerSort 2; 
+      
+        setitemcolor grpColumn backcolor 0 0 0 0; 
+        setitemcolor playerColumn backcolor 0.3 1 1 0.5
+      }
+    }
+    
+  }
+}

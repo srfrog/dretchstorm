@@ -1,0 +1,102 @@
+import os, string, sys
+
+Import('env')
+
+dstormded_env = env.Clone()
+
+dstormded_src = [
+'code/null/null_client.c',
+'code/null/null_input.c',
+'code/null/null_snddma.c',
+'code/qcommon/cm_load.c',
+'code/qcommon/cm_patch.c',
+'code/qcommon/cm_polylib.c',
+'code/qcommon/cm_test.c',
+'code/qcommon/cm_trace.c',
+'code/qcommon/cm_trisoup.c',
+'code/qcommon/cmd.c',
+'code/qcommon/common.c',
+'code/qcommon/cvar.c',
+'code/qcommon/files.c',
+'code/qcommon/huffman.c',
+'code/qcommon/md4.c',
+'code/qcommon/md5.c',
+'code/qcommon/msg.c',
+'code/qcommon/net_chan.c',
+'code/qcommon/net_ip.c',
+'code/qcommon/parse.c',
+'code/qcommon/vm.c',
+'code/qcommon/q_math.c',
+'code/qcommon/q_shared.c',
+'code/qcommon/unzip.c',
+'code/server/sv_bot.c',
+'code/server/sv_ccmds.c',
+'code/server/sv_client.c',
+'code/server/sv_game.c',
+'code/server/sv_init.c',
+'code/server/sv_main.c',
+'code/server/sv_net_chan.c',
+'code/server/sv_snapshot.c',
+'code/server/sv_world.c',
+'code/zlib/adler32.c',
+'code/zlib/compress.c',
+'code/zlib/crc32.c',
+'code/zlib/gzio.c',
+'code/zlib/uncompr.c',
+'code/zlib/deflate.c',
+'code/zlib/trees.c',
+'code/zlib/zutil.c',
+'code/zlib/inflate.c',
+'code/zlib/infback.c',
+'code/zlib/inftrees.c',
+'code/zlib/inffast.c',
+'code/zlib/ioapi.c'
+]
+
+unix_src = [
+'code/sys/sys_main.c',
+'code/sys/sys_unix.c',
+'code/sys/con_log.c',
+'code/sys/con_tty.c'
+]
+
+dstormded_env.Append(CCFLAGS='-DDEDICATED')
+dstormded_env.Append(CCFLAGS='-Icode/zlib')
+dstormded_env.Append(CCFLAGS='-DSTANDALONE')
+dstormded_env.Append(CCFLAGS='-DUSE_VOIP')
+dstormded_env.Append(CCFLAGS='-Icode/speex/include')
+
+if env['compatq3a'] == 1:
+	dstormded_env.Append(CCFLAGS='-DCOMPAT_Q3A')
+
+if env['arch'] == 'linux-i386':
+	dstormded_env.Append(LIBS=['dl', 'm'])
+	dstormded_env.Program('dstormded', [dstormded_src, unix_src])
+	dstormded_env.InstallAs('#dstormded.i386', 'dstormded')
+
+elif env['arch'] == 'linux-x86_64':
+	dstormded_env.Append(CCFLAGS='-DC_ONLY')
+	dstormded_env.Append(LIBS=['dl', 'm'])
+	dstormded_env.Program('dstormded', [dstormded_src, unix_src])
+	dstormded_env.InstallAs('#dstormded.x86_64', 'dstormded')
+
+if env['arch'] == 'freebsd-i386':
+	dstormded_env.Append(LIBS=['m'])
+	dstormded_env.Program('dstormded', [dstormded_src, unix_src])
+	dstormded_env.InstallAs('#dstormded.i386', 'dstormded')
+
+elif env['arch'] == 'freebsd-amd64':
+	dstormded_env.Append(CCFLAGS='-DC_ONLY')
+	dstormded_env.Append(LIBS=['m'])
+	dstormded_env.Program('dstormded', [dstormded_src, unix_src])
+	dstormded_env.InstallAs('#dstormded.amd64', 'dstormded')
+
+elif env['arch'] == 'netbsd-i386':
+	dstormded_env.Append(LIBS=['m'])
+	dstormded_env.Program('dstormded', [dstormded_src, unix_src])
+	dstormded_env.InstallAs('#dstormded.i386', 'dstormded')
+	
+elif env['arch'] == 'opensolaris-i386':
+	dstormded_env.Append(LIBS=['dl', 'm', 'socket', 'nsl'])
+	dstormded_env.Program('dstormded', [dstormded_src, unix_src])
+	dstormded_env.InstallAs('#dstormded.i386', 'dstormded')

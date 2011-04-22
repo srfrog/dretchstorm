@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<q3map_feedback><message level="1">xmap v1.0s (c) 1999-2005 Id Software, Inc. and XreaL contributors
+</message><message level="1">xmap v1.1  (c) 2005-2008 Robert Beckebans
+</message><message level="3">************ ERROR ************
+usage: xmap [-&lt;switch&gt; [-&lt;switch&gt; ...]] &lt;mapname&gt;
+
+Switches:
+   bspinfo        = print BSP information
+   bsp2ase        = convert BSP to the 3D Studio Max ASCII format
+   map2map        = convert from any map format to the XreaL map format
+   t3d2map        = convert an Unreal Engine 3.0 .t3d to the XreaL map format
+   map2bsp        = compile MAP to BSP
+   vis            = compute visibility
+   light          = compute lighting
+   vlight         = compute volume lighting
+
+</message></q3map_feedback>

@@ -1,0 +1,26 @@
+syntax: glob
+*.orig
+*.rej
+*~
+*.swp
+*.o
+*.so
+*.dll
+*.exe
+*.pk3
+*.bsp
+*.x86_64
+.buildpath
+.project
+.sconsign.dblite
+.settings
+base/levelshots
+base/maps/*
+base/materials/*
+base/models/*
+base/textures/*
+build/*
+config.log
+dstorm.conf
+filelist.txt
+tmp/*

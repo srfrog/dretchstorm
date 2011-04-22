@@ -1,0 +1,112 @@
+#include "ui/menudef.h"
+#include "ui/common.h"
+{
+  assetGlobalDef
+  {
+    cursor MAIN_CURSOR      // cursor 
+    gradientBar "ui/assets/gradientbar2.tga"  // gradient bar
+    fadeClamp 1.0         // sets the fadeup alpha
+    fadeCycle 1         // how often fade happens in milliseconds
+    fadeAmount 0.1          // amount to adjust alpha per cycle
+
+    shadowX  5          // x amount for shadow offset
+    shadowY  5          // y amount for shadow offset
+    shadowColor 0.1 0.1 0.1 0.25      // shadow color
+
+    font "fonts/Vera" 20        // font
+    smallFont "fonts/Vera" 16      // font
+    bigFont "fonts/Vera" 24      // font
+  }
+
+  menuDef
+  {
+    name "Loading"
+    rect 0 0 640 480
+    fullScreen MENU_TRUE
+
+    itemDef
+    {
+      name background
+      rect 0 0 640 480
+      backcolor 0 0 0 1
+      visible 1
+      decoration
+      style WINDOW_STYLE_SHADER
+      visible 1
+      backcolor 0 0 0 1
+      ownerdraw CG_LOAD_LEVELSHOT
+    }
+
+    itemDef
+    {
+      name topstripe
+      style WINDOW_STYLE_FILLED
+      rect -5 -5 645 64
+      visible 1
+		backcolor WINDOW_BACKGROUND
+
+      border WINDOW_BORDER_FULL
+      borderSize 1
+      borderColor ITEM_SELECTED
+    }
+
+    itemDef
+    {
+      name "levelname"
+      rect 20 15 600 20
+      visible 1
+      decoration
+      forecolor ITEM_SELECTED
+      align ITEM_ALIGN_LEFT
+      textstyle ITEM_TEXTSTYLE_NORMAL
+      textscale 0.4
+      textaligny 28
+      textalignx 0
+      ownerdraw CG_LOAD_LEVELNAME
+    }
+
+    itemDef
+    {
+      name "hostname"
+      rect 20 60 600 20
+      visible 1
+      decoration
+      forecolor 1 1 1 1
+      align ITEM_ALIGN_LEFT
+      textstyle ITEM_TEXTSTYLE_NORMAL
+      textscale 0.3
+      textaligny 28
+      textalignx 0
+      ownerdraw CG_LOAD_HOSTNAME
+    }
+    
+    itemDef
+    {
+      name "motd"
+      rect 20 120 600 20
+      visible 1
+      decoration
+      forecolor 1 1 1 1
+      align ITEM_ALIGN_LEFT
+      textstyle ITEM_TEXTSTYLE_NORMAL
+      textscale 0.3
+      textaligny 28
+      textalignx 0
+      ownerdraw CG_LOAD_MOTD
+    }
+
+    itemDef
+    {
+      name "overall"
+      rect 20 420 600 30
+      visible 1
+      decoration
+      forecolor ITEM_SELECTED
+      ownerdraw CG_LOAD_OVERALL
+      align ITEM_ALIGN_CENTER
+      textstyle ITEM_TEXTSTYLE_NEON
+      textscale 0.3
+      special 1.0
+    }
+  }
+}

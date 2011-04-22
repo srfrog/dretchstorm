@@ -1,0 +1,42 @@
+import os, string, sys
+
+Import('env')
+
+# the file with vmMain function MUST be the first one of the list
+ui_src = [
+'base/code/ui/ui_main.c',
+'base/code/ui/ui_atoms.c',
+'base/code/ui/ui_gameinfo.c',
+'base/code/ui/ui_players.c',
+'base/code/ui/ui_shared.c',
+'base/code/game/bg_misc.c',
+'code/qcommon/q_math.c',
+'code/qcommon/q_shared.c'
+]
+
+dll_src = [
+'base/code/ui/ui_syscalls.c'
+]
+
+ui_env = env.Clone()
+
+if env['arch'] == 'linux-i386':
+	ui_env.SharedLibrary('ui', [ui_src, dll_src], LIBS=['m'])
+	ui_env.InstallAs('#base/uii386.so', 'libui.so')
+
+elif env['arch'] == 'linux-x86_64':
+	ui_env.SharedLibrary('ui', [ui_src, dll_src], LIBS=['m'])
+	ui_env.InstallAs('#base/uix86_64.so', 'libui.so')
+
+if env['arch'] == 'freebsd-i386':
+	ui_env.SharedLibrary('ui', [ui_src, dll_src], LIBS=['m'])
+	ui_env.InstallAs('#base/uii386.so', 'libui.so')
+
+if env['arch'] == 'freebsd-amd64':
+	ui_env.SharedLibrary('ui', [ui_src, dll_src], LIBS=['m'])
+	ui_env.InstallAs('#base/uiamd64.so', 'libui.so')
+
+
+
+
+
