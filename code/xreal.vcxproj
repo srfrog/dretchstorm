@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{81CB51C4-B434-4E12-B69B-BAEE102F2852}</ProjectGuid>
     <RootNamespace>xreal</RootNamespace>
+    <ProjectName>dretchstorm</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -58,7 +59,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.\ogg\include;.\vorbis\include;.\freetype\include;.\zlib;.\speex\include;.\theora\include;.\sdl\include;.\curl\include;..\jdk\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;USE_CURL;BUILD_FREETYPE;FT2_BUILD_LIBRARY;STANDALONE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;USE_CURL;USE_OPENAL;BUILD_FREETYPE;FT2_BUILD_LIBRARY;STANDALONE;HAVE_CONFIG_H;USE_CODEC_VORBIS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -74,6 +75,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <DisableSpecificWarnings>4047;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -121,7 +123,7 @@
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>.\ogg\include;.\vorbis\include;.\freetype\include;.\zlib;.\speex\include;.\theora\include;.\sdl\include;.\curl\include;..\jdk\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;USE_CURL;USE_OPENAL;BUILD_FREETYPE;FT2_BUILD_LIBRARY;STANDALONE;SIMD_SSE;USE_CODEC_VORBIS;USE_VOIP;HAVE_CONFIG_H;USE_CIN_THEORA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;USE_CURL;USE_OPENAL;BUILD_FREETYPE;FT2_BUILD_LIBRARY;STANDALONE;USE_CODEC_VORBIS;HAVE_CONFIG_H;USE_CIN_THEORA;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -137,6 +139,7 @@
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -488,6 +491,7 @@
     <ClCompile Include="vorbis\lib\sharedbook.c" />
     <ClCompile Include="vorbis\lib\smallft.c">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug/smallftvorbis</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release/smallftvorbis</ObjectFileName>
     </ClCompile>
     <ClCompile Include="vorbis\lib\synthesis.c" />
     <ClCompile Include="vorbis\lib\vorbisfile.c" />
@@ -535,7 +539,6 @@
     <ClCompile Include="speex\quant_lsp.c" />
     <ClCompile Include="speex\resample.c" />
     <ClCompile Include="speex\sb_celp.c" />
-    <ClCompile Include="speex\smallft.c" />
     <ClCompile Include="speex\speex.c" />
     <ClCompile Include="speex\speex_callbacks.c" />
     <ClCompile Include="speex\speex_header.c" />
