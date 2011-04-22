@@ -1,6 +1,6 @@
 /*
 ===========================================================================
-Copyright (C) 2006-2011 Robert Beckebans <trebor_7@users.sourceforge.net>
+Copyright (C) 2011 Robert Beckebans <trebor_7@users.sourceforge.net>
 
 This file is part of XreaL source code.
 
@@ -20,29 +20,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ===========================================================================
 */
 
-/* skybox_fp.glsl */
+/* fogGlobal_vp.glsl */
 
-uniform samplerCube	u_ColorMap;
-uniform vec3		u_ViewOrigin;
-uniform vec4		u_PortalPlane;
+attribute vec4		attr_Position;
 
-varying vec3		var_Position;
+uniform mat4		u_ModelViewProjectionMatrix;
 
 void	main()
 {
-	#if defined(USE_PORTAL_CLIPPING)
-	{
-		float dist = dot(var_Position.xyz, u_PortalPlane.xyz) - u_PortalPlane.w;
-		if(dist < 0.0)
-		{
-			discard;
-			return;
-		}
-	}
-#endif
-	
-	// compute incident ray
-	vec3 I = normalize(var_Position - u_ViewOrigin);
-	
-	gl_FragColor = textureCube(u_ColorMap, I).rgba;
+	// transform vertex position into homogenous clip-space
+	gl_Position = u_ModelViewProjectionMatrix * attr_Position;
 }

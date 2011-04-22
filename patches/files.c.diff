@@ -1,0 +1,17 @@
+--- code/qcommon/files.c	2011-04-14 09:37:08.918164991 -0700
++++ code/qcommon/files.c	2011-04-17 00:24:13.191503824 -0700
+@@ -2132,10 +2132,12 @@
+ 				if(filter)
+ 				{
+ 					// case insensitive
+-					if(!Com_FilterPath(filter, name, qfalse))
++					if(!Com_FilterPath(va("%s%s", path, filter), name, qfalse))
++					//if(!Com_FilterPath(filter, name, qfalse))
+ 						continue;
+ 					// unique the match
+-					nfiles = FS_AddFileToList(name, list, nfiles);
++					nfiles = FS_AddFileToList(&name[pathLength+1], list, nfiles);
++					//nfiles = FS_AddFileToList(name, list, nfiles);
+ 				}
+ 				else
+ 				{
