@@ -1,0 +1,11 @@
+--- code/qcommon/parse.c	2011-03-08 17:46:44.163923013 -0700
++++ code-old/qcommon/parse.c	2011-03-15 20:15:31.959703992 -0700
+@@ -1036,7 +1036,7 @@
+ {
+ 	if(*string == '\"')
+ 	{
+-		strcpy(string, string + 1);
++                memmove(string, string + 1, strlen(string));
+ 	}
+ 	if(string[strlen(string) - 1] == '\"')
+ 	{

@@ -5,7 +5,6 @@ Import('env')
 # the file with vmMain function MUST be the first one of the list
 rendererGL_src = [
 'code/renderer/gl_shader.cpp',
-'code/renderer/qgl.c',
 'code/renderer/tr_animation.c',
 'code/renderer/tr_backend.cpp',
 'code/renderer/tr_bsp.c',
@@ -21,13 +20,14 @@ rendererGL_src = [
 'code/renderer/tr_image_jpg.c',
 'code/renderer/tr_image_png.c',
 'code/renderer/tr_image_tga.c',
-'code/renderer/tr_init.c',
+'code/renderer/tr_init.cpp',
 'code/renderer/tr_light.c',
 'code/renderer/tr_main.c',
 'code/renderer/tr_marks.c',
 'code/renderer/tr_mesh.c',
 'code/renderer/tr_model.c',
 'code/renderer/tr_model_md3.c',
+'code/renderer/tr_model_mdc.c',
 'code/renderer/tr_model_md5.c',
 'code/renderer/tr_model_psk.c',
 'code/renderer/tr_model_skel.c',
@@ -142,10 +142,13 @@ rendererGL_src = [
 'code/qcommon/q_shared.c',
 'code/sys/sdl_gamma.c',
 'code/sys/sdl_glimp.c',
+'code/glew/src/glew.c',
 ]
 
 
 rendererGL_env = env.Clone()
+rendererGL_env.Append(CCFLAGS='-DGLEW_STATIC')
+rendererGL_env.Append(CCFLAGS='-Icode/glew/include')
 
 if env['compatq3a'] == 1:
 	rendererGL_env.Append(CCFLAGS='-DCOMPAT_Q3A')

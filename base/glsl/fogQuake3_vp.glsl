@@ -1,6 +1,6 @@
 /*
 ===========================================================================
-Copyright (C) 2006-2011 Robert Beckebans <trebor_7@users.sourceforge.net>
+Copyright (C) 2011 Robert Beckebans <trebor_7@users.sourceforge.net>
 
 This file is part of XreaL source code.
 
@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ===========================================================================
 */
 
-/* generic_vp.glsl */
+/* fogQuake3_vp.glsl */
 
 attribute vec4		attr_Position;
 attribute vec4		attr_TexCoord0;
@@ -39,9 +39,7 @@ uniform mat4		u_BoneMatrix[MAX_GLSL_BONES];
 
 uniform float		u_VertexInterpolation;
 
-uniform mat4		u_ColorTextureMatrix;
 uniform vec3		u_ViewOrigin;
-uniform int			u_TCGen_Environment;
 
 uniform float		u_Time;
 
@@ -49,6 +47,10 @@ uniform vec4		u_ColorModulate;
 uniform vec4		u_Color;
 uniform mat4		u_ModelMatrix;
 uniform mat4		u_ModelViewProjectionMatrix;
+
+uniform vec4		u_FogDistanceVector;
+uniform vec4		u_FogDepthVector;
+uniform float		u_FogEyeT;
 
 varying vec3		var_Position;
 varying vec2		var_Tex;
@@ -110,26 +112,32 @@ void	main()
 	// transform position into world space
 	var_Position = (u_ModelMatrix * position).xyz;
 	
-	// transform texcoords
-	vec4 texCoord;
-#if defined(USE_TCGEN_ENVIRONMENT)
-	{
-		vec3 viewer = normalize(u_ViewOrigin - position.xyz);
-
-		float d = dot(attr_Normal, viewer);
-
-		vec3 reflected = attr_Normal * 2.0 * d - viewer;
+	// calculate the length in fog
+	float s = dot(position.xyz, u_FogDistanceVector.xyz) + u_FogDistanceVector.w;
+	float t = dot(position.xyz, u_FogDepthVector.xyz) + u_FogDepthVector.w;
 		
-		texCoord.s = 0.5 + reflected.y * 0.5;
-		texCoord.t = 0.5 - reflected.z * 0.5;
-		texCoord.q = 0;
-		texCoord.w = 1;
+	// partially clipped fogs use the T axis
+#if defined(EYE_OUTSIDE)
+	if(t < 1.0)
+	{
+		t = 1.0 / 32;	// point is outside, so no fogging
+	}
+	else
+	{
+		t = 1.0 / 32 + 30.0 / 32 * t / (t - u_FogEyeT);	// cut the distance at the fog plane
 	}
 #else
-	texCoord = attr_TexCoord0;
+	if(t < 0)
+	{
+		t = 1.0 / 32;	// point is outside, so no fogging
+	}
+	else
+	{
+		t = 31.0 / 32;
+	}
 #endif
+
+	var_Tex = vec2(s, t);
 	
-	var_Tex = (u_ColorTextureMatrix * texCoord).st;
-	
-	var_Color = attr_Color * u_ColorModulate + u_Color;
+	var_Color = /* attr_Color * u_ColorModulate + */ u_Color;
 }

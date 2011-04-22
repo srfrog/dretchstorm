@@ -1,6 +1,6 @@
 /*
 ===========================================================================
-Copyright (C) 2006-2011 Robert Beckebans <trebor_7@users.sourceforge.net>
+Copyright (C) 2011 Robert Beckebans <trebor_7@users.sourceforge.net>
 
 This file is part of XreaL source code.
 
@@ -20,29 +20,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ===========================================================================
 */
 
-/* skybox_fp.glsl */
+/* fogGlobal_fp.glsl */
 
-uniform samplerCube	u_ColorMap;
+uniform sampler2D	u_DepthMap;
 uniform vec3		u_ViewOrigin;
-uniform vec4		u_PortalPlane;
-
-varying vec3		var_Position;
+uniform vec4		u_FogDepthVector;
+uniform vec4		u_Color;
+uniform mat4		u_UnprojectMatrix;
 
 void	main()
 {
-	#if defined(USE_PORTAL_CLIPPING)
-	{
-		float dist = dot(var_Position.xyz, u_PortalPlane.xyz) - u_PortalPlane.w;
-		if(dist < 0.0)
-		{
-			discard;
-			return;
-		}
-	}
-#endif
+	// calculate the screen texcoord in the 0.0 to 1.0 range
+	vec2 st = gl_FragCoord.st * r_FBufScale;
 	
-	// compute incident ray
-	vec3 I = normalize(var_Position - u_ViewOrigin);
+	// scale by the screen non-power-of-two-adjust
+	st *= r_NPOTScale;
 	
-	gl_FragColor = textureCube(u_ColorMap, I).rgba;
+	// reconstruct vertex position in world space
+	float depth = texture2D(u_DepthMap, st).r;
+	vec4 P = u_UnprojectMatrix * vec4(gl_FragCoord.xy, depth, 1.0);
+	P.xyz /= P.w;
+
+	// calculate fog distance
+	float fogDistance = distance(P.xyz, u_ViewOrigin);
+	
+	// calculate fog exponent
+	float fogExponent = fogDistance * u_FogDepthVector.x;
+	
+	// calculate fog factor
+	float fogFactor = exp2(-abs(fogExponent));
+	
+	// lerp between FBO color and fog color with GLS_SRCBLEND_ONE_MINUS_SRC_ALPHA. GLS_DSTBLEND_SRC_ALPHA
+	gl_FragColor = vec4(u_Color.rgb, fogFactor);
 }
