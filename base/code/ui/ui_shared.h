@@ -394,7 +394,7 @@ typedef struct
 
 	cachedAssets_t  Assets;
 
-	glConfig_t      glconfig;
+	glconfig_t      glconfig;
 	qhandle_t       whiteShader;
 	qhandle_t       gradientImage;
 	qhandle_t       cursor;

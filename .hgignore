@@ -10,6 +10,7 @@ syntax: glob
 *.pk3
 *.bsp
 *.x86_64
+*-old
 .buildpath
 .project
 .sconsign.dblite

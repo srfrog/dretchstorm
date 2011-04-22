@@ -1,0 +1,12 @@
+diff -r 1971d59ed367 code/common/cmdlib.c
+--- code/common/cmdlib.c	Sun Apr 17 01:40:59 2011 -0700
++++ code/common/cmdlib.c	Sun Apr 17 23:39:59 2011 -0700
+@@ -41,7 +41,7 @@
+ #include <libc.h>
+ #endif
+ 
+-#define	BASEDIRNAME	"xreal"		// assumed to have a 2 or 3 following
++#define	BASEDIRNAME	"dretchstorm"		// assumed to have a 2 or 3 following
+ #define PATHSEPERATOR   '/'
+ 
+ #ifdef SAFE_MALLOC
