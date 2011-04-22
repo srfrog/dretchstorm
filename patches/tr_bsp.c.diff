@@ -1,0 +1,11 @@
+--- code/renderer/tr_bsp.c	2011-04-18 17:09:31.010361491 -0700
++++ code/renderer/tr_bsp.c	2011-04-22 15:00:24.884828056 -0700
+@@ -942,7 +942,7 @@
+ 
+ 			if(!lightmapFiles || !numLightmaps)
+ 			{
+-				lightmapFiles = ri.FS_ListFilteredFiles(mapName, ".tga", "/lm_*.png", &numLightmaps);
++				lightmapFiles = ri.FS_ListFilteredFiles(mapName, ".tga", "/lm_*.tga", &numLightmaps);
+ 
+ 				if(!lightmapFiles || !numLightmaps)
+ 				{
