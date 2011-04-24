@@ -1222,7 +1222,7 @@ static void CG_DrawLevelShot(rectDef_t * rect)
 	levelshot = trap_R_RegisterShaderNoMip(va("levelshots/%s.tga", s));
 
 	if(!levelshot)
-		levelshot = trap_R_RegisterShaderNoMip("gfx/2d/load_screen");
+		levelshot = trap_R_RegisterShaderNoMip("ui/assets/connecting");
 
 	trap_R_SetColor(NULL);
 	CG_DrawPic(rect->x, rect->y, rect->w, rect->h, levelshot);

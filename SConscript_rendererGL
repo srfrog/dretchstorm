@@ -238,4 +238,17 @@ elif env['arch'] == 'darwin-ppc ' or env['arch'] == 'darwin-i386':
 	elif env['arch'] == 'darwin-i386':
 		rendererGL_env.InstallAs('#rendererGLi386.dylib', 'librendererGL.dylib')
 
+elif env['arch'] == 'win32-mingw':
+   rendererGL_env.ParseConfig('sdl-config --cflags --libs')
+   rendererGL_env.Append(LIBS=['m', 'GL'])
+   rendererGL_env.ParseConfig('freetype-config --cflags --libs')
+   rendererGL_env.Append(CCFLAGS='-DPNG_NO_ASSEMBLER_CODE')
+   rendererGL_env.Append(CCFLAGS='-DBUILD_FREETYPE')
+
+   if env['smp'] == 1:
+      rendererGL_env.Append(CCFLAGS='-DSMP')
+      rendererGL_env.Append(LIBS=['pthread'])
+
+   rendererGL_env.SharedLibrary('rendererGL', rendererGL_src)
+   rendererGL_env.InstallAs('#rendererGL.dll', 'librendererGL.so')
 

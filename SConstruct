@@ -10,7 +10,7 @@ opts = Variables('dstorm.conf')
 opts.Add(EnumVariable('arch', 'Choose architecture to build for', 'linux-i386', allowed_values=('freebsd-i386', 'freebsd-amd64', 'linux-i386', 'linux-x86_64', 'netbsd-i386', 'opensolaris-i386', 'win32-mingw', 'darwin-ppc', 'darwin-i386')))
 opts.Add(EnumVariable('warnings', 'Choose warnings level', '1', allowed_values=('0', '1', '2')))
 opts.Add(EnumVariable('debug', 'Set to >= 1 to build for debug', '2', allowed_values=('0', '1', '2', '3')))
-opts.Add(EnumVariable('optimize', 'Set to >= 1 to build with general optimizations', '2', allowed_values=('0', '1', '2', '3', '4', '5', '6')))
+opts.Add(EnumVariable('optimize', 'Set to >= 1 to build with general optimizations', '2', allowed_values=('0', '1', '2', '3', '4', '5', '0')))
 opts.Add(EnumVariable('simd', 'Choose special CPU register optimizations', 'none', allowed_values=('none', 'sse', '3dnow')))
 #opts.Add(EnumVariable('cpu', 'Set to 1 to build with special CPU register optimizations', 'i386', allowed_values=('i386', 'athlon-xp', 'core2duo')))
 opts.Add(BoolVariable('smp', 'Set to 1 to compile engine with symmetric multiprocessor support', 0))
@@ -29,7 +29,6 @@ opts.Add(BoolVariable('master', 'Set to 1 to compile the master server', 0))
 # initialize compiler environment base
 #
 env = Environment(ENV = {'PATH' : os.environ['PATH']}, options = opts, tools = ['default'])
-#env = Environment(ENV = {'PATH' : os.environ['PATH']}, options = opts, tools = ['mingw'])
 
 #
 # set user-defined compiler if need be
@@ -46,10 +45,11 @@ Help(opts.GenerateHelpText(env))
 #
 print 'compiling for architecture ', env['arch']
 
-#if env['arch'] == 'win32-mingw':
-#	env.Tool('mingw')
-#elif env['arch'] == 'win32-xmingw':
-#	env.Tool('xmingw', ['SCons/Tools'])
+if env['arch'] == 'win32-mingw':
+	env.Tool('crossmingw', toolpath = ['scons-tools'])
+	if env['curl'] != 'none':
+		env['curl'] = 'compile'
+	env.Append(CCFLAGS = '-DWIN32 -D__MINGW32__ -D_WINDOWS -DWINVER=0x501')
 
 
 # HACK: see http://www.physics.uq.edu.au/people/foster/amd64_porting.html
@@ -69,11 +69,15 @@ elif env['warnings'] == '2':
 if env['debug'] != '0':
 	#env.Append(CCFLAGS = '-ggdb${debug} -D_DEBUG -DDEBUG')
 	env.Append(CCFLAGS = '-g -D_DEBUG -DDEBUG')
+	if env['arch'] == 'win32-mingw':
+		env.Append(CCFLAGS = '-O0')
 else:
 	env.Append(CCFLAGS = '-DNDEBUG')
 
 if env['optimize'] != '0':
 	env.Append(CCFLAGS = '-O${optimize} -ffast-math') # -fno-strict-aliasing -funroll-loops')
+	if env['arch'] == 'win32-mingw':
+		env.Append(CCFLAGS = '-O3 -march=i586 -fomit-frame-pointer -ffast-math -falign-loops=2 -funroll-loops -falign-jumps=2 -falign-functions=2 -fstrength-reduce')
 
 #if env['cpu'] == 'athlon-xp':
 #	env.Append(CCFLAGS = '-march=athlon-xp') # -msse -mfpmath=sse')
