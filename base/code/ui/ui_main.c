@@ -1765,7 +1765,7 @@ static void UI_DrawMapPreview(rectDef_t * rect, float scale, vec4_t color, qbool
 	}
 	else
 	{
-		UI_DrawHandlePic(rect->x, rect->y, rect->w, rect->h, trap_R_RegisterShaderNoMip("gfx/2d/load_screen"));
+		UI_DrawHandlePic(rect->x, rect->y, rect->w, rect->h, trap_R_RegisterShaderNoMip("ui/assets/connecting"));
 	}
 }
 
@@ -1906,7 +1906,7 @@ static void UI_DrawNetMapPreview(rectDef_t * rect, float scale, vec4_t color)
 	}
 	else
 	{
-		UI_DrawHandlePic(rect->x, rect->y, rect->w, rect->h, trap_R_RegisterShaderNoMip("gfx/2d/load_screen"));
+		UI_DrawHandlePic(rect->x, rect->y, rect->w, rect->h, trap_R_RegisterShaderNoMip("ui/assets/connecting"));
 	}
 }
 
