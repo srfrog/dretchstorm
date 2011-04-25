@@ -495,7 +495,8 @@ static void CG_Mover(centity_t * cent)
 	VectorCopy(cent->lerpOrigin, ent.oldorigin);
 	AnglesToAxis(cent->lerpAngles, ent.axis);
 
-	ent.renderfx = RF_NOSHADOW;
+	// let movers cast shadows
+	//ent.renderfx = RF_NOSHADOW;
 
 	// flicker between two skins (FIXME?)
 	ent.skinNum = (cg.time >> 6) & 1;

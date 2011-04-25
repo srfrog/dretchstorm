@@ -599,6 +599,9 @@ void SetMoverState(gentity_t * ent, moverState_t moverState, int time)
 			ent->s.pos.trType = TR_LINEAR_STOP;
 			break;
 
+		case MOVER_MISC:
+			break;
+
 		case ROTATOR_POS1:
 			VectorCopy(ent->pos1, ent->s.apos.trBase);
 			ent->s.apos.trType = TR_STATIONARY;
@@ -894,6 +897,10 @@ void Reached_BinaryMover(gentity_t * ent)
 		if(ent->teammaster == ent || !ent->teammaster)
 			trap_AdjustAreaPortalState(ent, qfalse);
 	}
+	else if(ent->moverState == MOVER_MISC)
+	{
+		//Movement was set by lua, its fine.
+	}
 	else
 		G_Error("Reached_BinaryMover: bad moverState");
 }
@@ -910,8 +917,10 @@ void Use_BinaryMover(gentity_t * ent, gentity_t * other, gentity_t * activator)
 	int             partial;
 
 	// if this is a non-client-usable door return
+/*
 	if(ent->name && other && other->client)
 		return;
+*/
 
 	// only the master should be used
 	if(ent->flags & FL_TEAMSLAVE)
@@ -2478,9 +2487,16 @@ A bmodel that just sits there, doing nothing.  Can be used for conditional walls
 void SP_func_static(gentity_t * ent)
 {
 	trap_SetBrushModel(ent, ent->model);
+
 	InitMover(ent);
+
 	VectorCopy(ent->s.origin, ent->s.pos.trBase);
 	VectorCopy(ent->s.origin, ent->r.currentOrigin);
+
+	VectorCopy(ent->s.angles, ent->s.apos.trBase);
+	VectorCopy(ent->s.angles, ent->r.currentAngles);
+
+	trap_LinkEntity(ent);
 }
 
 
@@ -2562,11 +2578,16 @@ void SP_func_bobbing(gentity_t * ent)
 {
 	float           height;
 	float           phase;
+	qboolean        x_axis;
+	qboolean        y_axis;
 
 	G_SpawnFloat("speed", "4", &ent->speed);
 	G_SpawnFloat("height", "32", &height);
 	G_SpawnInt("dmg", "2", &ent->damage);
 	G_SpawnFloat("phase", "0", &phase);
+	G_SpawnBoolean("x_axis", "0", &x_axis);
+	G_SpawnBoolean("y_axis", "0", &y_axis);
+
 
 	trap_SetBrushModel(ent, ent->model);
 	InitMover(ent);
@@ -2579,9 +2600,9 @@ void SP_func_bobbing(gentity_t * ent)
 	ent->s.pos.trType = TR_SINE;
 
 	// set the axis of bobbing
-	if(ent->spawnflags & 1)
+	if(x_axis)
 		ent->s.pos.trDelta[0] = height;
-	else if(ent->spawnflags & 2)
+	else if(y_axis)
 		ent->s.pos.trDelta[1] = height;
 	else
 		ent->s.pos.trDelta[2] = height;
