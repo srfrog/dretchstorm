@@ -1505,7 +1505,7 @@ void R_Register(void)
 		AssertCvarRange(r_hdrRendering, 0, 0, qtrue);
 	}
 
-	r_hdrMinLuminance = ri.Cvar_Get("r_hdrMinLuminance", "0.18", CVAR_CHEAT);
+	r_hdrMinLuminance = ri.Cvar_Get("r_hdrMinLuminance", "0.18", CVAR_ARCHIVE);
 	r_hdrMaxLuminance = ri.Cvar_Get("r_hdrMaxLuminance", "3000", CVAR_CHEAT);
 	r_hdrKey = ri.Cvar_Get("r_hdrKey", "0.72", CVAR_CHEAT);
 	r_hdrContrastThreshold = ri.Cvar_Get("r_hdrContrastThreshold", "3.0", CVAR_CHEAT);
