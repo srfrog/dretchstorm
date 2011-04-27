@@ -1219,7 +1219,7 @@ static void CG_DrawLevelShot(rectDef_t * rect)
 
 	info = CG_ConfigString(CS_SERVERINFO);
 	s = Info_ValueForKey(info, "mapname");
-	levelshot = trap_R_RegisterShaderNoMip(va("levelshots/%s.tga", s));
+	levelshot = trap_R_RegisterShaderNoMip(va("levelshots/%s", s));
 
 	if(!levelshot)
 		levelshot = trap_R_RegisterShaderNoMip("ui/assets/connecting");
