@@ -46,11 +46,10 @@ Help(opts.GenerateHelpText(env))
 print 'compiling for architecture ', env['arch']
 
 if env['arch'] == 'win32-mingw':
+	env['smp'] = 0
 	env.Tool('crossmingw', toolpath = ['scons-tools'])
-	if env['curl'] != 'none':
-		env['curl'] = 'compile'
-	env.Append(CCFLAGS = '-DWIN32 -D__MINGW32__ -D_WINDOWS -DWINVER=0x501')
-
+	env.PrependENVPath('PATH', os.environ['MINGW32BINPATH'])
+	env.Append(CCFLAGS = '-DWIN32 -D_WIN32 -D_WINDOWS -DUSE_ICON')
 
 # HACK: see http://www.physics.uq.edu.au/people/foster/amd64_porting.html
 if env['arch'] == 'linux-x86_64':
@@ -125,6 +124,7 @@ if env['noclient'] == 0:
 		SConscript('SConscript_base_ui', variant_dir='build/base/ui', duplicate=0)
 	
 SConscript('SConscript_dstormded', variant_dir='build/dstormded', duplicate=0)
+
 if env['noclient'] == 1:
 	if env['java'] == 0:
 		SConscript('SConscript_base_game', variant_dir='build/base/game', duplicate=0)

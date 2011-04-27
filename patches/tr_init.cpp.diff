@@ -1,0 +1,24 @@
+diff -r 5b88310f9e8f code/renderer/tr_init.cpp
+--- code/renderer/tr_init.cpp	Mon Apr 25 17:06:52 2011 -0700
++++ code/renderer/tr_init.cpp	Mon Apr 25 20:07:02 2011 -0700
+@@ -1505,7 +1505,7 @@
+ 		AssertCvarRange(r_hdrRendering, 0, 0, qtrue);
+ 	}
+ 
+-	r_hdrMinLuminance = ri.Cvar_Get("r_hdrMinLuminance", "0.18", CVAR_CHEAT);
++	r_hdrMinLuminance = ri.Cvar_Get("r_hdrMinLuminance", "0.18", CVAR_ARCHIVE);
+ 	r_hdrMaxLuminance = ri.Cvar_Get("r_hdrMaxLuminance", "3000", CVAR_CHEAT);
+ 	r_hdrKey = ri.Cvar_Get("r_hdrKey", "0.72", CVAR_CHEAT);
+ 	r_hdrContrastThreshold = ri.Cvar_Get("r_hdrContrastThreshold", "3.0", CVAR_CHEAT);
+diff -r 3311cc5b08a9 code/renderer/tr_init.cpp
+--- code/renderer/tr_init.cpp	Mon Apr 25 20:07:49 2011 -0700
++++ code/renderer/tr_init.cpp	Mon Apr 25 23:39:00 2011 -0700
+@@ -1588,7 +1588,7 @@
+ 	r_lockpvs = ri.Cvar_Get("r_lockpvs", "0", CVAR_CHEAT);
+ 	r_noportals = ri.Cvar_Get("r_noportals", "0", CVAR_CHEAT);
+ 
+-	r_shadows = ri.Cvar_Get("cg_shadows", "1", CVAR_ARCHIVE | CVAR_LATCH);
++	r_shadows = ri.Cvar_Get("cg_shadows", "3", CVAR_ARCHIVE | CVAR_LATCH);
+ 	AssertCvarRange(r_shadows, 0, 6, qtrue);
+ 
+ 	r_softShadows = ri.Cvar_Get("r_softShadows", "0", CVAR_ARCHIVE | CVAR_LATCH);

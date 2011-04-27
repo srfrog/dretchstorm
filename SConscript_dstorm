@@ -176,9 +176,9 @@ win_src = [
 'code/sys/sys_win32.c',
 'code/sys/con_log.c',
 'code/sys/con_passive.c',
-'code/sys/con_win32.c',
-'code/sys/sdl_gamma.c',
-'code/sys/sdl_glimp.c',
+#'code/sys/con_win32.c',
+#'code/sys/sdl_gamma.c',
+#'code/sys/sdl_glimp.c',
 'code/sys/sdl_input.c',
 'code/sys/sdl_snd.c'
 ]
@@ -290,19 +290,12 @@ elif env['arch'] == 'darwin-ppc ' or env['arch'] == 'darwin-i386':
 		dstorm_env.InstallAs('#dstorm.i386', 'dstorm')
 		
 elif env['arch'] == 'win32-mingw':
-	dstorm_env.Append(CCFLAGS='-Icode/zlib')
-	dstorm_env.Append(CCFLAGS='-Icode/sdl/include')
-	dstorm_env.Append(CCFLAGS='-Icode/glew/include')
-	dstorm_env.Append(CCFLAGS='-DC_ONLY')
-	dstorm_env.Append(CCFLAGS='-DBUILD_FREETYPE -DFT2_BUILD_LIBRARY -DHAVE_CONFIG_H')
-	#dstorm_env.ParseConfig('sdl-config --cflags --libs')
-	dstorm_env.Append(LDFLAGS='-lregex -lpng -ljpeg -lzlib -ltiff -lstdc++ -lgcc -lodbc32 -lwsock32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lctl3d32 -lodbc32 -ladvapi32 -lodbc32 -lwsock32 -lopengl32 -lglu32 -lole32 -loleaut32 -luuid')
-	dstorm_env.Append(LIBS=['mingw32', 'm', 'SDL','shell32'])
+	dstorm_env.ParseConfig('sdl-config --cflags --libs')
+	dstorm_env.Append(LINKFLAGS='-mwindows')
+	dstorm_env.Append(CCFLAGS='-DWINVER=0x501')
+	dstorm_env.Append(CCFLAGS='-DCURL_STATICLIB')
+	dstorm_env.Append(LIBS=['ws2_32', 'winmm', 'mingw32', 'SDLmain', 'opengl32', 'psapi'])
 	
-	if env['smp'] == 1:
-		dstorm_env.Append(CCFLAGS='-DSMP')
-		dstorm_env.Append(LIBS=['pthread'])
-	
-	dstorm_env.Program('dstorm', [dstorm_src, win_src, theora_decoder_x86_64_src])		
-	dstorm_env.InstallAs('#dstorm.exe', 'dstorm')
+	dstorm_env.Program('dstorm.exe', [dstorm_src, win_src, theora_decoder_x86_64_src])		
+	dstorm_env.InstallAs('#dstorm.exe', 'dstorm.exe')
 

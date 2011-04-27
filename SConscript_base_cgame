@@ -63,7 +63,7 @@ elif env['arch'] == 'freebsd-amd64':
 	cgame_env.InstallAs('#base/cgameamd64.so', 'libcgame.so')
 
 elif env['arch'] == 'win32-mingw':
-	cgame_env.SharedLibrary('cgame', [cgame_src, dll_src], LIBS=['m'])
+	cgame_env.SharedLibrary('cgame', [cgame_src, dll_src], LIBS=['m', 'mingw32'])
 	cgame_env.InstallAs('#base/cgamex86.dll', 'cgame.dll')
 
 

@@ -40,7 +40,3 @@ elif env['arch'] == 'freebsd-amd64':
 	xrealmaster_env.Program('xrealmaster', xrealmaster_src)
 	xrealmaster_env.InstallAs('#xrealmaster.amd64', 'xrealmaster')
 
-elif env['arch'] == 'win32-mingw':
-	xrealmaster_env.Append(LIBS=['m', 'wsock32'])
-	xrealmaster_env.Program('xrealmaster', xrealmaster_src)
-	xrealmaster_env.Install('#', 'xrealmaster.exe')
