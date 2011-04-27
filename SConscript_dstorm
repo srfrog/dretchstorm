@@ -185,6 +185,7 @@ win_src = [
 
 dstorm_env.Append(CCFLAGS='-Icode/ogg/include')
 dstorm_env.Append(CCFLAGS='-Icode/vorbis/include')
+dstorm_env.Append(CCFLAGS='-Icode/zlib')
 dstorm_env.Append(CCFLAGS='-DSTANDALONE')
 dstorm_env.Append(CCFLAGS='-DUSE_CODEC_VORBIS')
 dstorm_env.Append(CCFLAGS='-DUSE_VOIP')
