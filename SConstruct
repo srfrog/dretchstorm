@@ -67,7 +67,7 @@ elif env['warnings'] == '2':
 
 if env['debug'] != '0':
 	if env['arch'] == 'win32-mingw':
-		env['optimize] = 0
+		env['optimize'] = 0
 		env.Append(CCFLAGS = '-g -O0')
 	else:
 		env.Append(CCFLAGS = '-ggdb${debug} -D_DEBUG -DDEBUG')

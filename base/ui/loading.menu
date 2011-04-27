@@ -22,12 +22,13 @@
   {
     name "Loading"
     rect 0 0 640 480
+    backcolor 0 0 0 1
     fullScreen MENU_TRUE
 
     itemDef
     {
       name background
-      rect 0 0 640 480
+      rect 0 0 640 360
       backcolor 0 0 0 1
       visible 1
       decoration
@@ -39,36 +40,8 @@
 
     itemDef
     {
-      name topstripe
-      style WINDOW_STYLE_FILLED
-      rect -5 -5 645 64
-      visible 1
-		backcolor WINDOW_BACKGROUND
-
-      border WINDOW_BORDER_FULL
-      borderSize 1
-      borderColor ITEM_SELECTED
-    }
-
-    itemDef
-    {
-      name "levelname"
-      rect 20 15 600 20
-      visible 1
-      decoration
-      forecolor ITEM_SELECTED
-      align ITEM_ALIGN_LEFT
-      textstyle ITEM_TEXTSTYLE_NORMAL
-      textscale 0.4
-      textaligny 28
-      textalignx 0
-      ownerdraw CG_LOAD_LEVELNAME
-    }
-
-    itemDef
-    {
       name "hostname"
-      rect 20 60 600 20
+      rect 20 20 600 20
       visible 1
       decoration
       forecolor 1 1 1 1
@@ -83,7 +56,7 @@
     itemDef
     {
       name "motd"
-      rect 20 120 600 20
+      rect 20 40 600 20
       visible 1
       decoration
       forecolor 1 1 1 1
@@ -93,6 +66,21 @@
       textaligny 28
       textalignx 0
       ownerdraw CG_LOAD_MOTD
+    }
+
+    itemDef
+    {
+      name "levelname"
+      rect 20 380 600 20
+      visible 1
+      decoration
+      forecolor ITEM_SELECTED
+      align ITEM_ALIGN_LEFT
+      textstyle ITEM_TEXTSTYLE_NORMAL
+      textscale 0.4
+      textaligny 28
+      textalignx 0
+      ownerdraw CG_LOAD_LEVELNAME
     }
 
     itemDef
