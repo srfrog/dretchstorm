@@ -210,8 +210,10 @@ elif env['curl'] == 'dlopen':
 if env['openal'] == 1:
 	dstorm_env.Append(CCFLAGS='-DUSE_OPENAL')
 	if env['arch'] != 'darwin-ppc' and env['arch'] != 'darwin-i386':
-		dstorm_env.Append(LIBS=['openal'])
-
+		if env['arch'] == 'win32-mingw':
+			dstorm_env.Append(LIBS=['OpenAL32'])
+		else:
+			dstorm_env.Append(LIBS=['openal'])
 
 
 if env['arch'] == 'linux-i386':
@@ -294,6 +296,8 @@ elif env['arch'] == 'win32-mingw':
 	dstorm_env.Append(LINKFLAGS='-mwindows')
 	dstorm_env.Append(CCFLAGS='-DWINVER=0x501')
 	dstorm_env.Append(CCFLAGS='-DCURL_STATICLIB')
+	#dstorm_env.Append(CCFLAGS='-DSIMD_SSE')
+	#dstorm_env.Append(CCFLAGS='-DUSE_CIN_THEORA')
 	dstorm_env.Append(LIBS=['ws2_32', 'winmm', 'mingw32', 'SDLmain', 'opengl32', 'psapi'])
 	
 	dstorm_env.Program('dstorm.exe', [dstorm_src, win_src, theora_decoder_x86_64_src])		

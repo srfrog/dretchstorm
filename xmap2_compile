@@ -15,7 +15,7 @@
 
 
 # fs_basepath is generally '../..' since xmap2_compile is in the base/maps/ dir.
-FS_BASEPATH='../..'
+FS_BASEPATH="`dirname $0`"
 # fs_game should be 'base'
 FS_GAME='base'
 # game should be 'xreal'
@@ -29,31 +29,35 @@ THREADS=`grep processor /proc/cpuinfo | awk '{a++} END {print a}'`
 
 # map_ convention used to prevent possible binary name collision
 map_bsp() {
-	if ! $COMPILE -v -meta -leaktest $BSPOPTS $MAP; then exit 1; fi
+	if ! time $COMPILE -v -meta -leaktest $BSPOPTS $MAP; then exit 1; fi
 }
 
 map_debugportals() {
-	if ! $COMPILE -v -debugportals -meta -leaktest $MAP; then exit 1; fi
+	if ! time $COMPILE -v -debugportals -meta -leaktest $MAP; then exit 1; fi
 }
 
 map_debugsurfaces() {
-	if ! $COMPILE -v -debugsurfaces -meta -leaktest $MAP; then exit 1; fi
+	if ! time $COMPILE -v -debugsurfaces -meta -leaktest $MAP; then exit 1; fi
 }
 
 map_fastvis() {
-	if ! $COMPILE -vis -threads $THREADS -fast $VISOPTS $MAP; then exit 1; fi
+	if ! time $COMPILE -vis -threads $THREADS -fast $MAP; then exit 1; fi
 }
 
 map_vis() {
-	if ! $COMPILE -vis -threads $THREADS $VISOPTS $MAP; then exit 1; fi
+	if ! time $COMPILE -vis -threads $THREADS $VISOPTS $MAP; then exit 1; fi
+}
+
+map_fastlight() {
+	if ! time $COMPILE -light -threads $THREADS -v -faster $MAP; then exit 1; fi
 }
 
 map_light() {
-	if ! $COMPILE -light -threads $THREADS -v $LIGHTOPTS $MAP; then exit 1; fi
+	if ! time $COMPILE -light -threads $THREADS -v $LIGHTOPTS $MAP; then exit 1; fi
 }
 
 map_scale() {
-	if ! $COMPILE -v -scale "$@" $MAP; then exit 1; fi
+	if ! time $COMPILE -v -scale "$@" $MAP; then exit 1; fi
 }
 
 map_package() {
@@ -135,8 +139,10 @@ map_help() {
 	echo "  -vis            Calculate VIS for an existing BSP."
 	echo "  -fastvis        Same as -vis, at the cost of accuracy."
 	echo "  -light          Calculate light for an existing BSP."
+	echo "  -fastlight      Same as -light, at the cost of accuracy."
 	echo "  -pk3            Attempt to automatically package a map project."
 	echo "  -all            Short for -bsp -vis -light."
+	echo "  -alltest        Short for -bsp -fastvis -fastlight."
 	echo "  -h              This help message."
 	echo ""
 	echo "This compilation script was written by Evan 'Odin' Goers, with"
@@ -188,14 +194,18 @@ case $1 in
 
 	-fastvis)
 		check_compiler;
-		map_readvisopts;
-		map_fastvis $VISOPTS;
+		map_fastvis;
 		;;
 		
 	-vis)
 		check_compiler;
 		map_readvisopts;
 		map_vis $VISOPTS;
+		;;
+
+	-fastlight)
+		check_compiler;
+		map_fastlight;
 		;;
 
 	-light)
@@ -216,6 +226,14 @@ case $1 in
 		map_vis $VISOPTS;
 		map_readlightopts;
 		map_light $LIGHTOPTS;
+		;;
+
+	-alltest)
+		check_compiler;
+		map_readbspopts;
+		map_bsp $BSPOPTS;
+		map_fastvis;
+		map_fastlight;
 		;;
 	-h)
 		map_help;

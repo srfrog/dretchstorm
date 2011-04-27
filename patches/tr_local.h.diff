@@ -1,0 +1,11 @@
+diff -r 3311cc5b08a9 code/renderer/tr_local.h
+--- code/renderer/tr_local.h	Mon Apr 25 20:07:49 2011 -0700
++++ code/renderer/tr_local.h	Wed Apr 27 02:47:47 2011 -0400
+@@ -128,7 +128,7 @@
+ 
+ 
+ 
+-#define REF_CUBEMAP_SIZE	32
++#define REF_CUBEMAP_SIZE	64
+ #define REF_CUBEMAP_STORE_SIZE	1024
+ #define REF_CUBEMAP_STORE_SIDE	(REF_CUBEMAP_STORE_SIZE/REF_CUBEMAP_SIZE)
