@@ -188,7 +188,11 @@ struct gentity_s
 	int             watertype;
 	int             waterlevel;
 
-	int             noise_index;
+	int             soundIndex;
+	qboolean        soundLooping;
+	qboolean        soundWaitForTrigger;
+	qboolean        soundGlobal;
+	qboolean        soundActivator;
 
 	// timing variables
 	float           wait;
