@@ -281,7 +281,7 @@ void Use_target_push(gentity_t * self, gentity_t * other, gentity_t * activator)
 	if(activator->fly_sound_debounce_time < level.time)
 	{
 		activator->fly_sound_debounce_time = level.time + 1500;
-		G_Sound(activator, CHAN_AUTO, self->noise_index);
+		G_Sound(activator, CHAN_AUTO, self->soundIndex);
 	}
 }
 
@@ -299,9 +299,9 @@ void SP_target_push(gentity_t * self)
 	VectorScale(self->s.origin2, self->speed, self->s.origin2);
 
 	if(self->spawnflags & 1)
-		self->noise_index = G_SoundIndex("sound/world/jumppad.wav");
+		self->soundIndex = G_SoundIndex("sound/world/jumppad.wav");
 	else
-		self->noise_index = G_SoundIndex("sound/misc/windfly.wav");
+		self->soundIndex = G_SoundIndex("sound/misc/windfly.wav");
 
 	if(self->target)
 	{
@@ -431,7 +431,7 @@ void hurt_touch(gentity_t * self, gentity_t * other, trace_t * trace)
 
 	// play sound
 	if(!(self->spawnflags & 4))
-		G_Sound(other, CHAN_AUTO, self->noise_index);
+		G_Sound(other, CHAN_AUTO, self->soundIndex);
 
 #ifdef G_LUA
 	// Lua API callbacks
@@ -453,7 +453,7 @@ void SP_trigger_hurt(gentity_t * self)
 {
 	InitTrigger(self);
 
-	self->noise_index = G_SoundIndex("sound/misc/electro.wav");
+	self->soundIndex = G_SoundIndex("sound/misc/electro.wav");
 	self->touch = hurt_touch;
 
 	if(!self->damage)

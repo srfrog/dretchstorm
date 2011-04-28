@@ -139,22 +139,22 @@ Multiple identical looping sounds will just increase volume without any speed co
 */
 void Use_Target_Speaker(gentity_t * ent, gentity_t * other, gentity_t * activator)
 {
-	if(ent->spawnflags & 3)
+	if(ent->soundLooping)
 	{							// looping sound toggles
 		if(ent->s.loopSound)
 			ent->s.loopSound = 0;	// turn it off
 		else
-			ent->s.loopSound = ent->noise_index;	// start it
+			ent->s.loopSound = ent->soundIndex;	// start it
 	}
 	else
 	{
 		// normal sound
-		if(ent->spawnflags & 8)
-			G_AddEvent(activator, EV_GENERAL_SOUND, ent->noise_index);
-		else if(ent->spawnflags & 4)
-			G_AddEvent(ent, EV_GLOBAL_SOUND, ent->noise_index);
+		if(ent->soundActivator)
+			G_AddEvent(activator, EV_GENERAL_SOUND, ent->soundIndex);
+		else if(ent->soundGlobal)
+			G_AddEvent(ent, EV_GLOBAL_SOUND, ent->soundIndex);
 		else
-			G_AddEvent(ent, EV_GENERAL_SOUND, ent->noise_index);
+			G_AddEvent(ent, EV_GENERAL_SOUND, ent->soundIndex);
 	}
 }
 
@@ -163,39 +163,70 @@ void SP_target_speaker(gentity_t * ent)
 	char            buffer[MAX_QPATH];
 	char           *s;
 
-	G_SpawnFloat("wait", "0", &ent->wait);
-	G_SpawnFloat("random", "0", &ent->random);
-
-	if(!G_SpawnString("noise", "NOSOUND", &s))
-		G_Error("target_speaker without a noise key at %s", vtos(ent->s.origin));
+	if(G_SpawnString("s_sound", "NOSOUND", &s))
+	{
+		G_SpawnBoolean("s_looping", "0", &ent->soundLooping);
+		G_SpawnBoolean("s_waitfortrigger", "0", &ent->soundWaitForTrigger);
+		G_SpawnBoolean("s_global", "0", &ent->soundGlobal);
+		G_SpawnBoolean("s_activator", "0", &ent->soundActivator);
+		G_SpawnFloat("wait", "0", &ent->wait);
+		G_SpawnFloat("random", "0", &ent->random);
+	}
+	else if(G_SpawnString("s_shader", "NOSOUND", &s))
+	{
+		// Doom3 compatibility mode
+		G_SpawnBoolean("s_looping", "0", &ent->soundLooping);
+		G_SpawnBoolean("s_waitfortrigger", "0", &ent->soundWaitForTrigger);
+		G_SpawnBoolean("s_global", "0", &ent->soundGlobal);
+		G_SpawnBoolean("s_activator", "0", &ent->soundActivator);
+		G_SpawnFloat("wait", "0", &ent->wait);
+		G_SpawnFloat("random", "0", &ent->random);
+	}
+	else if(G_SpawnString("noise", "NOSOUND", &s))
+	{
+		// Q3A compatibility mode
+		ent->soundLooping = ent->spawnflags & 1 ? qtrue : qfalse;
+		ent->soundWaitForTrigger = ent->spawnflags & 2 ? qtrue : qfalse;
+		ent->soundGlobal = ent->spawnflags & 4 ? qtrue : qfalse;
+		ent->soundActivator = ent->spawnflags & 8 ? qtrue : qfalse;
+	}
+	else
+	{
+		//G_Error("speaker without a noise key at %s", vtos(ent->s.origin));
+		G_Printf(S_COLOR_YELLOW "WARNING: speaker '%s' without a noise key at %s", ent->name, vtos(ent->s.origin));
+	}
 
 	// force all client reletive sounds to be "activator" speakers that
 	// play on the entity that activates it
 	if(s[0] == '*')
-		ent->spawnflags |= 8;
+	{
+		ent->soundActivator = qtrue;
+	}
 
-	if(!strstr(s, ".wav"))
-		Com_sprintf(buffer, sizeof(buffer), "%s.wav", s);
-	else
-		Q_strncpyz(buffer, s, sizeof(buffer));
+	Q_strncpyz(buffer, s, sizeof(buffer));
+	Com_DefaultExtension(buffer, sizeof(buffer), ".wav");
 
-	ent->noise_index = G_SoundIndex(buffer);
+	ent->soundIndex = G_SoundIndex(buffer);
 
 	// a repeating speaker can be done completely client side
 	ent->s.eType = ET_SPEAKER;
-	ent->s.eventParm = ent->noise_index;
+	ent->s.eventParm = ent->soundIndex;
 	ent->s.frame = ent->wait * 10;
 	ent->s.clientNum = ent->random * 10;
 
 
 	// check for prestarted looping sound
-	if(ent->spawnflags & 1)
-		ent->s.loopSound = ent->noise_index;
+	if(ent->soundLooping && !ent->soundWaitForTrigger)
+	{
+		ent->s.loopSound = ent->soundIndex;
+	}
 
 	ent->use = Use_Target_Speaker;
 
-	if(ent->spawnflags & 4)
+	if(ent->soundGlobal)
+	{
 		ent->r.svFlags |= SVF_BROADCAST;
+	}
 
 	VectorCopy(ent->s.origin, ent->s.pos.trBase);
 
@@ -203,6 +234,7 @@ void SP_target_speaker(gentity_t * ent)
 	// the server can determine who to send updates to
 	trap_LinkEntity(ent);
 }
+
 
 //==========================================================
 
