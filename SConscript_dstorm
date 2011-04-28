@@ -216,6 +216,9 @@ if env['openal'] == 1:
 		else:
 			dstorm_env.Append(LIBS=['openal'])
 
+if env['mumble'] == 1:
+	dstorm_src.append('code/client/libmumblelink.c');
+	dstorm_env.Append(CCFLAGS = '-DUSE_MUMBLE')
 
 if env['arch'] == 'linux-i386':
 	dstorm_env.ParseConfig('sdl-config --cflags --libs')

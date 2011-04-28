@@ -22,8 +22,10 @@ opts.Add(BoolVariable('xmap', 'Set to 1 to compile the XMap(2) map compilers', 0
 #opts.Add(BoolVariable('vectorize', 'Set to 1 to compile the engine with auto-vectorization support', 0))
 opts.Add(EnumVariable('curl', 'Choose http-download redirection support for the engine', 'compile', allowed_values=('none', 'compile', 'dlopen')))
 opts.Add(BoolVariable('openal', 'Set to 1 to compile the engine with OpenAL support', 0))
+opts.Add(BoolVariable('mumble', 'Set to 1 to compile the client with Mumble Positional Audio support', 0))
 opts.Add(BoolVariable('noclient', 'Set to 1 to only compile the dedicated server', 0))
 opts.Add(BoolVariable('master', 'Set to 1 to compile the master server', 0))
+opts.Add(BoolVariable('package', 'Set to 1 to build package for this arch', 0))
 
 #
 # initialize compiler environment base
@@ -134,4 +136,7 @@ if env['xmap'] == 1:
 
 if env['master'] == 1:
 	SConscript('SConscript_xrealmaster', variant_dir='build/xmass', duplicate=0)
+
+if env['package'] == 1:
+	SConscript('SConscript_package', variant_dir='build/package', duplicate=0)
 
