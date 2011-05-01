@@ -1,15 +1,17 @@
 syntax: glob
-*.orig
-*.rej
 *~
-*.swp
-*.o
-*.so
+*.bsp
 *.dll
 *.exe
+*.o
+*.orig
 *.pk3
-*.bsp
+*.pyc
+*.rej
+*.swp
+*.so
 *.x86_64
+*-new
 *-old
 .buildpath
 .project
