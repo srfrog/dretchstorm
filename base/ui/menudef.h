@@ -17,6 +17,7 @@
 #define ITEM_ALIGN_LEFT 0                 // left alignment
 #define ITEM_ALIGN_CENTER 1               // center alignment
 #define ITEM_ALIGN_RIGHT 2                // right alignment
+#define ITEM_ALIGN_VERTICAL 3             // vertical alignment
 
 #define ITEM_TEXTSTYLE_NORMAL 0           // normal text
 #define ITEM_TEXTSTYLE_BLINK 1            // fast blinking
