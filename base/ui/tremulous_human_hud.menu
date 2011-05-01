@@ -238,12 +238,14 @@
     itemDef
     {
       name "cross"
-      rect 137.5 430 15 15
+      rect 137.5 330 15 115
       visible 1
       decoration
       forecolor 0.0 0.8 1.0 0.5
       background "ui/assets/neutral/cross.tga"
-      ownerdraw CG_PLAYER_HEALTH_CROSS
+		align ITEM_ALIGN_VERTICAL
+      ownerdraw CG_PLAYER_HEALTH_BAR
+		textscale 0
     }   
 
     //STAMINA 1

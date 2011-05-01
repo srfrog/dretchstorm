@@ -433,25 +433,39 @@ static void CG_DrawProgressBar(rectDef_t * rect, vec4_t color, float scale, int 
 	else if(progress > 1.0f)
 		progress = 1.0f;
 
-	doneWidth = (rect->w - 2 * rimWidth) * progress;
-	leftWidth = (rect->w - 2 * rimWidth) - doneWidth;
-
 	trap_R_SetColor(color);
 
-	//draw rim and bar
-	if(align == ITEM_ALIGN_RIGHT)
+	if (align == ITEM_ALIGN_VERTICAL)
 	{
-		CG_DrawPic(rect->x, rect->y, rimWidth, rect->h, cgs.media.whiteShader);
-		CG_DrawPic(rect->x + rimWidth, rect->y, leftWidth, rimWidth, cgs.media.whiteShader);
-		CG_DrawPic(rect->x + rimWidth, rect->y + rect->h - rimWidth, leftWidth, rimWidth, cgs.media.whiteShader);
-		CG_DrawPic(rect->x + rimWidth + leftWidth, rect->y, rimWidth + doneWidth, rect->h, cgs.media.whiteShader);
+		rimWidth = rect->w / 20.0f;
+		doneWidth = (rect->h - 2 * rimWidth) * progress;
+		leftWidth = (rect->h - 2 * rimWidth) - doneWidth;
+
+		CG_DrawPic(rect->x, rect->y, rect->w, rimWidth, cgs.media.whiteShader);
+		CG_DrawPic(rect->x, rect->y + rimWidth, rimWidth, leftWidth, cgs.media.whiteShader);
+		CG_DrawPic(rect->x + rect->w - rimWidth, rect->y + rimWidth, rimWidth, leftWidth, cgs.media.whiteShader);
+		CG_DrawPic(rect->x, rect->y + rimWidth + leftWidth, rect->w, rimWidth + doneWidth, cgs.media.whiteShader);
 	}
 	else
 	{
-		CG_DrawPic(rect->x, rect->y, rimWidth + doneWidth, rect->h, cgs.media.whiteShader);
-		CG_DrawPic(rimWidth + rect->x + doneWidth, rect->y, leftWidth, rimWidth, cgs.media.whiteShader);
-		CG_DrawPic(rimWidth + rect->x + doneWidth, rect->y + rect->h - rimWidth, leftWidth, rimWidth, cgs.media.whiteShader);
-		CG_DrawPic(rect->x + rect->w - rimWidth, rect->y, rimWidth, rect->h, cgs.media.whiteShader);
+		doneWidth = (rect->w - 2 * rimWidth) * progress;
+		leftWidth = (rect->w - 2 * rimWidth) - doneWidth;
+
+		//draw rim and bar
+		if(align == ITEM_ALIGN_RIGHT)
+		{
+			CG_DrawPic(rect->x, rect->y, rimWidth, rect->h, cgs.media.whiteShader);
+			CG_DrawPic(rect->x + rimWidth, rect->y, leftWidth, rimWidth, cgs.media.whiteShader);
+			CG_DrawPic(rect->x + rimWidth, rect->y + rect->h - rimWidth, leftWidth, rimWidth, cgs.media.whiteShader);
+			CG_DrawPic(rect->x + rimWidth + leftWidth, rect->y, rimWidth + doneWidth, rect->h, cgs.media.whiteShader);
+		}
+		else
+		{
+			CG_DrawPic(rect->x, rect->y, rimWidth + doneWidth, rect->h, cgs.media.whiteShader);
+			CG_DrawPic(rimWidth + rect->x + doneWidth, rect->y, leftWidth, rimWidth, cgs.media.whiteShader);
+			CG_DrawPic(rimWidth + rect->x + doneWidth, rect->y + rect->h - rimWidth, leftWidth, rimWidth, cgs.media.whiteShader);
+			CG_DrawPic(rect->x + rect->w - rimWidth, rect->y, rimWidth, rect->h, cgs.media.whiteShader);
+		}
 	}
 
 	trap_R_SetColor(NULL);
