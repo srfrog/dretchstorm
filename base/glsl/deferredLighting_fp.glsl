@@ -55,6 +55,7 @@ uniform float		u_LightRadius;
 uniform float       u_LightScale;
 uniform	float		u_LightWrapAround;
 uniform mat4		u_LightAttenuationMatrix;
+uniform vec4		u_LightFrustum[6];
 
 uniform mat4		u_ShadowMatrix[MAX_SHADOWMAPS];
 uniform vec4		u_ShadowParallelSplitDistances;
@@ -189,7 +190,54 @@ float EstimatePenumbra(float vertexDistance, float blocker)
 #endif
 
 
+/*
+Some explanations by Marco Salvi about exponential shadow mapping:
 
+Now you are filtering exponential values which rapidly go out of range,
+to avoid this issue you can filter the logarithm of these values (and the go back to exp space)
+
+For example if you averaging two exponential value such as exp(A) and exp(B) you have:
+
+a*exp(A) + b*exp(B) (a and b are some filter weights)
+
+but you can rewrite the same expression as:
+
+exp(A) * (a + b*exp(B-A)) ,
+
+exp(A) * exp( log (a + b*exp(B-A)))),
+
+and:
+
+exp(A + log(a + b*exp(B-A))
+
+Now your sum of exponential is written as a single exponential, if you take the logarithm of it you can then just work on its argument:
+
+A + log(a + b*exp(B-A))
+
+Basically you end up filtering the argument of your exponential functions, which are just linear depth values,
+so you enjoy the same range you have with less exotic techniques.
+Just don't forget to go back to exp space when you use the final filtered value.
+
+
+Though hardware texture filtering is not mathematically correct in log space it just causes a some overdarkening, nothing major.
+
+If you have your shadow map filtered in log space occlusion is just computed like this (let assume we use bilinear filtering):
+
+float occluder = tex2D( esm_sampler, esm_uv );
+float occlusion = exp( occluder - receiver );
+
+while with filtering in exp space you have:
+
+float exp_occluder = tex2D( esm_sampler, esm_uv );
+float occlusion = exp_occluder / exp( receiver );
+
+EDIT: if more complex filters are used (trilinear, aniso, with mip maps) you need to generate mip maps using log filteirng as well.
+*/
+
+float log_conv(float x0, float X, float y0, float Y)
+{
+    return (X + log(x0 + (y0 * exp(Y - X))));
+}
 
 void	main()
 {
@@ -213,6 +261,28 @@ void	main()
 			return;
 		}
 	}
+#endif
+
+#if defined(USE_FRUSTUM_CLIPPING)
+	// many lights in Doom 3 don't fade out near the light frustum border
+	// so we need to clip this manually if the light frustum clips the camera near plane ...
+	for(int i = 0; i < 6; i++)
+	{
+		vec4 plane = u_LightFrustum[i];
+	
+		float dist = (dot(P.xyz, plane.xyz) - plane.w) + 0.01;
+		if(dist < 0.0)
+		{
+			discard;
+			return;
+		}
+	}
+	
+#if 0
+	// show how many pixels are frustum culled
+	gl_FragColor = vec4(1.0, 0.0, 0.0, 0.05);
+	return;
+#endif
 #endif
 
 

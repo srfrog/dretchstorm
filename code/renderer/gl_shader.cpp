@@ -1049,11 +1049,13 @@ void GLShader::BindAttribLocations(GLhandleARB program, uint32_t attribs) const
 	if(attribs & ATTR_COLOR)
 		glBindAttribLocationARB(program, ATTR_INDEX_COLOR, "attr_Color");
 
+#if !defined(COMPAT_Q3A) && !defined(COMPAT_ET)
 	if(attribs & ATTR_PAINTCOLOR)
 		glBindAttribLocationARB(program, ATTR_INDEX_PAINTCOLOR, "attr_PaintColor");
 
 	if(attribs & ATTR_LIGHTDIRECTION)
 		glBindAttribLocationARB(program, ATTR_INDEX_LIGHTDIRECTION, "attr_LightDirection");
+#endif
 
 	if(glConfig2.vboVertexSkinningAvailable)
 	{
@@ -1504,7 +1506,11 @@ GLShader_vertexLighting_DBS_entity::GLShader_vertexLighting_DBS_entity():
 
 GLShader_vertexLighting_DBS_world::GLShader_vertexLighting_DBS_world():
 		GLShader(	"vertexLighting_DBS_world",
-					ATTR_POSITION | ATTR_TEXCOORD | ATTR_TANGENT | ATTR_BINORMAL | ATTR_NORMAL | ATTR_COLOR | ATTR_LIGHTDIRECTION,
+					ATTR_POSITION | ATTR_TEXCOORD | ATTR_TANGENT | ATTR_BINORMAL | ATTR_NORMAL | ATTR_COLOR
+#if !defined(COMPAT_Q3A) && !defined(COMPAT_ET)
+					| ATTR_LIGHTDIRECTION
+#endif
+					,
 					0,
 					ATTR_TANGENT | ATTR_TANGENT2 | ATTR_BINORMAL | ATTR_BINORMAL2),
 		u_DiffuseTextureMatrix(this),
@@ -2040,6 +2046,7 @@ GLShader_deferredLighting_omniXYZ::GLShader_deferredLighting_omniXYZ():
 		u_LightScale(this),
 		u_LightWrapAround(this),
 		u_LightAttenuationMatrix(this),
+		u_LightFrustum(this),
 		u_ShadowTexelSize(this),
 		u_ShadowBlur(this),
 		u_ModelMatrix(this),
@@ -2048,6 +2055,7 @@ GLShader_deferredLighting_omniXYZ::GLShader_deferredLighting_omniXYZ():
 		u_PortalPlane(this),
 		GLDeformStage(this),
 		GLCompileMacro_USE_PORTAL_CLIPPING(this),
+		GLCompileMacro_USE_FRUSTUM_CLIPPING(this),
 		GLCompileMacro_USE_NORMAL_MAPPING(this),
 		GLCompileMacro_USE_SHADOWING(this)//,
 		//GLCompileMacro_TWOSIDED(this)
@@ -2157,6 +2165,7 @@ GLShader_deferredLighting_projXYZ::GLShader_deferredLighting_projXYZ():
 		u_LightScale(this),
 		u_LightWrapAround(this),
 		u_LightAttenuationMatrix(this),
+		u_LightFrustum(this),
 		u_ShadowTexelSize(this),
 		u_ShadowBlur(this),
 		u_ShadowMatrix(this),
@@ -2166,6 +2175,7 @@ GLShader_deferredLighting_projXYZ::GLShader_deferredLighting_projXYZ():
 		u_PortalPlane(this),
 		GLDeformStage(this),
 		GLCompileMacro_USE_PORTAL_CLIPPING(this),
+		GLCompileMacro_USE_FRUSTUM_CLIPPING(this),
 		GLCompileMacro_USE_NORMAL_MAPPING(this),
 		GLCompileMacro_USE_SHADOWING(this)//,
 		//GLCompileMacro_TWOSIDED(this)
@@ -2273,6 +2283,7 @@ GLShader_deferredLighting_directionalSun::GLShader_deferredLighting_directionalS
 		u_LightScale(this),
 		u_LightWrapAround(this),
 		u_LightAttenuationMatrix(this),
+		u_LightFrustum(this),
 		u_ShadowTexelSize(this),
 		u_ShadowBlur(this),
 		u_ShadowMatrix(this),
@@ -2284,6 +2295,7 @@ GLShader_deferredLighting_directionalSun::GLShader_deferredLighting_directionalS
 		u_PortalPlane(this),
 		GLDeformStage(this),
 		GLCompileMacro_USE_PORTAL_CLIPPING(this),
+		GLCompileMacro_USE_FRUSTUM_CLIPPING(this),
 		GLCompileMacro_USE_NORMAL_MAPPING(this),
 		GLCompileMacro_USE_SHADOWING(this)//,
 		//GLCompileMacro_TWOSIDED(this)
