@@ -131,8 +131,7 @@ if env['noclient'] == 1:
 	SConscript('SConscript_base_game', variant_dir='build/base/game', duplicate=0)
 
 if env['xmap'] == 1:
-	SConscript('SConscript_xmap', variant_dir='build/xmap', duplicate=0)
-	SConscript('SConscript_xmap2', variant_dir='build/xmap2', duplicate=0)
+	SConscript('SConscript_dsxmap', variant_dir='build/dsxmap', duplicate=0)
 
 if env['master'] == 1:
 	SConscript('SConscript_xrealmaster', variant_dir='build/xmass', duplicate=0)

@@ -1,0 +1,12 @@
+diff -r 4f6178e96408 code/client/snd_dma.c
+--- code/client/snd_dma.c	Sun May 01 15:24:31 2011 -0700
++++ code/client/snd_dma.c	Tue May 03 02:31:50 2011 -0700
+@@ -1492,7 +1492,7 @@
+ 		return;
+ 	}
+ 
+-	if(s_backgroundStream->info.channels != 2 || s_backgroundStream->info.rate != 22050)
++	if(s_backgroundStream->info.channels != 2 || s_backgroundStream->info.rate < 22050)
+ 	{
+ 		Com_Printf(S_COLOR_YELLOW "WARNING: music file %s is not 22k stereo\n", intro);
+ 	}

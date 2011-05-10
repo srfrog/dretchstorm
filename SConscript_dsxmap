@@ -1,0 +1,200 @@
+import os, string, sys
+
+Import('env')
+
+dsxmap_src = [
+'tools/dsxmap/brush.c',
+'tools/dsxmap/brush_primit.c',
+'tools/dsxmap/bsp.c',
+'tools/dsxmap/bspfile_abstract.c',
+'tools/dsxmap/bspfile_ibsp.c',
+'tools/dsxmap/bspfile_rbsp.c',
+'tools/dsxmap/bspfile_xbsp.c',
+'tools/dsxmap/convert_ase.c',
+'tools/dsxmap/convert_map.c',
+'tools/dsxmap/decals.c',
+'tools/dsxmap/facebsp.c',
+'tools/dsxmap/fog.c',
+'tools/dsxmap/gldraw.c',
+'tools/dsxmap/image.c',
+'tools/dsxmap/leakfile.c',
+'tools/dsxmap/light.c',
+'tools/dsxmap/light_bounce.c',
+'tools/dsxmap/light_trace.c',
+'tools/dsxmap/light_ydnar.c',
+'tools/dsxmap/lightmaps_ydnar.c',
+'tools/dsxmap/main.c',
+'tools/dsxmap/map.c',
+'tools/dsxmap/md4.c',
+'tools/dsxmap/mesh.c',
+'tools/dsxmap/model.c',
+'tools/dsxmap/patch.c',
+'tools/dsxmap/path_init.c',
+'tools/dsxmap/portals.c',
+'tools/dsxmap/prtfile.c',
+'tools/dsxmap/shaders.c',
+'tools/dsxmap/surface.c',
+'tools/dsxmap/surface_extra.c',
+'tools/dsxmap/surface_foliage.c',
+'tools/dsxmap/surface_fur.c',
+'tools/dsxmap/surface_meta.c',
+'tools/dsxmap/tjunction.c',
+'tools/dsxmap/tree.c',
+'tools/dsxmap/vis.c',
+'tools/dsxmap/visflow.c',
+'tools/dsxmap/writebsp.c',
+'code/common/cmdlib.c',
+'code/common/mathlib.c',
+'code/common/polylib.c',
+#'code/common/aselib.c',
+'code/common/imagelib.c',
+'code/common/inout.c',
+'code/common/scriplib.c',
+'code/common/threads.c',
+'code/common/mutex.c',
+'code/common/unzip.c',
+'code/common/vfs.c',
+'code/common/netlib.c',
+'code/xrealradiant/libs/picomodel/picointernal.c',
+'code/xrealradiant/libs/picomodel/picomodel.c',
+'code/xrealradiant/libs/picomodel/picomodules.c',
+'code/xrealradiant/libs/picomodel/pm_3ds.c',
+'code/xrealradiant/libs/picomodel/pm_ase.c',
+'code/xrealradiant/libs/picomodel/pm_fm.c',
+'code/xrealradiant/libs/picomodel/pm_lwo.c',
+'code/xrealradiant/libs/picomodel/pm_md2.c',
+'code/xrealradiant/libs/picomodel/pm_md3.c',
+'code/xrealradiant/libs/picomodel/pm_mdc.c',
+'code/xrealradiant/libs/picomodel/pm_ms3d.c',
+'code/xrealradiant/libs/picomodel/pm_obj.c',
+'code/xrealradiant/libs/picomodel/pm_terrain.c',
+'code/xrealradiant/libs/picomodel/lwo/clip.c',
+'code/xrealradiant/libs/picomodel/lwo/envelope.c',
+'code/xrealradiant/libs/picomodel/lwo/list.c',
+'code/xrealradiant/libs/picomodel/lwo/lwio.c',
+'code/xrealradiant/libs/picomodel/lwo/lwo2.c',
+'code/xrealradiant/libs/picomodel/lwo/lwob.c',
+'code/xrealradiant/libs/picomodel/lwo/surface.c',
+'code/xrealradiant/libs/picomodel/lwo/pntspols.c',
+'code/xrealradiant/libs/picomodel/lwo/vecmath.c',
+'code/xrealradiant/libs/picomodel/lwo/vmap.c',
+'code/jpeg-6/jcapimin.c',
+'code/jpeg-6/jchuff.c',
+'code/jpeg-6/jcinit.c',
+'code/jpeg-6/jccoefct.c',
+'code/jpeg-6/jccolor.c',
+'code/jpeg-6/jfdctflt.c',
+'code/jpeg-6/jcdctmgr.c',
+'code/jpeg-6/jcphuff.c',
+'code/jpeg-6/jcmainct.c',
+'code/jpeg-6/jcmarker.c',
+'code/jpeg-6/jcmaster.c',
+'code/jpeg-6/jcomapi.c',
+'code/jpeg-6/jcparam.c',
+'code/jpeg-6/jcprepct.c',
+'code/jpeg-6/jcsample.c',
+'code/jpeg-6/jdapimin.c',
+'code/jpeg-6/jdapistd.c',
+'code/jpeg-6/jdatasrc.c',
+'code/jpeg-6/jdcoefct.c',
+'code/jpeg-6/jdcolor.c',
+'code/jpeg-6/jddctmgr.c',
+'code/jpeg-6/jdhuff.c',
+'code/jpeg-6/jdinput.c',
+'code/jpeg-6/jdmainct.c',
+'code/jpeg-6/jdmarker.c',
+'code/jpeg-6/jdmaster.c',
+'code/jpeg-6/jdpostct.c',
+'code/jpeg-6/jdsample.c',
+'code/jpeg-6/jdtrans.c',
+'code/jpeg-6/jerror.c',
+'code/jpeg-6/jidctflt.c',
+'code/jpeg-6/jmemmgr.c',
+'code/jpeg-6/jmemansi.c',
+'code/jpeg-6/jutils.c',
+'code/png/png.c',
+'code/png/pngset.c',
+'code/png/pngget.c',
+'code/png/pngrutil.c',
+'code/png/pngtrans.c',
+'code/png/pngwutil.c',
+'code/png/pngread.c',
+'code/png/pngrio.c',
+'code/png/pngwio.c',
+'code/png/pngwrite.c',
+'code/png/pngrtran.c',
+'code/png/pngwtran.c',
+'code/png/pngmem.c',
+'code/png/pngerror.c',
+'code/png/pngpread.c',
+'code/zlib/adler32.c',
+'code/zlib/compress.c',
+'code/zlib/crc32.c',
+'code/zlib/gzio.c',
+'code/zlib/uncompr.c',
+'code/zlib/deflate.c',
+'code/zlib/trees.c',
+'code/zlib/zutil.c',
+'code/zlib/inflate.c',
+'code/zlib/infback.c',
+'code/zlib/inftrees.c',
+'code/zlib/inffast.c',
+'code/zlib/ioapi.c'
+]
+
+dsxmap_env = env.Clone()
+dsxmap_env.Append(CCFLAGS='-DXMAP')
+dsxmap_env.Append(CCFLAGS='-DPNG_NO_ASSEMBLER_CODE')
+dsxmap_env.Append(CCFLAGS='-Icode/common/')
+dsxmap_env.Append(CCFLAGS='-Icode/png/')
+dsxmap_env.Append(CCFLAGS='-Icode/xrealradiant/libs/')
+#dsxmap_env.Append(CCFLAGS='-DAAS')
+#dsxmap_env.Append(CCFLAGS='-DUSE_XML')
+
+if env['arch'] == 'linux-i386':
+	dsxmap_env.ParseConfig('pkg-config libxml-2.0 --cflags --libs')
+	dsxmap_env.ParseConfig('pkg-config glib-2.0 --cflags --libs')
+	dsxmap_env.ParseConfig('sdl-config --cflags --libs')
+	dsxmap_env.Append(LIBS=['m', 'pthread', 'GL', 'GLU'])
+	dsxmap_env.Program('dsxmap', dsxmap_src)
+	dsxmap_env.InstallAs('#dsxmap.i386', 'dsxmap')
+	
+elif env['arch'] == 'linux-x86_64':
+	dsxmap_env.ParseConfig('pkg-config libxml-2.0 --cflags --libs')
+	dsxmap_env.ParseConfig('pkg-config glib-2.0 --cflags --libs')
+	dsxmap_env.ParseConfig('sdl-config --cflags --libs')
+	dsxmap_env.Append(LIBS=['m', 'pthread', 'GL', 'GLU'])
+	dsxmap_env.Program('dsxmap', dsxmap_src)
+	dsxmap_env.InstallAs('#dsxmap.x86_64', 'dsxmap')
+
+if env['arch'] == 'freebsd-i386':
+	dsxmap_env.ParseConfig('pkg-config libxml-2.0 --cflags --libs')
+	dsxmap_env.ParseConfig('pkg-config glib-2.0 --cflags --libs')
+	dsxmap_env.ParseConfig('sdl-config --cflags --libs')
+	dsxmap_env.Append(LIBS=['m', 'pthread', 'GL', 'GLU'])
+	dsxmap_env.Program('dsxmap', dsxmap_src)
+	dsxmap_env.InstallAs('#dsxmap.i386', 'dsxmap')
+
+if env['arch'] == 'freebsd-amd64':
+	dsxmap_env.ParseConfig('pkg-config libxml-2.0 --cflags --libs')
+	dsxmap_env.ParseConfig('pkg-config glib-2.0 --cflags --libs')
+	dsxmap_env.ParseConfig('sdl-config --cflags --libs')
+	dsxmap_env.Append(LIBS=['m', 'pthread', 'GL', 'GLU'])
+	dsxmap_env.Program('dsxmap', dsxmap_src)
+	dsxmap_env.InstallAs('#dsxmap.amd64', 'dsxmap')
+	
+if env['arch'] == 'opensolaris-i386':
+	dsxmap_env.Append(CCFLAGS='-Usun')
+	dsxmap_env.ParseConfig('pkg-config libxml-2.0 --cflags --libs')
+	dsxmap_env.ParseConfig('pkg-config glib-2.0 --cflags --libs')
+	dsxmap_env.ParseConfig('sdl-config --cflags --libs')
+	dsxmap_env.Append(LIBS=['m', 'pthread', 'GL', 'GLU', 'socket', 'nsl'])
+	dsxmap_env.Program('dsxmap', dsxmap_src)
+	dsxmap_env.InstallAs('#dsxmap.i386', 'dsxmap')
+
+elif env['arch'] == 'win32-mingw':
+	dsxmap_env.ParseConfig('pkg-config libxml-2.0 --cflags --libs')
+	dsxmap_env.ParseConfig('pkg-config glib-2.0 --cflags --libs')
+	dsxmap_env.Append(LIBS=['m', 'wsock32'])
+	dsxmap_env.Program('dsxmap', dsxmap_src)
+	dsxmap_env.Install('#', 'dsxmap.exe')
