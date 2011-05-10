@@ -1520,7 +1520,7 @@ void R_Register(void)
 	r_hdrContrastOffset = ri.Cvar_Get("r_hdrContrastOffset", "6.0", CVAR_CHEAT);
 	r_hdrLightmap = ri.Cvar_Get("r_hdrLightmap", "1", CVAR_CHEAT | CVAR_LATCH);
 	r_hdrLightmapExposure = ri.Cvar_Get("r_hdrLightmapExposure", "1.0", CVAR_CHEAT | CVAR_LATCH);
-	r_hdrLightmapGamma = ri.Cvar_Get("r_hdrLightmapGamma", "1.0", CVAR_CHEAT | CVAR_LATCH);
+	r_hdrLightmapGamma = ri.Cvar_Get("r_hdrLightmapGamma", "1.8", CVAR_CHEAT | CVAR_LATCH);
 	r_hdrLightmapCompensate = ri.Cvar_Get("r_hdrLightmapCompensate", "1.0", CVAR_CHEAT | CVAR_LATCH);
 	r_hdrToneMappingOperator = ri.Cvar_Get("r_hdrToneMappingOperator", "1", CVAR_CHEAT);
 	r_hdrGamma = ri.Cvar_Get("r_hdrGamma", "1.1", CVAR_CHEAT);
