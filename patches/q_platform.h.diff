@@ -1,30 +1,15 @@
-diff -r a4c8df435cd5 code/qcommon/q_platform.h
---- code/qcommon/q_platform.h	Wed Apr 20 18:16:24 2011 -0700
-+++ code/qcommon/q_platform.h	Thu Apr 21 11:12:29 2011 -0700
-@@ -24,6 +24,7 @@
+--- /home/cesar/tmp/Xreal/code/qcommon/q_platform.h	2011-03-08 17:46:44.153923012 -0700
++++ code/qcommon/q_platform.h	2011-05-14 12:38:25.981067831 -0700
+@@ -24,11 +24,8 @@
  #define __Q_PLATFORM_H
  
  // various feature defines
-+/*
- #ifndef CG_LUA
+-#ifndef CG_LUA
++#ifdef USE_LUA
  #define CG_LUA 1
- #endif
-@@ -31,6 +32,7 @@
- #ifndef G_LUA
+-#endif
+-
+-#ifndef G_LUA
  #define G_LUA 1
- #endif
-+*/
- 
- // this is for determining if we have an asm version of a C function
- #ifdef Q3_VM
-@@ -170,8 +172,10 @@
- 
- #define DLL_EXT ".dylib"
- 
-+/*
- #undef G_LUA
- #undef CG_LUA
-+*/
- 
  #endif
  
