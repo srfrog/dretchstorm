@@ -2133,11 +2133,9 @@ char          **FS_ListFilteredFiles(const char *path, const char *extension, ch
 				{
 					// case insensitive
 					if(!Com_FilterPath(va("%s%s", path, filter), name, qfalse))
-					//if(!Com_FilterPath(filter, name, qfalse))
 						continue;
 					// unique the match
 					nfiles = FS_AddFileToList(&name[pathLength+1], list, nfiles);
-					//nfiles = FS_AddFileToList(name, list, nfiles);
 				}
 				else
 				{

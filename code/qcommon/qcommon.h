@@ -254,14 +254,10 @@ PROTOCOL
 // NOTE: that stuff only works with two digits protocols
 extern int      demo_protocols[];
 
-#ifndef MASTER_SERVER_NAME
 #define MASTER_SERVER_NAME		"master.dretchstorm.com"
-#endif
 
 #ifndef STANDALONE
-#ifndef AUTHORIZE_SERVER_NAME
-#define	AUTHORIZE_SERVER_NAME	"authorize.quake3arena.com"
-#endif
+#define	AUTHORIZE_SERVER_NAME	"authorize.dretchstorm.com"
 #ifndef PORT_AUTHORIZE
 #define	PORT_AUTHORIZE		27952
 #endif
@@ -631,9 +627,9 @@ issues.
 #define	MAX_FILE_HANDLES	64
 
 #ifdef DEDICATED
-#	define Q3CONFIG_CFG "dstorm_server.cfg"
+#	define Q3CONFIG_CFG PRODUCT_NAME_LOWER "_server.cfg"
 #else
-#	define Q3CONFIG_CFG "dstorm.cfg"
+#	define Q3CONFIG_CFG PRODUCT_NAME_LOWER ".cfg"
 #endif
 
 qboolean        FS_Initialized(void);
@@ -898,6 +894,7 @@ extern cvar_t  *com_sv_running;
 extern cvar_t  *com_cl_running;
 extern cvar_t  *com_viewlog;	// 0 = hidden, 1 = visible, 2 = minimized
 extern cvar_t  *com_version;
+extern cvar_t  *com_engine;
 extern cvar_t  *com_blood;
 extern cvar_t  *com_buildScript;	// for building release pak files
 extern cvar_t  *com_journal;

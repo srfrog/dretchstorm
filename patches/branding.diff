@@ -1,118 +1,60 @@
-diff -r 5719e0788581 code/sys/sys_unix.c
---- code/sys/sys_unix.c	Sat Mar 12 14:02:56 2011 -0700
-+++ code/sys/sys_unix.c	Sat Mar 12 16:32:26 2011 -0500
-@@ -57,9 +57,9 @@
- 		{
- 			Q_strncpyz(homePath, p, sizeof(homePath));
- #ifdef MACOS_X
--			Q_strcat(homePath, sizeof(homePath), "/Library/Application Support/XreaL");
-+			Q_strcat(homePath, sizeof(homePath), "/Library/Application Support/Dstorm");
- #else
--			Q_strcat(homePath, sizeof(homePath), "/.xreal");
-+			Q_strcat(homePath, sizeof(homePath), "/.dstorm");
- #endif
- 			if(mkdir(homePath, 0777))
- 			{
-diff -r 5719e0788581 code/sys/sys_win32.c
---- code/sys/sys_win32.c	Sat Mar 12 14:02:56 2011 -0700
-+++ code/sys/sys_win32.c	Sat Mar 12 16:32:26 2011 -0500
-@@ -75,7 +75,7 @@
- 			return NULL;
- 		}
- 		Q_strncpyz(homePath, szPath, sizeof(homePath));
--		Q_strcat(homePath, sizeof(homePath), "\\XreaL");
-+		Q_strcat(homePath, sizeof(homePath), "\\DStorm");
- 		FreeLibrary(shfolder);
- 	}
- 
-diff -r 4ca9ac266741 code/qcommon/q_shared.h
---- code/qcommon/q_shared.h	Sat Mar 12 19:52:44 2011 -0700
-+++ code/qcommon/q_shared.h	Sat Mar 12 23:18:33 2011 -0500
-@@ -32,8 +32,8 @@
+--- code/qcommon/q_shared.h	2011-05-09 11:19:42.256914597 -0700
++++ code/qcommon/q_shared.h	2011-05-14 12:24:25.461067611 -0700
+@@ -32,10 +32,10 @@
  // q_shared.h -- included first by ALL program modules.
  // A user mod should never modify this file
  
--#define PRODUCT_NAME            "XreaL"
+-#define PRODUCT_NAME            "XreaL" // Case, Spaces allowed
+-#define PRODUCT_NAME_UPPPER     "XreaL" // Case, No spaces
+-#define PRODUCT_NAME_LOWER      "xreal" // No case, No spaces
 -#define PRODUCT_VERSION         "0.8.2"
-+#define PRODUCT_NAME            "Dretchstorm"
++#define PRODUCT_NAME            "Dretchstorm" // Case, Spaces allowed
++#define PRODUCT_NAME_UPPPER     "DStorm" // Case, No spaces
++#define PRODUCT_NAME_LOWER      "dstorm" // No case, No spaces
 +#define PRODUCT_VERSION         "0.0.1"
  
- #if 0
- #if !defined(COMPAT_Q3A)
-@@ -59,8 +59,8 @@
- # define Q3_VERSION PRODUCT_NAME " " PRODUCT_VERSION
+ #define ENGINE_NAME             "XreaL Engine"
+ #define ENGINE_VERSION          "0.8.2"
+diff -r 1971d59ed367 code/common/cmdlib.c
+--- code/common/cmdlib.c	Sun Apr 17 01:40:59 2011 -0700
++++ code/common/cmdlib.c	Sun Apr 17 23:39:59 2011 -0700
+@@ -41,7 +41,7 @@
+ #include <libc.h>
  #endif
  
--#define CLIENT_WINDOW_TITLE     "XreaL"
--#define CLIENT_WINDOW_MIN_TITLE "xreal"
-+#define CLIENT_WINDOW_TITLE     "Dretchstorm"
-+#define CLIENT_WINDOW_MIN_TITLE "dretchstorm"
- // 1.32 released 7-10-2002
+-#define	BASEDIRNAME	"xreal"		// assumed to have a 2 or 3 following
++#define	BASEDIRNAME	"dretchstorm"		// assumed to have a 2 or 3 following
+ #define PATHSEPERATOR   '/'
  
- #if !defined(STANDALONE)
-@@ -68,7 +68,7 @@
- #endif
- 
- #define BASEGAME				"base"
--#define GAMENAME_FOR_MASTER		"XreaL"	// must NOT contain whitespaces
-+#define GAMENAME_FOR_MASTER		"Dstorm"	// must NOT contain whitespaces
- 
- /*
- #if !defined(DEBUG) && defined(_DEBUG)
-diff -r 4ca9ac266741 code/qcommon/qcommon.h
---- code/qcommon/qcommon.h	Sat Mar 12 19:52:44 2011 -0700
-+++ code/qcommon/qcommon.h	Sat Mar 12 23:18:33 2011 -0500
-@@ -255,7 +255,7 @@
+ #ifdef SAFE_MALLOC
+--- code/qcommon/qcommon.h	2011-05-09 11:19:42.276914597 -0700
++++ code/qcommon/qcommon.h	2011-05-14 13:01:55.521068199 -0700
+@@ -254,14 +254,10 @@
+ // NOTE: that stuff only works with two digits protocols
  extern int      demo_protocols[];
  
- #ifndef MASTER_SERVER_NAME
+-#ifndef MASTER_SERVER_NAME
 -#define MASTER_SERVER_NAME		"master.xreal-project.net"
+-#endif
 +#define MASTER_SERVER_NAME		"master.dretchstorm.com"
- #endif
  
  #ifndef STANDALONE
-@@ -631,9 +631,9 @@
+-#ifndef AUTHORIZE_SERVER_NAME
+-#define	AUTHORIZE_SERVER_NAME	"authorize.quake3arena.com"
+-#endif
++#define	AUTHORIZE_SERVER_NAME	"authorize.dretchstorm.com"
+ #ifndef PORT_AUTHORIZE
+ #define	PORT_AUTHORIZE		27952
+ #endif
+@@ -631,9 +627,9 @@
  #define	MAX_FILE_HANDLES	64
  
  #ifdef DEDICATED
 -#	define Q3CONFIG_CFG "xreal_server.cfg"
-+#	define Q3CONFIG_CFG "dstorm_server.cfg"
++#	define Q3CONFIG_CFG PRODUCT_NAME_LOWER "_server.cfg"
  #else
 -#	define Q3CONFIG_CFG "xreal.cfg"
-+#	define Q3CONFIG_CFG "dstorm.cfg"
++#	define Q3CONFIG_CFG PRODUCT_NAME_LOWER ".cfg"
  #endif
  
  qboolean        FS_Initialized(void);
-diff -r 09259b3d097d code/renderer/tr_init.cpp
---- code/renderer/tr_init.cpp	Sat Mar 12 23:18:49 2011 -0500
-+++ code/renderer/tr_init.cpp	Sun Mar 13 19:13:07 2011 -0700
-@@ -705,7 +705,7 @@
-
- 	if(ri.Cmd_Argc() == 2)
- 	{
--		Com_sprintf(fileName, sizeof(fileName), "screenshots/xreal-%s.%s", ri.Cmd_Argv(1), name);
-+		Com_sprintf(fileName, sizeof(fileName), "screenshots/dstorm-%s.%s", ri.Cmd_Argv(1), name);
- 	}
- 	else
- 	{
-@@ -716,7 +716,7 @@
- 		// scan for a free filename
- 		for(lastNumber = 0; lastNumber <= 999; lastNumber++)
- 		{
--			Com_sprintf(fileName, sizeof(fileName), "screenshots/xreal-%04d%02d%02d-%02d%02d%02d-%03d.%s",
-+			Com_sprintf(fileName, sizeof(fileName), "screenshots/dstorm-%04d%02d%02d-%02d%02d%02d-%03d.%s",
- 						1900 + t.tm_year, 1 + t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec, lastNumber, name);
-
- 			if(!ri.FS_FileExists(fileName))
-diff -r 5194be33d028 code/qcommon/common.c
---- code/qcommon/common.c	Fri Mar 18 13:43:48 2011 -0700
-+++ code/qcommon/common.c	Sat Mar 19 12:49:39 2011 -0700
-@@ -3933,7 +3933,7 @@
- 		return;
- 	}
- 
--	FS_Printf(f, "// generated by XreaL, do not modify\n");
-+	FS_Printf(f, "// generated by %s, do not modify\n", PRODUCT_NAME);
- 	Key_WriteBindings(f);
- 	Cvar_WriteVariables(f);
- 	FS_FCloseFile(f);

@@ -402,6 +402,17 @@ void GL_Viewport(GLint x, GLint y, GLsizei width, GLsizei height)
 	}
 }
 
+void GL_PolygonOffset(float factor, float units)
+{
+	if(glState.polygonOffsetFactor != factor || glState.polygonOffsetUnits != units)
+	{
+		glState.polygonOffsetFactor = factor;
+		glState.polygonOffsetUnits = units;
+		
+		glPolygonOffset(factor, units);
+	}
+}
+
 void GL_Cull(int cullType)
 {
 	if(glState.faceCulling == cullType)
@@ -1154,7 +1165,7 @@ void GL_VertexAttribPointers(uint32_t attribBits)
 		glState.vertexAttribPointersSet |= ATTR_BONE_WEIGHTS;
 	}
 
-	//if(glState.vertexAttribsInterpolation > 0)
+	if(glState.vertexAttribsInterpolation > 0)
 	{
 		if((attribBits & ATTR_POSITION2) && !(glState.vertexAttribPointersSet & ATTR_POSITION2))
 		{
@@ -1274,7 +1285,6 @@ static void RB_SetGL2D(void)
 	GL_State(GLS_DEPTHTEST_DISABLE | GLS_SRCBLEND_SRC_ALPHA | GLS_DSTBLEND_ONE_MINUS_SRC_ALPHA);
 
 	GL_Cull(CT_TWO_SIDED);
-	glDisable(GL_CLIP_PLANE0);
 
 	// set time for 2D shaders
 	backEnd.refdef.time = ri.Milliseconds();
@@ -2452,9 +2462,9 @@ static void RB_RenderInteractionsShadowMapped()
 							vec4_t			splitFrustum[6];
 							vec3_t			splitFrustumCorners[8];
 							vec3_t			splitFrustumBounds[2];
-							//vec3_t		splitFrustumViewBounds[2];
+							vec3_t			splitFrustumViewBounds[2];
 							vec3_t			splitFrustumClipBounds[2];
-							//float			splitFrustumRadius;
+							float			splitFrustumRadius;
 							int				numCasters;
 							vec3_t			casterBounds[2];
 							vec3_t			receiverBounds[2];
@@ -2484,7 +2494,6 @@ static void RB_RenderInteractionsShadowMapped()
 							VectorCopy(light->direction, lightDirection);
 							#endif
 
-#if 1
 							if(r_parallelShadowSplits->integer)
 							{
 								// original light direction is from surface to light
@@ -2570,28 +2579,36 @@ static void RB_RenderInteractionsShadowMapped()
 
 
 #if 0
+								//
+								// Scene-Independent Projection
+								//
+
 								// find the bounding box of the current split in the light's view space
 								ClearBounds(splitFrustumViewBounds[0], splitFrustumViewBounds[1]);
-								numCasters = MergeInteractionBounds(light->viewMatrix, ia, iaCount, splitFrustumViewBounds, qtrue);
+								//numCasters = MergeInteractionBounds(light->viewMatrix, ia, iaCount, splitFrustumViewBounds, qtrue);
 								for(j = 0; j < 8; j++)
 								{
 									VectorCopy(splitFrustumCorners[j], point);
 									point[3] = 1;
-#if 0
+
 									MatrixTransform4(light->viewMatrix, point, transf);
 									transf[0] /= transf[3];
 									transf[1] /= transf[3];
 									transf[2] /= transf[3];
-#else
-									MatrixTransformPoint(light->viewMatrix, point, transf);
-#endif
 
 									AddPointToBounds(transf, splitFrustumViewBounds[0], splitFrustumViewBounds[1]);
 								}
 
 								//MatrixScaleTranslateToUnitCube(projectionMatrix, splitFrustumViewBounds[0], splitFrustumViewBounds[1]);
-								MatrixOrthogonalProjectionRH(projectionMatrix, -1, 1, -1, 1, -splitFrustumViewBounds[1][2], -splitFrustumViewBounds[0][2]);
-
+								//MatrixOrthogonalProjectionRH(projectionMatrix, -1, 1, -1, 1, -splitFrustumViewBounds[1][2], -splitFrustumViewBounds[0][2]);
+								#if 1
+								MatrixOrthogonalProjectionRH(projectionMatrix,	splitFrustumViewBounds[0][0],
+																				splitFrustumViewBounds[1][0],
+																				splitFrustumViewBounds[0][1], 
+																				splitFrustumViewBounds[1][1], 
+																				-splitFrustumViewBounds[1][2], 
+																				-splitFrustumViewBounds[0][2]);
+								#endif
 								MatrixMultiply(projectionMatrix, light->viewMatrix, viewProjectionMatrix);
 
 								// find the bounding box of the current split in the light's clip space
@@ -2626,6 +2643,10 @@ static void RB_RenderInteractionsShadowMapped()
 								}
 
 #else
+
+								//
+								// Scene-Dependent Projection
+								//
 
 								// find the bounding box of the current split in the light's view space
 								ClearBounds(cropBounds[0], cropBounds[1]);
@@ -2692,8 +2713,8 @@ static void RB_RenderInteractionsShadowMapped()
 								cropBounds[1][0] = Q_min(Q_min(casterBounds[1][0], receiverBounds[1][0]), splitFrustumClipBounds[1][0]);
 								cropBounds[1][1] = Q_min(Q_min(casterBounds[1][1], receiverBounds[1][1]), splitFrustumClipBounds[1][1]);
 
-								//cropBounds[0][2] = Q_min(casterBounds[0][2], splitFrustumClipBounds[0][2]);
-								cropBounds[0][2] = casterBounds[0][2];
+								cropBounds[0][2] = Q_min(casterBounds[0][2], splitFrustumClipBounds[0][2]);
+								//cropBounds[0][2] = casterBounds[0][2];
 								//cropBounds[0][2] = splitFrustumClipBounds[0][2];
 								cropBounds[1][2] = Q_min(receiverBounds[1][2], splitFrustumClipBounds[1][2]);
 								//cropBounds[1][2] = splitFrustumClipBounds[1][2];
@@ -2713,7 +2734,6 @@ static void RB_RenderInteractionsShadowMapped()
 								GL_LoadProjectionMatrix(light->projectionMatrix);
 							}
 							else
-#endif
 							{
 								// original light direction is from surface to light
 								VectorInverse(lightDirection);
@@ -2740,14 +2760,12 @@ static void RB_RenderInteractionsShadowMapped()
 									point[1] = splitFrustumBounds[(j >> 1) & 1][1];
 									point[2] = splitFrustumBounds[(j >> 2) & 1][2];
 									point[3] = 1;
-#if 1
+
 									MatrixTransform4(light->viewMatrix, point, transf);
 									transf[0] /= transf[3];
 									transf[1] /= transf[3];
 									transf[2] /= transf[3];
-#else
-									MatrixTransformPoint(light->viewMatrix, point, transf);
-#endif
+
 									AddPointToBounds(transf, cropBounds[0], cropBounds[1]);
 								}
 
@@ -7618,7 +7636,7 @@ void RB_RenderLightOcclusionQueries()
 		gl_genericShader->DisableTCGenEnvironment();
 
 		gl_genericShader->BindProgram();
-		gl_genericShader->SetVertexAttribs();
+		gl_genericShader->SetRequiredVertexPointers();
 
 		
 		GL_Cull(CT_TWO_SIDED);
@@ -8200,7 +8218,7 @@ void RB_RenderEntityOcclusionQueries()
 		gl_genericShader->DisableTCGenEnvironment();
 
 		gl_genericShader->BindProgram();
-		gl_genericShader->SetVertexAttribs();
+		gl_genericShader->SetRequiredVertexPointers();
 
 		
 		GL_Cull(CT_TWO_SIDED);
@@ -8571,7 +8589,7 @@ static void RB_RenderDebugUtils()
 
 		//GL_State(GLS_SRCBLEND_SRC_ALPHA | GLS_DSTBLEND_ONE_MINUS_SRC_ALPHA);
 		GL_State(GLS_POLYMODE_LINE | GLS_DEPTHTEST_DISABLE);
-		GL_Cull(CT_FRONT_SIDED);
+		GL_Cull(CT_TWO_SIDED);
 
 		// set uniforms
 		gl_genericShader->SetUniform_ColorModulate(CGEN_CUSTOM_RGB, AGEN_CUSTOM);
@@ -9469,23 +9487,6 @@ static void RB_RenderDebugUtils()
 				Vector4Set(quadVerts[3], ia->scissorX, ia->scissorY + ia->scissorHeight - 1, 0, 1);
 				Tess_InstantQuad(quadVerts);
 			}
-			else if(r_shadows->integer == SHADOWING_STENCIL && glDepthBoundsEXT)
-			{
-				if(ia->noDepthBoundsTest)
-				{
-					gl_genericShader->SetUniform_Color(colorBlue);
-				}
-				else
-				{
-					gl_genericShader->SetUniform_Color(colorGreen);
-				}
-
-				Vector4Set(quadVerts[0], ia->scissorX, ia->scissorY, 0, 1);
-				Vector4Set(quadVerts[1], ia->scissorX + ia->scissorWidth - 1, ia->scissorY, 0, 1);
-				Vector4Set(quadVerts[2], ia->scissorX + ia->scissorWidth - 1, ia->scissorY + ia->scissorHeight - 1, 0, 1);
-				Vector4Set(quadVerts[3], ia->scissorX, ia->scissorY + ia->scissorHeight - 1, 0, 1);
-				Tess_InstantQuad(quadVerts);
-			}
 			else
 			{
 				gl_genericShader->SetUniform_Color(colorWhite);
@@ -9595,7 +9596,7 @@ static void RB_RenderDebugUtils()
 			gl_genericShader->SetUniform_ColorModulate(CGEN_VERTEX, AGEN_VERTEX);
 			gl_genericShader->SetUniform_Color(colorBlack);
 
-			gl_genericShader->SetVertexAttribs();
+			gl_genericShader->SetRequiredVertexPointers();
 
 			GL_State(GLS_DEFAULT);
 			GL_Cull(CT_TWO_SIDED);
@@ -9674,7 +9675,7 @@ static void RB_RenderDebugUtils()
 		gl_genericShader->SetUniform_ColorModulate(CGEN_VERTEX, AGEN_VERTEX);
 		gl_genericShader->SetUniform_Color(colorBlack);
 
-		gl_genericShader->SetVertexAttribs();
+		gl_genericShader->SetRequiredVertexPointers();
 
 		GL_State(GLS_DEFAULT);
 		GL_Cull(CT_TWO_SIDED);
@@ -9853,7 +9854,7 @@ static void RB_RenderDebugUtils()
 			if(node->contents != -1)
 			{
 				glEnable(GL_POLYGON_OFFSET_FILL);
-				glPolygonOffset(r_offsetFactor->value, r_offsetUnits->value);
+				GL_PolygonOffset(r_offsetFactor->value, r_offsetUnits->value);
 			}
 
 			R_BindVBO(node->volumeVBO);
@@ -9934,7 +9935,7 @@ static void RB_RenderDebugUtils()
 		}
 
 		glEnable(GL_POLYGON_OFFSET_FILL);
-		glPolygonOffset(r_offsetFactor->value, r_offsetUnits->value);
+		GL_PolygonOffset(r_offsetFactor->value, r_offsetUnits->value);
 
 		for(i = 0, srfDecal = backEnd.refdef.decals; i < backEnd.refdef.numDecals; i++, srfDecal++)
 		{
@@ -10269,7 +10270,7 @@ static void RB_RenderView(void)
 		// clear relevant buffers
 		clearBits = GL_DEPTH_BUFFER_BIT;
 
-		if(r_measureOverdraw->integer || r_shadows->integer == SHADOWING_STENCIL)
+		if(r_measureOverdraw->integer)
 		{
 			clearBits |= GL_STENCIL_BUFFER_BIT;
 		}
@@ -10284,7 +10285,7 @@ static void RB_RenderView(void)
 			{
 				clearBits |= GL_COLOR_BUFFER_BIT;
 			
-				glClearColor(tr.world->fogs[tr.world->globalFog].color[0],
+				GL_ClearColor(tr.world->fogs[tr.world->globalFog].color[0],
 							tr.world->fogs[tr.world->globalFog].color[1],
 							tr.world->fogs[tr.world->globalFog].color[2], 1.0);
 			}
@@ -10304,18 +10305,18 @@ static void RB_RenderView(void)
 					clearBits |= GL_COLOR_BUFFER_BIT;
 					if(tr.glfogsettings[FOG_PORTALVIEW].registered)
 					{
-						glClearColor(tr.glfogsettings[FOG_PORTALVIEW].color[0], tr.glfogsettings[FOG_PORTALVIEW].color[1],
+						GL_ClearColor(tr.glfogsettings[FOG_PORTALVIEW].color[0], tr.glfogsettings[FOG_PORTALVIEW].color[1],
 									  tr.glfogsettings[FOG_PORTALVIEW].color[2], tr.glfogsettings[FOG_PORTALVIEW].color[3]);
 					}
 					else if(tr.glfogNum > FOG_NONE && tr.glfogsettings[FOG_CURRENT].registered)
 					{
-						glClearColor(tr.glfogsettings[FOG_CURRENT].color[0], tr.glfogsettings[FOG_CURRENT].color[1],
+						GL_ClearColor(tr.glfogsettings[FOG_CURRENT].color[0], tr.glfogsettings[FOG_CURRENT].color[1],
 									  tr.glfogsettings[FOG_CURRENT].color[2], tr.glfogsettings[FOG_CURRENT].color[3]);
 					}
 					else
 					{
-	//                  glClearColor ( 1.0, 0.0, 0.0, 1.0 );   // red clear for testing portal sky clear
-						glClearColor(0.5, 0.5, 0.5, 1.0);
+	//                  GL_ClearColor ( 1.0, 0.0, 0.0, 1.0 );   // red clear for testing portal sky clear
+						GL_ClearColor(0.5, 0.5, 0.5, 1.0);
 					}
 				}
 				else
@@ -10323,7 +10324,7 @@ static void RB_RenderView(void)
 					// rendered sky (either clear color or draw quake sky)
 					if(tr.glfogsettings[FOG_PORTALVIEW].registered)
 					{
-						glClearColor(tr.glfogsettings[FOG_PORTALVIEW].color[0], tr.glfogsettings[FOG_PORTALVIEW].color[1],
+						GL_ClearColor(tr.glfogsettings[FOG_PORTALVIEW].color[0], tr.glfogsettings[FOG_PORTALVIEW].color[1],
 									  tr.glfogsettings[FOG_PORTALVIEW].color[2], tr.glfogsettings[FOG_PORTALVIEW].color[3]);
 
 						if(tr.glfogsettings[FOG_PORTALVIEW].clearscreen)
@@ -10354,14 +10355,14 @@ static void RB_RenderView(void)
 						clearBits |= GL_COLOR_BUFFER_BIT;
 					}
 
-					glClearColor(tr.glfogsettings[FOG_CURRENT].color[0], tr.glfogsettings[FOG_CURRENT].color[1],
+					GL_ClearColor(tr.glfogsettings[FOG_CURRENT].color[0], tr.glfogsettings[FOG_CURRENT].color[1],
 								  tr.glfogsettings[FOG_CURRENT].color[2], tr.glfogsettings[FOG_CURRENT].color[3]);
 				}
 				else if(!r_portalSky->integer)
 				{					
 					// ydnar: portal skies have been manually turned off, clear bg color
 					clearBits |= GL_COLOR_BUFFER_BIT;
-					glClearColor(0.5, 0.5, 0.5, 1.0);
+					GL_ClearColor(0.5, 0.5, 0.5, 1.0);
 				}
 			}
 		}
@@ -10383,13 +10384,13 @@ static void RB_RenderView(void)
 				if(tr.glfogsettings[FOG_CURRENT].registered)
 				{					
 					// try to clear fastsky with current fog color
-					glClearColor(tr.glfogsettings[FOG_CURRENT].color[0], tr.glfogsettings[FOG_CURRENT].color[1],
+					GL_ClearColor(tr.glfogsettings[FOG_CURRENT].color[0], tr.glfogsettings[FOG_CURRENT].color[1],
 								  tr.glfogsettings[FOG_CURRENT].color[2], tr.glfogsettings[FOG_CURRENT].color[3]);
 				}
 				else
 				{
-	//              glClearColor ( 0.0, 0.0, 1.0, 1.0 );   // blue clear for testing world sky clear
-					glClearColor(0.05, 0.05, 0.05, 1.0);	// JPW NERVE changed per id req was 0.5s
+	//              GL_ClearColor ( 0.0, 0.0, 1.0, 1.0 );   // blue clear for testing world sky clear
+					GL_ClearColor(0.05, 0.05, 0.05, 1.0);	// JPW NERVE changed per id req was 0.5s
 				}
 			}
 			else
@@ -10398,7 +10399,7 @@ static void RB_RenderView(void)
 				if(tr.glfogsettings[FOG_CURRENT].registered)
 				{					
 					// try to clear fastsky with current fog color
-					glClearColor(tr.glfogsettings[FOG_CURRENT].color[0], tr.glfogsettings[FOG_CURRENT].color[1],
+					GL_ClearColor(tr.glfogsettings[FOG_CURRENT].color[0], tr.glfogsettings[FOG_CURRENT].color[1],
 							  tr.glfogsettings[FOG_CURRENT].color[2], tr.glfogsettings[FOG_CURRENT].color[3]);
 
 					if(tr.glfogsettings[FOG_CURRENT].clearscreen)
