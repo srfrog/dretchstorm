@@ -1,13 +1,21 @@
-import os, string, sys
+import os, string, sys, platform
 import SCons
 import SCons.Errors
+from colorizer import colorizer
 
+if platform.system() == "Linux":
+	if platform.machine() == "x86_64":
+		defaultarch = "linux-x86_64"
+	else:
+		defaultarch = "linux-i386"
+else:
+	defaultarch = linux-i386
 
 #
 # set configuration options
 #
 opts = Variables('dstorm.conf')
-opts.Add(EnumVariable('arch', 'Choose architecture to build for', 'linux-i386', allowed_values=('freebsd-i386', 'freebsd-amd64', 'linux-i386', 'linux-x86_64', 'netbsd-i386', 'opensolaris-i386', 'win32-mingw', 'darwin-ppc', 'darwin-i386')))
+opts.Add(EnumVariable('arch', 'Choose architecture to build for', defaultarch, allowed_values=('freebsd-i386', 'freebsd-amd64', 'linux-i386', 'linux-x86_64', 'netbsd-i386', 'opensolaris-i386', 'win32-mingw', 'darwin-ppc', 'darwin-i386')))
 opts.Add(EnumVariable('warnings', 'Choose warnings level', '1', allowed_values=('0', '1', '2')))
 opts.Add(EnumVariable('debug', 'Set to >= 1 to build for debug', '2', allowed_values=('0', '1', '2', '3')))
 opts.Add(EnumVariable('optimize', 'Set to >= 1 to build with general optimizations', '2', allowed_values=('0', '1', '2', '3', '4', '5', '6')))
@@ -27,12 +35,16 @@ opts.Add(BoolVariable('mumble', 'Set to 1 to compile the client with Mumble Posi
 opts.Add(BoolVariable('noclient', 'Set to 1 to only compile the dedicated server', 0))
 opts.Add(BoolVariable('master', 'Set to 1 to compile the master server', 0))
 opts.Add(BoolVariable('package', 'Set to 1 to build package for this arch', 0))
+opts.Add(BoolVariable('verbose', 'Set to 1 see CC lines that scons runs', 0))
+
 
 #
 # initialize compiler environment base
 #
 env = Environment(ENV = {'PATH' : os.environ['PATH']}, options = opts, tools = ['default'])
-
+if env['verbose'] == 0:
+	col = colorizer()
+	col.colorize(env)
 #
 # set user-defined compiler if need be
 #
