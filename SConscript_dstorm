@@ -194,13 +194,11 @@ dstorm_env.Append(CCFLAGS='-DUSE_ALLOCA')
 dstorm_env.Append(CCFLAGS='-Icode/speex/include')
 dstorm_env.Append(CCFLAGS='-DUSE_CIN_THEORA')
 dstorm_env.Append(CCFLAGS='-Icode/theora/include')
+dstorm_env.Append(CCFLAGS='-DCOMPAT_Q3A')
 
 if env['optimize'] != '0':
 	env.Append(CCFLAGS = '-fno-strict-aliasing -funroll-loops')
 	
-if env['compatq3a'] == 1:
-	dstorm_env.Append(CCFLAGS='-DCOMPAT_Q3A')
-
 if env['curl'] == 'compile':
 	dstorm_env.Append(CCFLAGS='-DUSE_CURL')
 	dstorm_env.Append(LIBS=['curl'])
