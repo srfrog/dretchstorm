@@ -190,7 +190,7 @@ qboolean GetToken(qboolean crossline)
 
 skipspace:
 	// skip whitespace
-	while(*script->script_p <= ' ')
+	while(*script->script_p <= 32)
 	{
 		if(script->script_p >= script->end_p)
 			return EndOfScript(crossline);
@@ -269,103 +269,28 @@ skipspace:
 		}
 		script->script_p++;
 	}
-	// check for a number
-	else if((*script->script_p >= '0' && *script->script_p <= '9')									||
-			(*script->script_p == '-' && script->script_p[1] >= '0' && script->script_p[1] <= '9')	||
-			(*script->script_p == '+' && script->script_p[1] >= '0' && script->script_p[1] <= '9')	||
-			(*script->script_p == '.' && script->script_p[1] >= '0' && script->script_p[1] <= '9')	||
-			(*script->script_p == '-' && script->script_p[1] == '.' && script->script_p[2] >= '0' && script->script_p[2] <= '9')
-	)
+	else  // regular token
 	{
-		do
+		while (*script->script_p > 32 && *script->script_p != ';')
 		{
 			*token_p++ = *script->script_p++;
-			
-			if(script->script_p == script->end_p)
+			if (script->script_p == script->end_p)
 				break;
-			
-			if(token_p == &token[MAXTOKEN])
-				Error("Token too large on line %i\n", script->line);
-		
-		} while((*script->script_p >= '0' && *script->script_p <= '9') || *script->script_p == '.' );
 
-		// parse the exponent
-		if(*script->script_p == 'e' || *script->script_p == 'E')
-		{
-			*token_p++ = *script->script_p;
-			
-			script->script_p++;
-			if(*script->script_p == '-' || *script->script_p == '+')
-			{
-				*token_p++ = *script->script_p++;
-			}
-
-			do
-			{
-				*token_p++ = *script->script_p++;
-			
-				if(script->script_p == script->end_p)
-					break;
-			
-				if(token_p == &token[MAXTOKEN])
-					Error("Token too large on line %i\n", script->line);
-				
-			} while(*script->script_p >= '0' && *script->script_p <= '9');
+			if (token_p == &token[MAXTOKEN])
+				Error ("Token too large on line %i\n", script->line);
 		}
 	}
-	// check for a regular word
-	// we still allow forward and back slashes in name tokens for pathnames
-	// and also colons for drive letters
-	else if((*script->script_p >= 'a' && *script->script_p <= 'z')	||
-			(*script->script_p >= 'A' && *script->script_p <= 'Z')	||
-			(*script->script_p == '_')								||
-			(*script->script_p == '/')								||
-			(*script->script_p == '\\')								||
-			(*script->script_p == '$')	)
-	{
-		do
-		{
-			*token_p++ = *script->script_p++;
-			
-			if(script->script_p == script->end_p)
-				break;
-			
-			if(token_p == &token[MAXTOKEN])
-				Error("Token too large on line %i\n", script->line);
-		}
-		while
-		(
-			   (*script->script_p >= 'a' && *script->script_p <= 'z')	||
-			   (*script->script_p >= 'A' && *script->script_p <= 'Z')	||
-			   (*script->script_p == '_') 								||
-			   (*script->script_p == '-') 								||
-			   (*script->script_p >= '0' && *script->script_p <= '9')	||
-			   (*script->script_p == '/')								||
-			   (*script->script_p == '\\')								||
-			   (*script->script_p == ':')								||
-			   (*script->script_p == '.')								||
-			   (*script->script_p == '$')								||
-			   (*script->script_p == '@')
-		);
-	}
-	else
-	{
-		// single character punctuation
-		*token_p++ = *script->script_p++;
-		
-		if(token_p == &token[MAXTOKEN])
-			Error("Token too large on line %i\n", script->line);
-	}
 
-	// add tailing zero
 	*token_p = 0;
 
-	if(!strcmp(token, "$include"))
+	if (!strcmp (token, "$include"))
 	{
-		GetToken(qfalse);
-		AddScriptToStack(token, 0);
-		return GetToken(crossline);
+		GetToken (qfalse);
+		AddScriptToStack (token, 0);
+		return GetToken (crossline);
 	}
+
 
 	return qtrue;
 }
