@@ -149,7 +149,7 @@ rendererGL_src = [
 rendererGL_env = env.Clone()
 rendererGL_env.Append(CCFLAGS='-DGLEW_STATIC')
 rendererGL_env.Append(CCFLAGS='-Icode/glew/include')
-rendererGL_env.Append(CCFLAGS='-DCOMPAT_Q3A')
+#rendererGL_env.Append(CCFLAGS='-DCOMPAT_Q3A')
 
 if env['experimental'] == 1:
 	rendererGL_env.Append(CCFLAGS='-DEXPERIMENTAL')

@@ -384,7 +384,6 @@ image_t        *ImageLoad(const char *filename)
 	image->name = safe_malloc(strlen(name) + 1);
 	strcpy(image->name, name);
 
-#if 1
 	/* attempt to load tga */
 	StripExtension(name);
 	strcat(name, ".tga");
@@ -393,7 +392,6 @@ image_t        *ImageLoad(const char *filename)
 		LoadTGABuffer(buffer, &image->pixels, &image->width, &image->height);
 	else
 	{
-#if 1
 		/* attempt to load png */
 		StripExtension(name);
 		strcat(name, ".png");
@@ -402,14 +400,13 @@ image_t        *ImageLoad(const char *filename)
 			LoadPNGBuffer(buffer, &image->pixels, &image->width, &image->height);
 		else
 		{
-#if 0
 			/* attempt to load jpg */
 			StripExtension(name);
 			strcat(name, ".jpg");
 			size = vfsLoadFile((const char *)name, (void **)&buffer, 0);
 			if(size > 0)
 			{
-				LoadJPGBuffer((const char *)name, buffer, &image->pixels, &image->width, &image->height);
+				LoadJPGBuffer(buffer, &image->pixels, &image->width, &image->height);
 				if(image->pixels == NULL)
 					Sys_Printf("WARNING: LoadJPGBuffer: '%s'\n", image->name);
 			}
@@ -443,11 +440,8 @@ image_t        *ImageLoad(const char *filename)
 				}
 #endif							// ignore dds
 			}
-#endif							// ignore jpg dds
 		}
-#endif							// ignore png jpg dds
 	}
-#endif							// ignore all images
 
 	/* free file buffer */
 	free(buffer);
