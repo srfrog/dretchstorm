@@ -65,7 +65,7 @@ dstormded_env.Append(CCFLAGS='-Icode/zlib')
 dstormded_env.Append(CCFLAGS='-DSTANDALONE')
 dstormded_env.Append(CCFLAGS='-DUSE_VOIP')
 dstormded_env.Append(CCFLAGS='-Icode/speex/include')
-dstormded_env.Append(CCFLAGS='-DCOMPAT_Q3A')
+#dstormded_env.Append(CCFLAGS='-DCOMPAT_Q3A')
 
 if env['arch'] == 'linux-i386':
 	dstormded_env.Append(LIBS=['dl', 'm'])
